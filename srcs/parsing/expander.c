@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/01 16:53:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/01 20:54:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*expander(char *str, t_env **env, int i, char *res)
 
 	(void)res;
 	int	c = 0;
-	int	j;
+	// int	j;
 	int	sq = 0;
 	int	dq = 0;
 	int	f = 0;
@@ -92,7 +92,7 @@ char	*expander(char *str, t_env **env, int i, char *res)
 			dq = 0;
 		if (str[i] == '$' && sq == 0)
 		{
-			j = 0;
+			// j = 0;
 			i++;
 			c++;
 			while (str && str[i] && str[i] != ' ' && valid_name(str[i]) && str[i] != '$')
