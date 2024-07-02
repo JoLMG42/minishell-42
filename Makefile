@@ -6,6 +6,7 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/parsing/parsing.c \
 			srcs/exec/exec.c \
 			srcs/exec/exec_utils.c \
+			srcs/exec/exec_utils2.c \
 			srcs/exec/redir.c \
 			srcs/exec/simple_cmd.c \
 			srcs/builtins/ft_pwd.c \

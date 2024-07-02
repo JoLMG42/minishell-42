@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:40:37 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 17:59:21 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,8 @@ void	ft_pwd(t_data *datas);
 void	exec_built_in(t_data *datas);
 int		is_built_in(t_data *datas);
 int		check_if_redir(t_data *datas);
-void	exec_simple_cmd(t_data *datas);
+void	exec_simple_cmd(t_shell *datas);
 void	handle_redir(t_data *datas);
+char	*get_cmd_path(t_shell *datas);
+char	**create_char_env(t_env *env, int env_size);
+int		get_env_list_size(t_env *list);
