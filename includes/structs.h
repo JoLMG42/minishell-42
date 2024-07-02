@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/01 21:53:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/02 16:40:06 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef	struct	s_data
 	char		*nameout;
 
 	int			is_hd;
-	char		*limiter_hd;
+	char		**limiter_hd;
+	int			nb_hd;
 	char		*tmpfile_hd;
 
 

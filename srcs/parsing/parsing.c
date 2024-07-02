@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:09:35 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:58:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@ void	DEBUG_print_block(t_data **list)
 		printf("\tnamein = %s\n", datas->namein);
 		printf("\tnameout = %s\n", datas->nameout);
 		printf("\tis_hd = %d\n", datas->is_hd);
-		printf("\tlimiter_hd = %s\n", datas->limiter_hd);
-		datas = datas->next;
+		j = 0;
+		printf("\tlimiters:\n");
+		while (datas->limiter_hd[j])
+		{
+			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
+			j++;
+		}		datas = datas->next;
 		i++;
 	}
 }
@@ -121,6 +126,22 @@ char	*ft_erase(char *str, int pos, int len)
 	return (res);
 }
 
+int	count_hd_operator(char *str)
+{
+	int i;
+	int	c;
+
+	i = 0;
+	c = 0;
+	while (str[i])
+	{
+		if (str[i] == '<' && str[i + 1] == '<')
+			c++;
+		i++;
+	}
+	return (c);
+}
+
 t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
@@ -133,6 +154,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	split = ft_split(str, ' ');
 	if (!split)
 		return (freetab(split), NULL);
+	datas->limiter_hd = malloc(sizeof(char *) * (count_hd_operator(str) + 1));
 	while (split[i])
 	{
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
@@ -142,7 +164,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
@@ -151,7 +173,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 			datas->redir_type = OUT;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
@@ -160,17 +182,17 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
 		{
-			datas->limiter_hd = ft_strdup(split[1]);
+			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
 			datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->limiter_hd, ft_strlen(str))), ft_strlen(datas->limiter_hd));
-			i += 2;
+			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, split[1], ft_strlen(str))), ft_strlen(split[1]));
+			i += 1;
 
 		}
 		
@@ -181,44 +203,44 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
 			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = OUT;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
 			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
-			i += 2;
+			i += 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
 		{
-			datas->limiter_hd = ft_strdup(split[i + 1]);
+			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
 			datas->cmd = ft_strdup(split[0]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->limiter_hd, ft_strlen(str))), ft_strlen(datas->limiter_hd));
-			i += 2;
+			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, split[i + 1], ft_strlen(str))), ft_strlen(split[i + 1]));
+			i += 1;
 		}
 		if (!split[i])
 			break ;
 		i++;
 	}
+	datas->limiter_hd[datas->nb_hd] = 0;
 	datas->args = ft_split(str, ' ');
 	if (datas->args && datas->args[0] && !datas->cmd)
 		datas->cmd = datas->args[0];
-	printf("test = %s\n", datas->cmd);
 	return (datas);
 }
 
@@ -236,6 +258,8 @@ t_data	*pre_init_block()
 	tmp->nameout = NULL;
 	tmp->is_hd = 0;
 	tmp->limiter_hd = NULL;
+	tmp->tmpfile_hd = NULL;
+	tmp->nb_hd = 0;
 	tmp->next = NULL;
 	return (tmp);
 }
