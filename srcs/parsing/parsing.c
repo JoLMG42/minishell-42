@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 14:09:05 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:19:22 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,14 +121,17 @@ char	*ft_erase(char *str, int pos, int len)
 	return (res);
 }
 
-t_data	*parse_block(char *str, t_data *datas)
+t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
 	char	**split;
+	char	*res;
 
+	res = NULL;
 	i = 0;
+	str = expander(str, &shell->envp, 0, res);
 	split = ft_split(str, ' ');
-	if (!split || !split[0] || !split[1])
+	if (!split)
 		return (freetab(split), NULL);
 	while (split[i])
 	{
@@ -215,6 +218,7 @@ t_data	*parse_block(char *str, t_data *datas)
 	datas->args = ft_split(str, ' ');
 	if (datas->args && datas->args[0] && !datas->cmd)
 		datas->cmd = datas->args[0];
+	printf("test = %s\n", datas->cmd);
 	return (datas);
 }
 
@@ -265,7 +269,7 @@ void    block_add_back(t_data **alst, t_data *new)
         }
 }
 
-int	create_list(char *input, t_data **datas)
+int	create_list(char *input, t_data **datas, t_shell *shell)
 {
 	char	**split;
 	int		i;
@@ -277,7 +281,7 @@ int	create_list(char *input, t_data **datas)
 	i = 0;
 	while (split[i])
 	{
-		block_add_back(datas, parse_block(split[i], pre_init_block()));
+		block_add_back(datas, parse_block(split[i], pre_init_block(), shell));
 		i++;
 	}
 	// *datas = tmp_data;
@@ -295,10 +299,15 @@ int	parse_input(char *input, t_shell *shell)
 	if (!input)
 		return (1);
 	printf("after add_space = %s\n", input);
-	create_list(input, &(shell->datas));
+	create_list(input, &(shell->datas), shell);
 
+<<<<<<< HEAD
 	// DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
 
+=======
+	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
+
+>>>>>>> 587d0b9fbf9152fe5e40bea0c967fcb1ee563355
 	// input = expander(input, &shell->envp, 0, res);
 	// printf("after expander = %s\n", input);
 	return (0);
