@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 16:59:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:46:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,14 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 
 	res = NULL;
 	i = 0;
-	str = expander(str, &shell->envp, 0, res);
-	split = ft_split(str, ' ');
+	(void)shell;
+	split = ft_split_quotes(str, ' ');
+	// int j =0;
+	// while (split[j])
+	// {
+	// 	printf("split[%d] = %s\n", j, split[j]);
+	// 	j++;
+	// }
 	if (!split)
 		return (freetab(split), NULL);
 	datas->limiter_hd = malloc(sizeof(char *) * (count_hd_operator(str) + 1));
@@ -238,7 +244,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		i++;
 	}
 	datas->limiter_hd[datas->nb_hd] = 0;
-	datas->args = ft_split(str, ' ');
+	datas->args = ft_split_quotes(str, ' ');
 	if (datas->args && datas->args[0] && !datas->cmd)
 		datas->cmd = datas->args[0];
 	return (datas);
@@ -325,7 +331,7 @@ int	parse_input(char *input, t_shell *shell)
 	printf("after add_space = %s\n", input);
 	create_list(input, &(shell->datas), shell);
 
-	// DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
+	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
 
 	// input = expander(input, &shell->envp, 0, res);
 	// printf("after expander = %s\n", input);
