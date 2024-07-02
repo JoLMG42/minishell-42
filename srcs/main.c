@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 09:36:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/02 14:07:24 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int	loop_shell(t_shell *shell)
 {
@@ -21,52 +21,51 @@ int	loop_shell(t_shell *shell)
 		str = readline("ft_jsardashell$ ");
 		printf("%s\n", str);
 		parse_input(str, shell);
+		exec(shell);
 	}
 	return (0);
 }
 
-t_env   *ft_lstlast_env(t_env *lst)
+t_env	*ft_lstlast_env(t_env *lst)
 {
-        t_env   *tmp;
+	t_env	*tmp;
 
-        while (lst)
-        {
-                tmp = lst;
-                lst = lst->next;
-        }
-        return (tmp);
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+	}
+	return (tmp);
 }
 
-
-t_env   *ft_lstnew_env(char *line, char *name, char *value)
+t_env	*ft_lstnew_env(char *line, char *name, char *value)
 {
-        t_env   *tmp;
+	t_env	*tmp;
 
-        tmp = malloc(sizeof(struct s_env));
-        if (!tmp)
-                return (0);
-        tmp->line = line;
-        tmp->name = name;
-        tmp->value = value;
-        tmp->next = NULL;
-        return (tmp);
+	tmp = malloc(sizeof(struct s_env));
+	if (!tmp)
+		return (0);
+	tmp->line = line;
+	tmp->name = name;
+	tmp->value = value;
+	tmp->next = NULL;
+	return (tmp);
 }
 
-
-void    ft_lstadd_back_env(t_env **alst, t_env *new)
+void	ft_lstadd_back_env(t_env **alst, t_env *new)
 {
-        t_env   *tmp;
+	t_env	*tmp;
 
-        tmp = *alst;
-        if ((*alst))
-        {
-                tmp = ft_lstlast_env(*alst);
-                tmp->next = new;
-        }
-        else
-        {
-                *alst = new;
-        }
+	tmp = *alst;
+	if ((*alst))
+	{
+		tmp = ft_lstlast_env(*alst);
+		tmp->next = new;
+	}
+	else
+	{
+		*alst = new;
+	}
 }
 
 void	freetab(char **tab)
@@ -95,8 +94,8 @@ int	env_init(t_env **env, char **envp)
 	i = 0;
 	if (!envp[i])
 	{
-		//little_env(env);
-		return 0;
+		// little_env(env);
+		return (0);
 	}
 	while (envp[i])
 	{

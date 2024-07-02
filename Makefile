@@ -4,6 +4,11 @@ CFLAGS	:= -Wall -Wextra -Werror -I ./includes -g3
 LIBS =	-lreadline libft/libft.a
 SRCS	=	srcs/parsing/expander.c \
 			srcs/parsing/parsing.c \
+			srcs/exec/exec.c \
+			srcs/exec/exec_utils.c \
+			srcs/exec/redir.c \
+			srcs/exec/simple_cmd.c \
+			srcs/builtins/ft_pwd.c \
 			srcs/main.c \
 
 RM		:= rm -f
@@ -29,7 +34,7 @@ all:		${NAME}
 
 libftr:
 			make -C libft
-			
+
 clean:
 	make -C libft clean
 	rm -f $(OBJS)
