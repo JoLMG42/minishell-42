@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:40:37 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 17:44:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,4 @@ int		is_built_in(t_data *datas);
 int		check_if_redir(t_data *datas);
 void	exec_simple_cmd(t_data *datas);
 void	handle_redir(t_data *datas);
+char	**ft_split_quotes(char *s, char c);
