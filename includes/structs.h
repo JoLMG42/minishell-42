@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/01 21:53:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/02 14:53:03 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #define OUT 2 // '>'
 #define IN 3 // '<'
 #define HD 4 // '<<'
+
+#define NUM_OF_BUILT_INS 1
 
 typedef	struct	s_env
 {
@@ -28,7 +30,7 @@ typedef	struct	s_data
 {
 	char		*cmd;
 	char		**args;
-	
+
 	int		redir_type;
 	int		fdin;
 	char		*namein;

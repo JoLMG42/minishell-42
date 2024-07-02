@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/14 11:14:11 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 10:04:40 by marvin           ###   ########.fr       */
+/*   Created: 2024/05/27 10:35:20 by jsarda            #+#    #+#             */
+/*   Updated: 2024/07/02 14:46:52 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+void	ft_pwd(t_data *datas)
 {
-	void	*res;
-	size_t	s_len;
+	(void)datas;
+	char	cwd[PATH_MAX];
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s) + 1;
-	res = malloc(sizeof(char) * s_len);
-	if (!res)
-		return (NULL);
-	res = ft_memcpy(res, s, s_len);
-	return (res);
+	if (getcwd(cwd, PATH_MAX))
+		printf("%s\n", cwd);
+	else
+		perror("pwd");
 }

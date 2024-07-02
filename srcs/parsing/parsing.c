@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 00:42:06 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/02 14:09:05 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*add_space(char *input)
 			res[j++] = input[i++];
 			res[j++] = input[i];
 			res[j] = ' ';
-		}	
+		}
 		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
 		{
 			res[j++] = ' ';
@@ -170,7 +170,7 @@ t_data	*parse_block(char *str, t_data *datas)
 			i += 2;
 
 		}
-		
+
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
 			datas->namein = ft_strdup(split[i + 1]);
@@ -229,6 +229,7 @@ t_data	*pre_init_block()
 	tmp->fdin = -1;
 	tmp->fdout = -1;
 	tmp->namein = NULL;
+	tmp->tmpfile_hd = NULL;
 	tmp->nameout = NULL;
 	tmp->is_hd = 0;
 	tmp->limiter_hd = NULL;
@@ -297,9 +298,9 @@ int	parse_input(char *input, t_shell *shell)
 	create_list(input, &(shell->datas));
 
 	// DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
-	
+
 	// input = expander(input, &shell->envp, 0, res);
 	// printf("after expander = %s\n", input);
 	return (0);
-	
+
 }

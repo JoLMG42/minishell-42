@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 09:38:03 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:16:15 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void exec(t_shell *shell)
 	// int		stdout_copy;
 	t_data *datas = shell->datas;
 	i = 0;
+	printf("this is the data cmd%s\n", datas->cmd);
 	if (datas->is_hd && !datas->next)
 	{
 		while (datas->limiter_hd[i])
@@ -39,7 +40,7 @@ void exec(t_shell *shell)
 	// 	exec_pipe(list, data);
 	// }
 	// else
-	// 	exec_simple_cmd(data, list);
+	exec_simple_cmd(datas);
 	// dup2(stdin_copy, STDIN_FILENO);
 	// dup2(stdout_copy, STDOUT_FILENO);
 	// close(stdin_copy);
