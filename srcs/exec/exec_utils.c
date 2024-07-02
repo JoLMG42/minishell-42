@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 14:44:56 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:27:41 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	is_built_in(t_data *datas)
 {
 	int		i;
 	char	*built_in[NUM_OF_BUILT_INS];
-
 	if (!datas->cmd)
 		return (-1);
 	built_in[0] = "pwd";
@@ -62,8 +61,9 @@ int	is_built_in(t_data *datas)
 	i = 0;
 	while (i < NUM_OF_BUILT_INS)
 	{
-		if (ft_strncmp(datas->cmd, built_in[i], ft_strlen(datas->cmd)))
+		if (ft_strncmp(datas->cmd, built_in[i], ft_strlen(datas->cmd)) == 0)
 			return (i);
+	printf("cmd in bui;ltins : |%s| \n", datas->cmd);
 		i++;
 	}
 	return (-1);

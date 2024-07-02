@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:19:22 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 15:20:35 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,13 +301,8 @@ int	parse_input(char *input, t_shell *shell)
 	printf("after add_space = %s\n", input);
 	create_list(input, &(shell->datas), shell);
 
-<<<<<<< HEAD
 	// DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
 
-=======
-	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
-
->>>>>>> 587d0b9fbf9152fe5e40bea0c967fcb1ee563355
 	// input = expander(input, &shell->envp, 0, res);
 	// printf("after expander = %s\n", input);
 	return (0);
