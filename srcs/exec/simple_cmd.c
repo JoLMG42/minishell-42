@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 13:52:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:25:53 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ void	exec_parent_process(pid_t pid)
 		perror("waitpid");
 }
 
-void	exec_simple_cmd(t_shell *shell)
+void	exec_simple_cmd(t_data *data, t_shell *shell)
 {
 	t_data	*current;
 	pid_t	pid;
 	char	*path;
 
-	current = shell->datas;
-	if (is_built_in(shell) != -1)
+	current = data;
+	if (is_built_in(data) != -1)
 	{
 		if (check_if_redir(current) == 0 || current->is_hd == 1)
 		{

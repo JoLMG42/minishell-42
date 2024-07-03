@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 13:51:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:30:10 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	handle_builtin(t_shell *shell)
 	t_data *data;
 
 	data = shell->datas;
-	if (is_built_in(shell) != -1)
+	if (is_built_in(data) != -1)
 	{
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
 			handle_redir(data);
@@ -74,7 +74,7 @@ void	exec_mid(t_data *data, t_shell *shell, t_data *prev, char *path)
 			handle_redir(data);
 		close(data->pipes[0]);
 		close(data->pipes[1]);
-		if (data->cmd && is_built_in(shell) == -1)
+		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 			if (execve(path, data->args, env) == -1)
@@ -85,7 +85,7 @@ void	exec_mid(t_data *data, t_shell *shell, t_data *prev, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		else if (is_built_in(shell) != -1)
+		else if (is_built_in(data) != -1)
 			handle_builtin(shell);
 		//free_minishell(data, cmd);
 		exit(EXIT_SUCCESS);
@@ -121,7 +121,7 @@ void	exec_first(t_data *data, t_shell *shell, char *path)
 		printf("here\n");
 		close(data->pipes[0]);
 		close(data->pipes[1]);
-		if (data->cmd && is_built_in(shell) == -1)
+		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 			if (execve(path, data->args, env) == -1)
@@ -132,7 +132,7 @@ void	exec_first(t_data *data, t_shell *shell, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		else if (is_built_in(shell) != -1)
+		else if (is_built_in(data) != -1)
 		{
 			handle_builtin(shell);
 		}
@@ -164,7 +164,7 @@ void	exec_last(t_data *data, t_shell *shell, t_data *prev, char *path)
 		}
 		if (check_if_redir(data) == 0)
 			handle_redir(data);
-		if (data->cmd && is_built_in(shell) == -1)
+		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 			if (execve(path, data->args, env) == -1)
@@ -175,7 +175,7 @@ void	exec_last(t_data *data, t_shell *shell, t_data *prev, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		else if (is_built_in(shell) != -1)
+		else if (is_built_in(data) != -1)
 			handle_builtin(shell);
 		//free_minishell(data, cmd);
 		exit(EXIT_SUCCESS);

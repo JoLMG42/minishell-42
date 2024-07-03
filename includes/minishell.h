@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 18:44:30 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:26:26 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <linux/random.h>
+#include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -35,9 +35,9 @@ void	get_tmp_file(t_data *datas);
 void	heredoc(char *eof, char *file_name);
 void	ft_pwd(t_shell *shell);
 void	exec_built_in(t_shell *shell);
-int		is_built_in(t_shell *shell);
+int	is_built_in(t_data *data);
 int		check_if_redir(t_data *datas);
-void	exec_simple_cmd(t_shell *datas);
+void	exec_simple_cmd(t_data *data, t_shell *shell);
 void	handle_redir(t_data *datas);
 char	*get_cmd_path(t_data *data, t_shell *shell);
 char	**create_char_env(t_env *env, int env_size);

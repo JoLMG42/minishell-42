@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 18:46:30 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:24:36 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	exec(t_shell *shell)
 		// data->print_exit = 1;
 		exec_pipe(datas, shell);
 	}
-	// else
-	// 	exec_simple_cmd(data, shell);
+	else
+		exec_simple_cmd(datas, shell);
 	ft_dup2(datas);
 	return (0);
 }

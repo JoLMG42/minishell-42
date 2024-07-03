@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 13:25:21 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:28:27 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 int	get_key(t_env *env, char *key)
 {
 	int		index;
-	t_env	*start;
 
 	index = 0;
-	start = env;
 	while (env)
 	{
 		if (env->name && ft_strncmp(env->name, key, ft_strlen(key)) == 0)

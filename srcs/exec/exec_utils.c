@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 18:45:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 19:27:34 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ void	get_tmp_file(t_data *datas)
 	datas->tmpfile_hd[sizeof(datas->tmpfile_hd)] = '\0';
 }
 
-int	is_built_in(t_shell *shell)
+int	is_built_in(t_data *data)
 {
 	int		i;
 	char	*built_in[NUM_OF_BUILT_INS];
-	t_data	*data;
 
-	data = shell->datas;
 	if (!data->cmd)
 		return (-1);
 	built_in[0] = "pwd";
@@ -97,7 +95,7 @@ void	exec_built_in(t_shell *shell)
 	// built_in_funcs[3] = &ft_cd;
 	// built_in_funcs[5] = &ft_unset;
 	// built_in_funcs[6] = &ft_export;
-	index = is_built_in(shell);
+	index = is_built_in(shell->datas);
 	if (index == -1)
 		return ;
 	built_in_funcs[index](shell);
