@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 17:15:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 19:25:12 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	is_built_in(t_data *datas)
 	{
 		if (ft_strncmp(datas->cmd, built_in[i], ft_strlen(datas->cmd)) == 0)
 			return (i);
-	printf("cmd in bui;ltins : |%s| \n", datas->cmd);
 		i++;
 	}
 	return (-1);
@@ -74,11 +73,11 @@ int	check_if_redir(t_data *datas)
 	t_data *current;
 
 	current = datas;
-	while (datas)
+	while (current)
 	{
-		if (datas->redir_type >= 1 && datas->redir_type <= 4)
+		if (current->redir_type >= 1 && current->redir_type <= 4)
 			return (0);
-		datas = datas->next;
+		current = current->next;
 	}
 	return (1);
 }

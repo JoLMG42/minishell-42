@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 17:46:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:30:38 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	DEBUG_print_block(t_data **list)
 		printf("\targs:\n");
 		while (datas->args[j])
 		{
-			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
+			printf("\t\targs[%d] = %s\n \t\targs[1] = %s\n", j, datas->args[j], datas->args[1]);
 			j++;
 		}
 		printf("\tredir_type = %d\n", datas->redir_type);
@@ -146,9 +146,9 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
 	char	**split;
-	char	*res;
+	//char	*res; // initialised but not used
 
-	res = NULL;
+	//res = NULL;
 	i = 0;
 	(void)shell;
 	split = ft_split_quotes(str, ' ');

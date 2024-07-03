@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 18:06:06 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 19:21:26 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <linux/random.h>
+#include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -39,10 +39,7 @@ int		is_built_in(t_data *datas);
 int		check_if_redir(t_data *datas);
 void	exec_simple_cmd(t_shell *datas);
 void	handle_redir(t_data *datas);
-<<<<<<< HEAD
 char	*get_cmd_path(t_shell *datas);
 char	**create_char_env(t_env *env, int env_size);
 int		get_env_list_size(t_env *list);
-=======
 char	**ft_split_quotes(char *s, char c);
->>>>>>> d72381f3acca1dd41a48a64aa7c64917149eb7aa

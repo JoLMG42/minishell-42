@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:01:38 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 08:13:07 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 void	exec_child_process(t_shell *shell, char *path)
 {
 	t_data *datas;
+	t_data *current;
 	char	**env;
 
 	datas = shell->datas;
+	current = datas;
 	if (check_if_redir(datas) == 0 || datas->is_hd == 1)
 	{
-		while (datas)
+		while (current)
 		{
 			handle_redir(datas);
-			datas = datas->next;
+			current = current->next;
 		}
 	}
 	env = create_char_env(shell->envp, get_env_list_size(shell->envp));
@@ -73,6 +75,8 @@ void	exec_simple_cmd(t_shell *datas)
 		return ;
 	}
 	path = get_cmd_path(datas);
+	if (!path)
+		printf("error\n");
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
