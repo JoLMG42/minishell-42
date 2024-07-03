@@ -24,7 +24,7 @@ void	DEBUG_print_block(t_data **list)
 		printf("\targs:\n");
 		while (datas->args[j])
 		{
-			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
+			printf("\t\targs[%d] = %s\n \t\targs[1] = %s\n", j, datas->args[j], datas->args[1]);
 			j++;
 		}
 		printf("\tredir_type = %d\n", datas->redir_type);
@@ -146,7 +146,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
 	char	**split;
-	//char	*res;
+	//char	*res; // initialised but not used
 
 	//res = NULL;
 	i = 0;

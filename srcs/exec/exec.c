@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 17:19:57 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 19:20:16 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	exec(t_shell *shell)
 		{
 			if (!datas->tmpfile_hd)
 				get_tmp_file(datas);
-			heredoc(datas->limiter_hd[i], datas->tmpfile_hd);
-			i++;
-			if (datas->limiter_hd)
-				unlink(datas->tmpfile_hd);
+			heredoc(datas->limiter_hd[i++], datas->tmpfile_hd);
+			unlink(datas->tmpfile_hd);
 		}
 	}
 	stdin_copy = dup(STDIN_FILENO);
