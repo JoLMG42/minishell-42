@@ -71,9 +71,9 @@ int	is_built_in(t_data *datas)
 
 int	check_if_redir(t_data *datas)
 {
-	t_data *current;
+	//t_data *current;
 
-	current = datas;
+	//current = datas;
 	while (datas)
 	{
 		if (datas->redir_type >= 1 && datas->redir_type <= 4)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 17:46:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/03 00:34:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,12 +146,23 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
 	char	**split;
-	char	*res;
+	//char	*res;
 
-	res = NULL;
+	//res = NULL;
 	i = 0;
 	(void)shell;
 	split = ft_split_quotes(str, ' ');
+	free(str);
+	str = malloc(1);
+	str[0] = 0;
+	int k = 0;
+	while (split[k])
+	{
+		str = ft_strjoin(str, split[k]);
+		str = ft_strjoin(str, " ");
+		k++;
+	}
+	// printf("STR = %s\n", str);
 	// int j =0;
 	// while (split[j])
 	// {
@@ -166,7 +177,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
 		{
 			datas->namein = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
@@ -175,7 +186,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
 			datas->nameout = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = OUT;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -184,7 +195,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
 			datas->nameout = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -193,7 +204,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
@@ -205,7 +216,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
 			datas->namein = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			// datas->cmd = ft_strdup(split[0]);
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
@@ -214,16 +225,22 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
 			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[i - 1]);
+			// datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = OUT;
+			// printf("str avant = %s\n", str);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
+			// printf("pos = %d\n", ft_strslen_tab_until(split, i) + 1);
+			// str = ft_erase(str, ft_strslen_tab_until(split, i) + 1, 1);
+			// printf("str apres = %s\n", str);
+			// str = ft_erase(str, ft_strslen_tab_until(split, i + 1) + 1 -2, ft_strlen(split[i + 1]));
+			// printf("str apres apres = %s\n", str);
 			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
 			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[i - 1]);
+			// datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -232,7 +249,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			// datas->cmd = ft_strdup(split[0]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
@@ -245,8 +262,8 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	}
 	datas->limiter_hd[datas->nb_hd] = 0;
 	datas->args = ft_split_quotes(str, ' ');
-	if (datas->args && datas->args[0] && !datas->cmd)
-		datas->cmd = datas->args[0];
+	// if (datas->args && datas->args[0] && !datas->cmd)
+	datas->cmd = datas->args[0];
 	return (datas);
 }
 
