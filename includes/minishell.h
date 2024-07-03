@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 19:21:26 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/03 16:59:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_content_env(t_env **env, char *find);
 char	*expander(char *str, t_env **env, int i, char *res);
 int		parse_input(char *input, t_shell *shell);
 void	freetab(char **tab);
-void	exec(t_shell *datas);
+int		exec(t_shell *datas);
 void	get_tmp_file(t_data *datas);
 void	heredoc(char *eof, char *file_name);
 void	ft_pwd(t_data *datas);

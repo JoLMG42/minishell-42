@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 19:20:16 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/03 16:58:57 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec(t_shell *shell)
+int	exec(t_shell *shell)
 {
 	int		i;
 	int		stdin_copy;
@@ -20,6 +20,8 @@ void	exec(t_shell *shell)
 	t_data	*datas;
 
 	datas = shell->datas;
+	if (!datas)
+		return (1);
 	i = 0;
 	if (datas->is_hd && !datas->next)
 	{
@@ -45,4 +47,5 @@ void	exec(t_shell *shell)
 	close(stdin_copy);
 	close(stdout_copy);
 	unlink(datas->tmpfile_hd);
+	return (0);
 }

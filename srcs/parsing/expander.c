@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:14:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:35:38 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,11 @@ char	*expander(char *str, t_env **env, int i, char *res)
 				i--;
 			if (recup)
 			{
-				res = malloc(1);
-				res[0] = 0;
+				if (!res)
+				{
+					res = malloc(1);
+					res[0] = 0;
+				}
 				res = ft_strjoin(res, get_content_env(env, recup));
 			}
 		}
@@ -121,6 +124,5 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		f = 0;
 	}
 	free(str);
-	printf("REEEEESSS = %s\n", res);
 	return (res);
 }
