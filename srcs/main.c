@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 10:08:01 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 18:44:59 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ int	loop_shell(t_shell *shell)
 	while (1)
 	{
 		str = readline("ft_jsardashell$ ");
-		//printf("%s\n", str);
-		parse_input(str, shell);
-		exec(shell);
+		if (!str)
+			return (1);
+		if (parse_input(str, shell))
+			return (1);
+		if (exec(shell) == 0)
+			add_history(str);
+
 	}
 	return (0);
 }

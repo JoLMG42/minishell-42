@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 10:08:31 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 18:46:46 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,11 @@ char	*expander(char *str, t_env **env, int i, char *res)
 				i--;
 			if (recup)
 			{
-				res = malloc(1);
-				res[0] = 0;
+				if (!res)
+				{
+					res = malloc(1);
+					res[0] = 0;
+				}
 				res = ft_strjoin(res, get_content_env(env, recup));
 			}
 		}

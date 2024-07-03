@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 18:04:43 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 18:46:30 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ void	ft_dup2(t_data *datas)
 		unlink(datas->tmpfile_hd);
 }
 
-void	exec(t_shell *shell)
+int	exec(t_shell *shell)
 {
 	int		i;
 	t_data	*datas;
 
 	datas = shell->datas;
+	if (!datas)
+		return (1);
 	i = 0;
 	if (datas->is_hd && !datas->next)
 	{
@@ -54,4 +56,5 @@ void	exec(t_shell *shell)
 	// else
 	// 	exec_simple_cmd(data, shell);
 	ft_dup2(datas);
+	return (0);
 }

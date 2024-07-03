@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 10:21:50 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 18:47:34 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	DEBUG_print_block(t_data **list)
 		printf("\targs:\n");
 		while (datas->args[j])
 		{
-			printf("\t\targs[%d] = %s\n \t\targs[1] = %s\n", j, datas->args[j], datas->args[1]);
+			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
 			j++;
 		}
 		printf("\tredir_type = %d\n", datas->redir_type);
@@ -142,6 +142,92 @@ int	count_hd_operator(char *str)
 	return (c);
 }
 
+int		recup_second_quote(char *str, int i, int mode)
+{
+	if (mode == 1)
+	{
+		while (str[i])
+		{
+			if (str[i] == '"')
+				return (i);
+			i++;
+		}
+	}
+	else if (mode == 2)
+	{
+		while (str[i])
+		{
+			if (str[i] == '\'')
+				return (i);
+			i++;
+		}
+	}
+	return (-1);
+}
+
+char	*delete_extra_quotes(char *str)
+{
+	char	*res;
+	int		i;
+	int	sq = 0;
+	int	dq = 0;
+	int	pos1 = 0;
+	int	pos2 = 0;
+	// printf("str in deltequeote = %s\n", str);
+	res = malloc(sizeof(char *) * (ft_strlen(str) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'' && sq == 0 && dq == 0)
+		{
+			pos1 = i;
+			sq = 1;
+		}
+		else if (str[i] == '\"' && dq == 0 && sq == 0)
+			dq = 1;
+		if (dq == 1 && sq == 0)
+		{
+			pos2 = recup_second_quote(str, i+1, 1);
+			if (pos2 == -1)
+			{
+				printf("EXIT 1\n");
+				exit(0);
+			}
+			else
+			{
+				str = ft_erase(str, pos1, 1);
+				str = ft_erase(str, pos2 - 1, 1);
+				dq = 0;
+			}
+			i += pos2 - 2;
+		}
+		if (sq == 1 && dq == 0)
+		{
+			pos2 = recup_second_quote(str, i+1, 2);
+			if (pos2 == -1)
+			{
+				printf("EXIT 2\n");
+				exit(0);
+			}
+			else
+			{
+				str = ft_erase(str, pos1, 1);
+				str = ft_erase(str, pos2 - 1, 1);
+				sq = 0;
+			}
+			i += pos2 - 2;
+		}
+		// printf("str in deltequeote fin = %s\n", str);
+		// printf("str in deltequeote + i = %s\n", str+i);
+
+		i++;
+	}
+	return (str);
+
+}
+
 t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 {
 	int		i;
@@ -152,6 +238,17 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	i = 0;
 	(void)shell;
 	split = ft_split_quotes(str, ' ');
+	free(str);
+	str = malloc(1);
+	str[0] = 0;
+	int k = 0;
+	while (split[k])
+	{
+		str = ft_strjoin(str, split[k]);
+		str = ft_strjoin(str, " ");
+		k++;
+	}
+	printf("STR = %s\n", str);
 	// int j =0;
 	// while (split[j])
 	// {
@@ -165,8 +262,9 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	{
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
 		{
-			datas->namein = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			datas->namein = expander(split[1], &shell->envp, 0, NULL);
+			// datas->namein = ft_strdup(split[1]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
@@ -174,8 +272,9 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
-			datas->nameout = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			datas->nameout = expander(split[1], &shell->envp, 0, NULL);
+			// datas->nameout = ft_strdup(split[1]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = OUT;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -183,8 +282,9 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
-			datas->nameout = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			datas->nameout = expander(split[1], &shell->envp, 0, NULL);
+			// datas->nameout = ft_strdup(split[1]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -193,7 +293,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
-			datas->cmd = ft_strdup(split[2]);
+			// datas->cmd = ft_strdup(split[2]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
@@ -204,8 +304,10 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
-			datas->namein = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			// datas->namein = ft_strdup(split[i + 1]);
+			datas->namein = expander(split[i + 1], &shell->envp, 0, NULL);
+
+			// datas->cmd = ft_strdup(split[0]);
 			datas->redir_type = IN;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<", ft_strlen(str))), 1);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->namein, ft_strlen(str))), ft_strlen(datas->namein));
@@ -213,17 +315,25 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
-			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[i - 1]);
+			datas->nameout = expander(split[i + 1], &shell->envp, 0, NULL);
+			// datas->nameout = ft_strdup(split[i + 1]);
+			// datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = OUT;
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
+			printf("str avant = %s\n", str);
+			// str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
+			// str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
+			// printf("pos = %d\n", ft_strslen_tab_until(split, i) + 1);
+			str = ft_erase(str, ft_strslen_tab_until(split, i), 2);
+			printf("str apres = %s\n", str);
+			str = ft_erase(str, ft_strslen_tab_until(split, i + 1), ft_strlen(split[i + 1]));
+			printf("str apres apres = %s\n", str);
 			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
-			datas->nameout = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[i - 1]);
+			datas->nameout = expander(split[i + 1], &shell->envp, 0, NULL);
+			// datas->nameout = ft_strdup(split[i + 1]);
+			// datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = APPEND;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">>", ft_strlen(str))), 2);
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
@@ -232,7 +342,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
-			datas->cmd = ft_strdup(split[0]);
+			// datas->cmd = ft_strdup(split[0]);
 			datas->redir_type = HD;
 			datas->is_hd = 1;
 			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, "<<", ft_strlen(str))), 2);
@@ -245,8 +355,15 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	}
 	datas->limiter_hd[datas->nb_hd] = 0;
 	datas->args = ft_split_quotes(str, ' ');
-	if (datas->args && datas->args[0] && !datas->cmd)
-		datas->cmd = datas->args[0];
+	i = 0;
+	while (datas->args[i])
+	{
+		datas->args[i] = expander(datas->args[i], &shell->envp, 0, NULL);
+		datas->args[i] = delete_extra_quotes(datas->args[i]);
+		i++;
+	}
+	// if (datas->args && datas->args[0] && !datas->cmd)
+	datas->cmd = datas->args[0];
 	return (datas);
 }
 
@@ -331,7 +448,7 @@ int	parse_input(char *input, t_shell *shell)
 	//printf("after add_space = %s\n", input);
 	create_list(input, &(shell->datas), shell);
 
-	//DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
+	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
 
 	// input = expander(input, &shell->envp, 0, res);
 	// printf("after expander = %s\n", input);
