@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 00:34:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/03 13:57:20 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	DEBUG_print_block(t_data **list)
 		printf("\targs:\n");
 		while (datas->args[j])
 		{
-			printf("\t\targs[%d] = %s\n \t\targs[1] = %s\n", j, datas->args[j], datas->args[1]);
+			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
 			j++;
 		}
 		printf("\tredir_type = %d\n", datas->redir_type);
@@ -162,7 +162,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		str = ft_strjoin(str, " ");
 		k++;
 	}
-	// printf("STR = %s\n", str);
+	printf("STR = %s\n", str);
 	// int j =0;
 	// while (split[j])
 	// {
@@ -227,14 +227,14 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 			datas->nameout = ft_strdup(split[i + 1]);
 			// datas->cmd = ft_strdup(split[i - 1]);
 			datas->redir_type = OUT;
-			// printf("str avant = %s\n", str);
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
-			str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
+			printf("str avant = %s\n", str);
+			// str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, ">", ft_strlen(str))), 1);
+			// str = ft_erase(str, ft_strlen(str) - ft_strlen(ft_strnstr(str, datas->nameout, ft_strlen(str))), ft_strlen(datas->nameout));
 			// printf("pos = %d\n", ft_strslen_tab_until(split, i) + 1);
-			// str = ft_erase(str, ft_strslen_tab_until(split, i) + 1, 1);
-			// printf("str apres = %s\n", str);
-			// str = ft_erase(str, ft_strslen_tab_until(split, i + 1) + 1 -2, ft_strlen(split[i + 1]));
-			// printf("str apres apres = %s\n", str);
+			str = ft_erase(str, ft_strslen_tab_until(split, i), 2);
+			printf("str apres = %s\n", str);
+			str = ft_erase(str, ft_strslen_tab_until(split, i + 1), ft_strlen(split[i + 1]));
+			printf("str apres apres = %s\n", str);
 			i += 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))

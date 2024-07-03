@@ -12,8 +12,8 @@ int	ft_strslen_tab_until(char **tab, int pos)
 	while (tab[i] && i <= pos)
 	{
 		len += ft_strlen(tab[i]);
-		printf("in utils split[i] = %s      len = %d\n", tab[i], len);
+		// printf("in utils split[i] = %s      len = %d\n", tab[i], len);
 		i++;
 	}
-	return (len);
+	return (len - ft_strlen(tab[i - 1]) + 1);
 }
