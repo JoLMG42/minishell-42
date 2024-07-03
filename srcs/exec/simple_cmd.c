@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:01:38 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 18:44:41 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_child_process(t_shell *shell, char *path)
 {
-	t_data *datas;
+	t_data	*datas;
 	char	**env;
 
 	datas = shell->datas;
@@ -23,6 +23,7 @@ void	exec_child_process(t_shell *shell, char *path)
 		while (datas)
 		{
 			handle_redir(datas);
+			printf("there is a redir\n");
 			datas = datas->next;
 		}
 	}
@@ -32,15 +33,12 @@ void	exec_child_process(t_shell *shell, char *path)
 	// 	free_minishell(data, list);
 	// 	exit(EXIT_FAILURE);
 	// }
-	if (datas->cmd)
+	if (path == NULL || execve(path, datas->args, env) == -1)
 	{
-		if (path == NULL || execve(path, datas->args, env) == -1)
-		{
-			perror("execve");
-			fprintf(stderr, "minishell: %s: command not found\n", datas->cmd);
-		}
+		perror("execve");
+		fprintf(stderr, "minishell: %s: command not found\n", datas->cmd);
 	}
-	//free_minishell(data, list);
+	// free_minishell(data, list);
 	exit(0);
 }
 

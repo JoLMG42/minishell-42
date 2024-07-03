@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 17:58:13 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/02 18:31:39 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	get_key(t_env *env, char *key)
 		if (env->name && ft_strncmp(env->name, key, ft_strlen(key)) == 0)
 			return (index);
 		env = env->next;
-		if (env == start)
-			break ;
 		index++;
 	}
 	return (-1);
@@ -50,7 +48,7 @@ char	*get_path_value(t_shell *datas, char *key)
 	return (env->value);
 }
 
-char	*get_cmd_path(t_shell *datas)
+char	*get_cmd_path(t_shell *shell)
 {
 	char		*path_value;
 	char		**paths;
@@ -60,10 +58,10 @@ char	*get_cmd_path(t_shell *datas)
 	char		*cmd_path;
 	t_data		*data;
 
-	data = datas->datas;
-	if (!data || !datas)
+	data = shell->datas;
+	if (!data || !shell)
 		return (NULL);
-	path_value = get_path_value(datas, "PATH");
+	path_value = get_path_value(shell, "PATH");
 	if (!path_value)
 	{
 		if (access(data->cmd, X_OK) == 0)
@@ -128,18 +126,14 @@ char	**create_char_env(t_env *env, int env_size)
 int	get_env_list_size(t_env *list)
 {
 	int		count;
-	t_env	*start;
 
 	count = 0;
-	start = list;
 	if (!list)
 		return (0);
 	while (list)
 	{
 		count++;
 		list = list->next;
-		if (list == start)
-			break ;
 	}
 	return (count);
 }
