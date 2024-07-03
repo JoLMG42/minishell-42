@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:44:41 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 13:52:17 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 void	exec_child_process(t_shell *shell, char *path)
 {
-	t_data	*datas;
+	t_data *datas;
+	t_data *current;
 	char	**env;
 
 	datas = shell->datas;
+	current = datas;
 	if (check_if_redir(datas) == 0 || datas->is_hd == 1)
 	{
-		while (datas)
+		while (current)
 		{
 			handle_redir(datas);
-			printf("there is a redir\n");
-			datas = datas->next;
+			current = current->next;
 		}
 	}
 	env = create_char_env(shell->envp, get_env_list_size(shell->envp));
@@ -50,14 +51,14 @@ void	exec_parent_process(pid_t pid)
 		perror("waitpid");
 }
 
-void	exec_simple_cmd(t_shell *datas)
+void	exec_simple_cmd(t_shell *shell)
 {
 	t_data	*current;
 	pid_t	pid;
 	char	*path;
 
-	current = datas->datas;
-	if (is_built_in(current) != -1)
+	current = shell->datas;
+	if (is_built_in(shell) != -1)
 	{
 		if (check_if_redir(current) == 0 || current->is_hd == 1)
 		{
@@ -67,15 +68,17 @@ void	exec_simple_cmd(t_shell *datas)
 				current = current->next;
 			}
 		}
-		exec_built_in(datas->datas);
+		exec_built_in(shell);
 		return ;
 	}
-	path = get_cmd_path(datas);
+	path = get_cmd_path(current, shell);
+	if (!path)
+		printf("error\n");
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
 	else if (pid == 0)
-		exec_child_process(datas, path);
+		exec_child_process(shell, path);
 	else
 		exec_parent_process(pid);
 	// free(path); in the child

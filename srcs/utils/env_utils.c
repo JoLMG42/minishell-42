@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 10:35:20 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 11:18:15 by jsarda           ###   ########.fr       */
+/*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
+/*   Updated: 2024/07/03 11:10:15 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(t_shell *shell)
+void	print_env(t_env *env)
 {
-	(void)shell;
-	char	cwd[PATH_MAX];
-
-	if (getcwd(cwd, PATH_MAX))
-		printf("%s\n", cwd);
-	else
-		perror("pwd");
+	if (!env)
+		return ;
+	while (env)
+	{
+		printf("%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/02 15:14:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/03 10:08:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		{
 			f = 1;
 			res = reallocator(res, str[i]);
-		} 
+		}
 		if (!recup && f == 0)
 			res = reallocator(res, str[i]);
 		i++;
@@ -121,6 +121,6 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		f = 0;
 	}
 	free(str);
-	printf("REEEEESSS = %s\n", res);
+	//printf("REEEEESSS = %s\n", res);
 	return (res);
 }

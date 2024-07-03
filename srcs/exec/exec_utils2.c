@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:31:39 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/03 13:25:21 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_path_value(t_shell *datas, char *key)
 	return (env->value);
 }
 
-char	*get_cmd_path(t_shell *shell)
+char	*get_cmd_path(t_data *data, t_shell *shell)
 {
 	char		*path_value;
 	char		**paths;
@@ -56,9 +56,7 @@ char	*get_cmd_path(t_shell *shell)
 	struct stat	statbuf;
 	char		*path;
 	char		*cmd_path;
-	t_data		*data;
 
-	data = shell->datas;
 	if (!data || !shell)
 		return (NULL);
 	path_value = get_path_value(shell, "PATH");
