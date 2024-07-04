@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 15:08:12 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:09:46 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**create_char_env(t_env *env, int env_size);
 void	print_env(t_env *list);
 int		get_env_list_size(t_env *list);
 char	*get_content_env(t_env **env, char *find);
+void	ft_print_exp(t_env *exp);
 
 /*			UTILS	STR/TAB		*/
 
