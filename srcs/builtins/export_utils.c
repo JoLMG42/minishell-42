@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:20:37 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 12:37:47 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 14:39:23 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 void	insert_new_var(t_env *env, t_env *new_var)
 {
 	t_env	*current;
+
 	current = env;
+	while (current->next)
+		current = current->next;
 	current->next = new_var;
 	new_var->next = env;
+	printf("new var created!\n");
 }
 
 t_env	*allocate_new_var()
@@ -27,7 +31,7 @@ t_env	*allocate_new_var()
 	new_var = malloc(sizeof(t_env));
 	if (!new_var)
 	{
-		// ft_error("malloc : ", strerror(errno), 1, data);
+		//ft_error("malloc : ", strerror(errno), 1, data);
 		return (NULL);
 	}
 	return (new_var);

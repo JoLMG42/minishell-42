@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 11:34:58 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 14:54:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,5 @@ void	print_env(t_env *list);
 int		ft_strslen_tab_until(char **tab, int pos);
 void	modify_value(t_env *env, const char *value);
 size_t	count_args(char **args);
+void	ft_lstadd_back_env(t_env **alst, t_env *new);
+t_env	*ft_lstnew_env(char *line, char *name, char *value);
