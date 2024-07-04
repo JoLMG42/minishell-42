@@ -59,3 +59,12 @@ char	**ft_erase_in_tab(char **tab, int pos, int pos2)
 	freetab(tab);
 	return (res);
 }
+size_t	count_args(char **args)
+{
+	size_t	len;
+
+	len = 0;
+	while (args[len])
+		len++;
+	return (len);
+}

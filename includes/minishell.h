@@ -6,20 +6,21 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 14:17:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:05:49 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "structs.h"
 #include <dirent.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <linux/random.h>
-#include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -29,6 +30,7 @@
 /*          BUILTINS        */
 void	ft_pwd(t_data *data, t_shell *shell);
 void	ft_env(t_data *data, t_shell *shell);
+void	ft_export(t_data *data, t_shell *shell);
 
 char	*expander(char *str, t_env **env, int i, char *res);
 int		parse_input(char *input, t_shell *shell);
@@ -56,6 +58,8 @@ void	exec_pipe(t_data *datas, t_shell *shell);
 int		ft_strslen_tab_until(char **tab, int pos);
 char	**ft_erase_in_tab(char **tab, int pos, int pos2);
 int		ft_tablen(char **tab);
+void	modify_value(t_env *env, const char *value);
+size_t	count_args(char **args);
 
 /*			ERRORS			*/
 void	ft_errors_parsing(int err, char *msg, t_shell *shell);
