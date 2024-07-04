@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 14:44:21 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:10:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,13 +222,40 @@ char	*delete_extra_quotes(char *str)
 		i++;
 	}
 	return (str);
-
 }
+
+int	check_valid_quotes(char *str)
+{
+	int i;
+	int	sq;
+	int	dq;
+
+	i = 0;
+	sq = 0;
+	dq = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' && dq == 0 && sq == 0)
+			dq = 1;
+		else if (str[i] == '\'' && sq == 0 && dq == 0)
+			sq = 1;
+		else if (str[i] == '"' && dq == 1 && sq == 0)
+			dq = 0;
+		else if (str[i] == '\'' && sq == 1 && dq == 0)
+			sq = 0;
+		i++;
+	}
+	if (sq || dq)
+		return (1);
+	return (0);
+}
+
 
 int	check_syntaxes(char *str)
 {
-	printf("str in check_syntax = %s\n", str);
 	if (str == NULL || ft_strncmp(str, " ", ft_strlen(str)) == 0)
+		return (1);
+	if (check_valid_quotes(str))
 		return (1);
 	return (0);
 }
@@ -338,7 +365,6 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		i++;
 	}
 	datas->limiter_hd[datas->nb_hd] = 0;
-	// datas->args = ft_split_quotes(str, ' ');
 	i = 0;
 	datas->args = malloc(sizeof(char *) * (ft_tablen(split) + 1));
 	while (split[i])
@@ -436,22 +462,15 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 
 int	parse_input(char *input, t_shell *shell)
 {
-	(void)shell;
-	// char	*res;
-
-	// res = NULL;
-	// shell->datas = malloc(sizeof(struct s_data));
 	input = add_space(input);
 	if (!input)
 		return (1);
-	//printf("after add_space = %s\n", input);
 	if (create_list(input, &(shell->datas), shell))
-		return (ft_clear_datas(&(shell->datas)), 0);
+		return (ft_clear_datas(&(shell->datas)), 2);
 
 	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
+	
 	free(input);
-	// input = expander(input, &shell->envp, 0, res);
-	// printf("after expander = %s\n", input);
 	return (0);
 
 }
