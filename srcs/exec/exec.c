@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 16:49:47 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 18:29:39 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,23 @@ int	exec(t_shell *shell)
 	i = 0;
 	if (datas->is_hd && !datas->next)
 	{
-		while (datas->limiter_hd[i])
+		while (datas)
 		{
-			if (!datas->tmpfile_hd)
-				get_tmp_file(datas);
-			heredoc(shell, datas->limiter_hd[i++], datas->tmpfile_hd);
+			while (datas->limiter_hd[i])
+			{
+				if (!datas->tmpfile_hd)
+					get_tmp_file(datas);
+				heredoc(datas, shell, datas->limiter_hd[i++],
+					datas->tmpfile_hd);
+			}
+			datas = datas->next;
 		}
 	}
 	ft_dup(datas);
 	if (datas->next != NULL)
 	{
 		// dat->print_exit
-		exec_pipe(datas, shell);
+		//exec_pipe(datas, shell);
 	}
 	else
 		exec_simple_cmd(datas, shell);

@@ -17,8 +17,8 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/builtins/ft_pwd.c \
 			srcs/builtins/ft_env.c \
 			srcs/main.c \
-			srcs/exec/pipe_exec.c \
 			srcs/builtins/ft_export.c \
+			# srcs/exec/pipe_exec.c \
 
 RM		:= rm -f
 

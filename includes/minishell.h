@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:24:31 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:36:17 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		parse_input(char *input, t_shell *shell);
 void	freetab(char **tab);
 int		exec(t_shell *datas);
 void	get_tmp_file(t_data *datas);
-void	heredoc(t_shell *shell, char *eof, char *file_name);
+void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
 void	exec_built_in(t_data *datas, t_shell *shell);
 int		is_built_in(t_data *data);
 int		check_if_redir(t_data *datas);

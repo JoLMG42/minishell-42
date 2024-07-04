@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:25:29 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:26:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_data
 	char			*cmd;
 	char			*path;
 	char			**args;
-	char			*path;
 
 	int				redir_type_in;
 	int				redir_type_out;

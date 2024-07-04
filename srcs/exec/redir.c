@@ -6,22 +6,23 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 17:25:44 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:37:11 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_child(t_shell *shell)
+void	free_child(t_data *data, t_shell *shell)
 {
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));
+	free(data->path);
 	ft_clear_datas(&(shell->datas));
 	free(shell);
 	exit(EXIT_FAILURE);
 }
 
-void	heredoc(t_shell *shell, char *eof, char *file_name)
+void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
 	char	*buf;
 	int		fd;
@@ -35,7 +36,7 @@ void	heredoc(t_shell *shell, char *eof, char *file_name)
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("Error opening output file in heredoc"),
-			free_child(shell));
+			free_child(data, shell));
 	while (1)
 	{
 		buf = readline("> ");
@@ -53,7 +54,7 @@ void	heredoc(t_shell *shell, char *eof, char *file_name)
 	close(fd);
 }
 
-void	redir_in(t_shell *shell, char *file_name)
+void	redir_in(t_data *data, t_shell *shell, char *file_name)
 {
 	int	fd;
 
@@ -61,17 +62,17 @@ void	redir_in(t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening input file");
-		free_child(shell);
+		free_child(data, shell);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("Error redirecting stdin");
-		free_child(shell);
+		free_child(data, shell);
 	}
 	close(fd);
 }
 
-void	redir_out(t_shell *shell, char *file_name)
+void	redir_out(t_data *data, t_shell *shell, char *file_name)
 {
 	int	fd;
 
@@ -79,18 +80,18 @@ void	redir_out(t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening output file");
-		free_child(shell);
+		free_child(data, shell);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
 		close(fd);
-		free_child(shell);
+		free_child(data, shell);
 	}
 	close(fd);
 }
 
-void	appen_redir_out(t_shell *shell, char *file_name)
+void	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 {
 	int	fd;
 
@@ -98,12 +99,12 @@ void	appen_redir_out(t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening output file");
-		free_child(shell);
+		free_child(data, shell);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
-		free_child(shell);
+		free_child(data, shell);
 	}
 	close(fd);
 }
@@ -120,18 +121,18 @@ void	handle_redir(t_shell *shell, t_data *datas)
 		while (current->namein && current->namein[i])
 		{
 			if (current->redir_type_in == HD)
-				redir_in(current->tmpfile_hd);
+				redir_in(datas, shell, current->tmpfile_hd);
 			else if (current->redir_type_in == IN)
-				redir_in(current->namein[i]);
+				redir_in(datas, shell, current->namein[i]);
 			i++;
 		}
 		i = 0;
 		while (current->nameout && current->nameout[i])
 		{
 			if (current->redir_type_out == OUT)
-				redir_out(current->nameout[i]);
+				redir_out(datas, shell, current->nameout[i]);
 			else if (current->redir_type_out == APPEND)
-				appen_redir_out(current->nameout[i]);
+				appen_redir_out(datas, shell, current->nameout[i]);
 			i++;
 		}
 		current = current->next;
