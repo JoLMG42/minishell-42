@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:39:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:34:50 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	redir_in(char *file_name)
 	int	fd;
 
 	fd = open(file_name, O_RDONLY);
+	printf("filename = %s\n", file_name);
+	printf("fd = %d\n", fd);
 	if (fd == -1)
 	{
 		perror("Error opening input file");
