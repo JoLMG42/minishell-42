@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 11:34:36 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:38:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_data
 	char			*cmd;
 	char			**args;
 
-	int				redir_type;
+	int				redir_type_in;
+	int				redir_type_out;
 	int				fdin;
 	char			*namein;
 	int				fdout;

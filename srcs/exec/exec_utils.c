@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:34:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:41:14 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int	check_if_redir(t_data *datas)
 	current = datas;
 	while (current)
 	{
-		if (current->redir_type >= 1 && current->redir_type <= 4)
+		if (current->redir_type_out >= 1 && current->redir_type_out <= 4)
+			return (0);
+		if (current->redir_type_in >= 1 && current->redir_type_in <= 4)
 			return (0);
 		current = current->next;
 	}

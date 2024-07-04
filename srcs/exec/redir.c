@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 18:39:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:41:46 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,19 @@ void	handle_redir(t_data *datas)
 	current = datas;
 	while (current)
 	{
-		if (current->redir_type == HD)
+		if (current->redir_type_in == HD)
 			redir_in(current->tmpfile_hd);
-		else if (current->redir_type == IN)
+		else if (current->redir_type_in == IN)
 		{
 			redir_in(current->namein);
 			i++;
 		}
-		else if (current->redir_type == OUT)
+		else if (current->redir_type_out == OUT)
 		{
 			redir_out(current->nameout);
 			i++;
 		}
-		else if (current->redir_type == APPEND)
+		else if (current->redir_type_out == APPEND)
 			appen_redir_out(current->nameout);
 		current = current->next;
 	}
