@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 14:31:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:13:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	loop_shell(t_shell *shell)
 		str = readline("ft_jsardashell$ ");
 		if (!str)
 			return (1);
-		ret_parsing = parse_input(str, shell);
+		ret_parsing = parse_input(ft_strdup(str), shell);
 		if (ret_parsing == 1)
 			return (1);
-		if (ret_parsing == 0 && (shell) == 0)
+		if (ret_parsing == 0 && exec(shell) == 0)
 			add_history(str);
+		free(str);	
 		ft_clear_datas(&(shell->datas));
-
 	}
 	return (0);
 }
