@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:36:15 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:00:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	exec_child_process(t_shell *shell, char *path)
 		fprintf(stderr, "minishell: %s: command not found\n", datas->cmd);
 	}
 	// free_minishell(data, list);
+	free(path);
 	exit(0);
 }
 
@@ -73,7 +74,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	}
 	path = get_cmd_path(current, shell);
 	if (!path)
-		printf("error\n");
+		return ;
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
@@ -81,5 +82,5 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		exec_child_process(shell, path);
 	else
 		exec_parent_process(pid);
-	// free(path); in the child
+	free(path);
 }

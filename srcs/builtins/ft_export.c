@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 15:16:06 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:45:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	handle_env_change(t_shell *shell, char **var, char *args)
 {
 	t_env	*current;
 	char	*tmp_name;
+	char	*tmp_line;
 
 	current = shell->envp;
 	while (current)
@@ -43,37 +44,40 @@ void	handle_env_change(t_shell *shell, char **var, char *args)
 	if (ft_strchr(args, '=') && !current)
 	{
 		tmp_name = ft_strjoin(var[0], "=");
-		ft_lstadd_back_env(&(shell->envp), ft_lstnew_env(ft_strjoin(tmp_name,
-					var[1]), var[0], var[1]));
+		tmp_line = ft_strjoin(tmp_name, var[1]);
+		ft_lstadd_back_env(&(shell->envp), ft_lstnew_env(tmp_line, var[0],
+				var[1]));
+		free(tmp_name);
+		free(tmp_line);
 	}
 }
 
 void	handle_exp_change(t_shell *shell, char **var)
 {
-	t_env	*current_exp;
+	t_env	*curr_exp;
 	char	*tmp_name;
+	char	*tmp_line;
 
-	current_exp = shell->exp;
-	while (current_exp)
+	curr_exp = shell->exp;
+	while (curr_exp)
 	{
-		if (ft_strncmp(current_exp->name, var[0],
-				ft_strlen(current_exp->name)) == 0)
+		if (ft_strncmp(curr_exp->name, var[0], ft_strlen(curr_exp->name)) == 0)
 		{
 			if (count_args(var) <= 1)
 				break ;
-			modify_value(current_exp, var[1]);
+			modify_value(curr_exp, var[1]);
 			break ;
 		}
-		current_exp = current_exp->next;
+		curr_exp = curr_exp->next;
 	}
-	if (!current_exp)
+	if (!curr_exp)
 	{
 		tmp_name = ft_strjoin(var[0], "=");
-		printf("name is : %s\n", var[0]);
-		printf("valeur is : %s\n", var[1]);
-		printf("line is : %s\n", ft_strjoin(tmp_name, var[1]));
-		ft_lstadd_back_env(&(shell->exp), ft_lstnew_env(ft_strjoin(tmp_name,
-					var[1]), var[0], var[1]));
+		tmp_line = ft_strjoin(tmp_name, var[1]);
+		ft_lstadd_back_env(&(shell->exp), ft_lstnew_env(tmp_line, var[0],
+				var[1]));
+		free(tmp_name);
+		free(tmp_line);
 	}
 }
 

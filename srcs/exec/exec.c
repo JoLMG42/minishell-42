@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 09:36:22 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:22:56 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ void	ft_dup2(t_data *datas)
 	dup2(datas->fdout, 1);
 	close(datas->fdin);
 	close(datas->fdout);
-	if (datas->tmpfile_hd)
+	if (datas->is_hd)
+	{
 		unlink(datas->tmpfile_hd);
+		free(datas->tmpfile_hd);
+		datas->tmpfile_hd = NULL;
+	}
 }
 
 int	exec(t_shell *shell)
@@ -44,17 +48,15 @@ int	exec(t_shell *shell)
 			if (!datas->tmpfile_hd)
 				get_tmp_file(datas);
 			heredoc(datas->limiter_hd[i++], datas->tmpfile_hd);
-			unlink(datas->tmpfile_hd);
 		}
 	}
 	ft_dup(datas);
 	if (datas->next != NULL)
 	{
-		// data->print_exit = 1;
+		// dat->print_exit
 		exec_pipe(datas, shell);
 	}
 	else
 		exec_simple_cmd(datas, shell);
-	ft_dup2(datas);
-	return (0);
+	return (ft_dup2(datas), 0);
 }

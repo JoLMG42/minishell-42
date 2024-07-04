@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:34:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:24:05 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_tmp_file(t_data *datas)
 	if (random_fd == -1)
 	{
 		perror("Error opening /dev/urandom");
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	while (i < 22)
 	{
@@ -32,7 +32,7 @@ void	get_tmp_file(t_data *datas)
 		{
 			perror("Error reading /dev/urandom");
 			close(random_fd);
-			exit(EXIT_FAILURE);
+			return ;
 		}
 		filename[i] = 'a' + (rand_char % 26);
 		i++;
