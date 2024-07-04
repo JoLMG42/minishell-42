@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 13:51:39 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 11:34:36 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #define IN 3     // '<'
 #define HD 4     // '<<'
 
-#define NUM_OF_BUILT_INS 2
+#define NUM_OF_BUILT_INS 3
 
 typedef struct s_env
 {

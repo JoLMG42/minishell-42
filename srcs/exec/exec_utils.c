@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 07:43:59 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/04 11:34:24 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int	is_built_in(t_data *data)
 		return (-1);
 	built_in[0] = "pwd";
 	built_in[1] = "env";
+	built_in[2] = "export";
 	// built_in[1] = "echo";
 	// built_in[2] = "exit";
 	// built_in[3] = "cd";
 	// built_in[5] = "unset";
-	// built_in[6] = "export";
 	i = 0;
 	while (i < NUM_OF_BUILT_INS)
 	{
@@ -90,11 +90,11 @@ void	exec_built_in(t_data *datas, t_shell *shell)
 
 	built_in_funcs[0] = &ft_pwd;
 	built_in_funcs[1] = &ft_env;
+	built_in_funcs[2] = &ft_export;
 	// built_in_funcs[1] = &ft_echo;
 	// built_in_funcs[2] = &ft_exit;
 	// built_in_funcs[3] = &ft_cd;
 	// built_in_funcs[5] = &ft_unset;
-	// built_in_funcs[6] = &ft_export;
 	index = is_built_in(datas);
 	if (index == -1)
 		return ;

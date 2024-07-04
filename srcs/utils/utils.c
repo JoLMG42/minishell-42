@@ -17,3 +17,13 @@ int	ft_strslen_tab_until(char **tab, int pos)
 	}
 	return (len - ft_strlen(tab[i - 1]) + 1);
 }
+
+size_t	count_args(char **args)
+{
+	size_t	len;
+
+	len = 0;
+	while (args[len])
+		len++;
+	return (len);
+}
