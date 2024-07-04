@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 16:39:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:22:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,20 @@ void	DEBUG_print_block(t_data **list)
 		}
 		printf("\tredir_type_in = %d\n", datas->redir_type_in);
 		printf("\tredir_type_out = %d\n", datas->redir_type_out);
-		printf("\tnamein = %s\n", datas->namein);
-		printf("\tnameout = %s\n", datas->nameout);
+		j = 0;
+		printf("\tnamein:\n");
+		while (datas->namein && datas->namein[j])
+		{
+			printf("\t\tnamein[%d] = %s\n", j, datas->namein[j]);
+			j++;
+		}
+		j = 0;
+		printf("\tnameout:\n");
+		while (datas->nameout && datas->nameout[j])
+		{
+			printf("\t\tnameout[%d] = %s\n", j, datas->nameout[j]);
+			j++;
+		}
 		printf("\tis_hd = %d\n", datas->is_hd);
 		j = 0;
 		printf("\tlimiters:\n");
@@ -38,7 +50,8 @@ void	DEBUG_print_block(t_data **list)
 		{
 			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
 			j++;
-		}		datas = datas->next;
+		}
+		datas = datas->next;
 		i++;
 	}
 }
@@ -139,6 +152,46 @@ int	count_hd_operator(char *str)
 	{
 		if (str[i] == '<' && str[i + 1] == '<')
 			c++;
+		i++;
+	}
+	return (c);
+}
+
+int	count_redir_operator(char *str, int mode)
+{
+	int i;
+	int	c;
+
+	i = 0;
+	c = 0;
+	while (str[i])
+	{
+		if (mode == 1)
+		{
+			if (i == 0)
+			{
+				if (str[i] == '<' && str[i + 1] != '<')
+					c++;
+			}
+			else
+			{
+				if (str[i] == '<' && str[i + 1] != '<' && str[i - 1] != '<')
+					c++;
+			}
+		}
+		else
+		{
+			if (i == 0)
+			{
+				if (str[i] == '>' && str[i + 1] != '>')
+					c++;
+			}
+			else
+			{
+				if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
+					c++;
+			}
+		}
 		i++;
 	}
 	return (c);
@@ -300,25 +353,31 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	// }
 	if (!split)
 		return (freetab(split), NULL);
+	int nb_redir_in = count_redir_operator(tmp_str, 1);
+	int nb_redir_out = count_redir_operator(tmp_str, 0);
 	datas->limiter_hd = malloc(sizeof(char *) * (count_hd_operator(tmp_str) + 1));
+	if (nb_redir_in)
+		datas->namein = malloc(sizeof(char *) * (nb_redir_in + 1));
+	if (nb_redir_out)
+		datas->nameout = malloc(sizeof(char *) * (nb_redir_out + 1));
 	while (split[i])
 	{
 		flag = 0;
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
 		{
-			datas->namein = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
-			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
-			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
@@ -332,19 +391,19 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
-			datas->namein = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
-			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
-			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
+			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
@@ -366,6 +425,10 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		i++;
 	}
 	datas->limiter_hd[datas->nb_hd] = 0;
+	if (nb_redir_in)
+		datas->namein[datas->nb_in] = 0;
+	if (nb_redir_out)
+		datas->nameout[datas->nb_out] = 0;
 	i = 0;
 	datas->args = malloc(sizeof(char *) * (ft_tablen(split) + 1));
 	while (split[i])
@@ -393,6 +456,7 @@ t_data	*pre_init_block()
 
 	tmp = malloc(sizeof(struct s_data));
 	tmp->cmd = NULL;
+	tmp->path = NULL;
 	tmp->args = NULL;
 	tmp->redir_type_in = 0;
 	tmp->redir_type_out = 0;
@@ -405,6 +469,8 @@ t_data	*pre_init_block()
 	tmp->limiter_hd = NULL;
 	tmp->tmpfile_hd = NULL;
 	tmp->nb_hd = 0;
+	tmp->nb_in = 0;
+	tmp->nb_out = 0;
 	tmp->next = NULL;
 	return (tmp);
 }
