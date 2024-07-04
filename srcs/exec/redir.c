@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 16:43:46 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:23:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,24 +108,27 @@ void	handle_redir(t_data *datas)
 	int		i;
 	t_data	*current;
 
-	i = 0;
 	current = datas;
 	while (current)
 	{
-		if (current->redir_type_in == HD)
-			redir_in(current->tmpfile_hd);
-		else if (current->redir_type_in == IN)
+		i = 0;
+		while (current->namein && current->namein[i])
 		{
-			redir_in(current->namein);
+			if (current->redir_type_in == HD)
+				redir_in(current->tmpfile_hd);
+			else if (current->redir_type_in == IN)
+				redir_in(current->namein[i]);
 			i++;
 		}
-		else if (current->redir_type_out == OUT)
+		i = 0;
+		while (current->nameout && current->nameout[i])
 		{
-			redir_out(current->nameout);
+			if (current->redir_type_out == OUT)
+				redir_out(current->nameout[i]);
+			else if (current->redir_type_out == APPEND)
+				appen_redir_out(current->nameout[i]);
 			i++;
 		}
-		else if (current->redir_type_out == APPEND)
-			appen_redir_out(current->nameout);
 		current = current->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 16:38:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:06:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,17 @@ typedef struct s_env
 typedef struct s_data
 {
 	char			*cmd;
+	char			*path;
 	char			**args;
 
 	int				redir_type_in;
 	int				redir_type_out;
 	int				fdin;
-	char			*namein;
+	char			**namein;
+	int				nb_in;
 	int				fdout;
-	char			*nameout;
+	char			**nameout;
+	int				nb_out;
 
 	int				is_hd;
 	char			**limiter_hd;

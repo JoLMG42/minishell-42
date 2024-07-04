@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 14:30:04 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:02:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_clear_one_block(t_data *datas)
 	if (datas->args)
 		freetab(datas->args);
 	if (datas->namein)
-		free(datas->namein);
+		freetab(datas->namein);
 	if (datas->nameout)
-		free(datas->nameout);
+		freetab(datas->nameout);
 	if (datas->limiter_hd)
 		freetab(datas->limiter_hd);
 	if (datas)
