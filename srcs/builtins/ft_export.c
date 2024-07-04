@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:30:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 12:42:37 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,9 @@ void	handle_env_change(t_env *envp, char **var, char *args)
 			break ;
 		}
 		current = current->next;
-		if (current == envp)
-		{
-			if (ft_strchr(args, '='))
-				create_var(envp, var[0], var[1]);
-			break ;
-		}
 	}
+	if (ft_strchr(args, '='))
+		create_var(envp, var[0], var[1]);
 }
 
 void	handle_exp_change(t_env *exp, char **var)
@@ -65,7 +61,8 @@ void	handle_exp_change(t_env *exp, char **var)
 	current_exp = exp;
 	while (current_exp)
 	{
-		if (ft_strncmp(current_exp->name, var[0], ft_strlen(current_exp->name)) == 0)
+		if (ft_strncmp(current_exp->name, var[0],
+				ft_strlen(current_exp->name)) == 0)
 		{
 			if (count_args(var) <= 1)
 				break ;
@@ -73,25 +70,25 @@ void	handle_exp_change(t_env *exp, char **var)
 			break ;
 		}
 		current_exp = current_exp->next;
-		if (current_exp == exp)
-		{
-			create_var(exp, var[0], var[1]);
-			break ;
-		}
 	}
+	create_var(exp, var[0], var[1]);
 }
 
 void	ft_export(t_data *data, t_shell *shell)
 {
 	int		i;
 	char	**var;
+	t_env	*envp;
+	t_env	*exp;
 
+	envp = shell->envp;
+	exp = shell->exp;
 	if (!data)
 		return ;
 	i = 1;
 	if (!data->args[1])
 		return (ft_print_exp(shell->exp));
-	while (data->args[1])
+	while (data->args[i])
 	{
 		var = ft_split(data->args[1], '=');
 		if (!var || !var[0])
@@ -102,8 +99,10 @@ void	ft_export(t_data *data, t_shell *shell)
 			i++;
 			continue ;
 		}
-		handle_env_change(shell->envp, var, data->args[i]);
-		handle_exp_change(shell->exp, var);
+		handle_env_change(envp, var, data->args[i]);
+		handle_exp_change(exp, var);
+		envp = shell->envp;
+		exp = shell->exp;
 		freetab(var);
 		i++;
 	}

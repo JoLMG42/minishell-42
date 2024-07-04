@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:20:37 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:33:14 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 12:37:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	insert_new_var(t_env *env, t_env *new_var)
 {
 	t_env	*current;
-
 	current = env;
-	while (current->next != env)
-		current = current->next;
 	current->next = new_var;
 	new_var->next = env;
 }
