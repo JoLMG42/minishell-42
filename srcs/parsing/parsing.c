@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 16:10:15 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:39:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	DEBUG_print_block(t_data **list)
 			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
 			j++;
 		}
-		printf("\tredir_type = %d\n", datas->redir_type);
+		printf("\tredir_type_in = %d\n", datas->redir_type_in);
+		printf("\tredir_type_out = %d\n", datas->redir_type_out);
 		printf("\tnamein = %s\n", datas->namein);
 		printf("\tnameout = %s\n", datas->nameout);
 		printf("\tis_hd = %d\n", datas->is_hd);
@@ -306,25 +307,25 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
 		{
 			datas->namein = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = IN;
+			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
 			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = OUT;
+			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
 			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = APPEND;
+			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
-			datas->redir_type = HD;
+			datas->redir_type_in = HD;
 			datas->is_hd = 1;
 			flag = 1;
 		}
@@ -332,25 +333,25 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
 			datas->namein = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = IN;
+			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
 			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = OUT;
+			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
 			datas->nameout = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type = APPEND;
+			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
 		{
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
-			datas->redir_type = HD;
+			datas->redir_type_in = HD;
 			datas->is_hd = 1;
 			flag = 1;
 		}
@@ -393,7 +394,8 @@ t_data	*pre_init_block()
 	tmp = malloc(sizeof(struct s_data));
 	tmp->cmd = NULL;
 	tmp->args = NULL;
-	tmp->redir_type = 0;
+	tmp->redir_type_in = 0;
+	tmp->redir_type_out = 0;
 	tmp->fdin = -1;
 	tmp->fdout = -1;
 	tmp->namein = NULL;
