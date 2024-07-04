@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 11:02:33 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:59:12 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	debug_print_pipes(t_data *data, const char *label)
 	printf("%s: data->pipes[0] = %d, data->pipes[1] = %d\n", label, data->pipes[0], data->pipes[1]);
 }
 
-void	handle_heredoc(t_data *data)
+void	handle_heredoc(t_shell *shell, t_data *data)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ void	handle_heredoc(t_data *data)
 		while (data->limiter_hd[i])
 		{
 			get_tmp_file(data);
-			heredoc(data->limiter_hd[i], data->tmpfile_hd);
+			heredoc(shell, data->limiter_hd[i], data->tmpfile_hd);
 			i++;
 			if (data->limiter_hd[i])
 				unlink(data->tmpfile_hd);
@@ -43,7 +43,7 @@ void	handle_builtin(t_shell *shell)
 	if (is_built_in(data) != -1)
 	{
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
-			handle_redir(data);
+			handle_redir(shell, data);
 		exec_built_in(data, shell);
 	}
 }
@@ -59,7 +59,7 @@ int	exec_mid(t_data *data, t_shell *shell, t_data *prev, char *path)
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	handle_heredoc(data);
+	handle_heredoc(shell, data);
 	debug_print_pipes(data, "exec_mid (parent before fork)");
 	pid = fork();
 	if (pid == -1)
@@ -80,7 +80,7 @@ int	exec_mid(t_data *data, t_shell *shell, t_data *prev, char *path)
 		dup2(data->pipes[1], STDOUT_FILENO);
 		close(data->pipes[1]);
 		if (check_if_redir(data) == 0)
-			handle_redir(data);
+			handle_redir(shell, data);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
@@ -115,7 +115,7 @@ int	exec_first(t_data *data, t_shell *shell, char *path)
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	handle_heredoc(data);
+	handle_heredoc(shell, data);
 	debug_print_pipes(data, "exec_first (parent before fork)");
 	pid = fork();
 	if (pid == -1)
@@ -130,7 +130,7 @@ int	exec_first(t_data *data, t_shell *shell, char *path)
 		dup2(data->pipes[1], STDOUT_FILENO);
 		close(data->pipes[1]);
 		if (check_if_redir(data) == 0)
-			handle_redir(data);
+			handle_redir(shell, data);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
@@ -161,7 +161,7 @@ int	exec_last(t_data *data, t_shell *shell, t_data *prev, char *path)
 	char	**env;
 
 	env = NULL;
-	handle_heredoc(data);
+	handle_heredoc(shell, data);
 	debug_print_pipes(data, "exec_last (parent before fork)");
 	pid = fork();
 	if (pid == -1)
@@ -178,7 +178,7 @@ int	exec_last(t_data *data, t_shell *shell, t_data *prev, char *path)
 			close(prev->pipes[0]);
 		}
 		if (check_if_redir(data) == 0)
-			handle_redir(data);
+			handle_redir(shell, data);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));

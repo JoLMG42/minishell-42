@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 16:00:01 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:14:38 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	exec_child_process(t_shell *shell, char *path)
 	{
 		while (current)
 		{
-			handle_redir(datas);
+			handle_redir(shell, datas);
 			current = current->next;
 		}
 	}
@@ -56,7 +56,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 {
 	t_data	*current;
 	pid_t	pid;
-	char	*path;
+	char *path;
 
 	current = data;
 	if (is_built_in(data) != -1)
@@ -65,14 +65,15 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		{
 			while (current)
 			{
-				handle_redir(current);
+				handle_redir(shell, current);
 				current = current->next;
 			}
 		}
 		exec_built_in(data,shell);
 		return ;
 	}
-	path = get_cmd_path(current, shell);
+	data->path = get_cmd_path(current, shell);
+	path = data->path;
 	if (!path)
 		return ;
 	pid = fork();

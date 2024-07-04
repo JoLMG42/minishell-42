@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 16:22:56 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:49:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec(t_shell *shell)
 		{
 			if (!datas->tmpfile_hd)
 				get_tmp_file(datas);
-			heredoc(datas->limiter_hd[i++], datas->tmpfile_hd);
+			heredoc(shell, datas->limiter_hd[i++], datas->tmpfile_hd);
 		}
 	}
 	ft_dup(datas);
