@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 14:13:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:07:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*get_content_env(t_env **env, char *find)
 {
 	t_env	*tmp;
 
+	if (ft_strncmp(find, "?", ft_strlen(find)) == 0)
+		return ((ft_itoa(g_return_satus)));
 	tmp = *env;
 	while (tmp->next)
 	{
@@ -28,7 +30,7 @@ char	*get_content_env(t_env **env, char *find)
 
 int	valid_name(char c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_')
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
@@ -69,13 +71,13 @@ char	*expander(char *str, t_env **env, int i, char *res)
 	if (!str || !str[i])
 		return (str);
 
-	(void)res;
 	int	c = 0;
 	// int	j;
 	int	sq = 0;
 	int	dq = 0;
 	int	f = 0;
 	char	*recup = NULL;
+	char	*tmp_res;
 	while (str && str[i])
 	{
 		recup = NULL;
@@ -98,21 +100,28 @@ char	*expander(char *str, t_env **env, int i, char *res)
 			c++;
 			while (str && str[i] && str[i] != ' ' && valid_name(str[i]) && str[i] != '$')
 			{
-				recup = reallocator(recup, str[i]);;
+				recup = reallocator(recup, str[i]);
 				i++;
 			}
 			if (str[i] == '$' || str[i] == ' ' || !valid_name(str[i]))
 				i--;
 			if (recup)
 			{
+
 				if (!res)
 				{
 					res = malloc(1);
 					res[0] = 0;
 				}
-				res = ft_strjoin(res, get_content_env(env, recup));
+				char *toto = get_content_env(env, recup);
+				tmp_res = ft_strjoin(res, toto);
+				free(toto);
+				free(res);
+				res = ft_strdup(tmp_res);
+				free(tmp_res);
 				free(recup);
 				recup = NULL;
+				f = 1;
 			}
 		}
 		else
@@ -128,6 +137,10 @@ char	*expander(char *str, t_env **env, int i, char *res)
 	}
 	free(str);
 	free(recup);
-	//printf("REEEEESSS = %s\n", res);
+	if (res == NULL)
+	{
+		free(res);
+		res = ft_strdup("");
+	}
 	return (res);
 }

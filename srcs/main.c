@@ -6,11 +6,13 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 15:13:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:10:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int g_return_satus = 0;
 
 int	loop_shell(t_shell *shell)
 {
@@ -28,6 +30,8 @@ int	loop_shell(t_shell *shell)
 			return (1);
 		if (ret_parsing == 0 && exec(shell) == 0)
 			add_history(str);
+		else
+			g_return_satus = 2;
 		free(str);	
 		ft_clear_datas(&(shell->datas));
 	}

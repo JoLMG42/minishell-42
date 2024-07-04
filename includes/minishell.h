@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 15:09:46 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 16:03:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,5 @@ void	ft_errors_parsing(int err, char *msg, t_shell *shell);
 
 void	ft_clear_datas(t_data **datas);
 void	ft_free_env_list(t_env **env);
+
+extern int	g_return_satus;
