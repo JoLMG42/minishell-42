@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 07:48:22 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/04 14:17:03 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 void	ft_pwd(t_data *data, t_shell *shell);
 void	ft_env(t_data *data, t_shell *shell);
 
-char	*get_content_env(t_env **env, char *find);
 char	*expander(char *str, t_env **env, int i, char *res);
 int		parse_input(char *input, t_shell *shell);
 void	freetab(char **tab);
@@ -38,17 +37,30 @@ int		exec(t_shell *datas);
 void	get_tmp_file(t_data *datas);
 void	heredoc(char *eof, char *file_name);
 void	exec_built_in(t_data *datas, t_shell *shell);
-int	is_built_in(t_data *data);
+int		is_built_in(t_data *data);
 int		check_if_redir(t_data *datas);
 void	exec_simple_cmd(t_data *data, t_shell *shell);
 void	handle_redir(t_data *datas);
 char	*get_cmd_path(t_data *data, t_shell *shell);
-char	**create_char_env(t_env *env, int env_size);
-int		get_env_list_size(t_env *list);
 
-/*			UTILS			*/
+/*			UTILS	ENV*/
+char	**create_char_env(t_env *env, int env_size);
+void	print_env(t_env *list);
+int		get_env_list_size(t_env *list);
+char	*get_content_env(t_env **env, char *find);
+
+/*			UTILS	STR/TAB		*/
 
 char	**ft_split_quotes(char *s, char c);
 void	exec_pipe(t_data *datas, t_shell *shell);
-void	print_env(t_env *list);
 int		ft_strslen_tab_until(char **tab, int pos);
+char	**ft_erase_in_tab(char **tab, int pos, int pos2);
+int		ft_tablen(char **tab);
+
+/*			ERRORS			*/
+void	ft_errors_parsing(int err, char *msg, t_shell *shell);
+
+/*			FREE			*/
+
+void	ft_clear_datas(t_data **datas);
+void	ft_free_env_list(t_env **env);

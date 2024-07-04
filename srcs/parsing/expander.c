@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 18:46:46 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 14:13:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*reallocator(char *res, char c)
 	}
 	res[i] = c;
 	res[i + 1] = 0;
+	free(cpy);
 	return (res);
 }
 
@@ -110,6 +111,8 @@ char	*expander(char *str, t_env **env, int i, char *res)
 					res[0] = 0;
 				}
 				res = ft_strjoin(res, get_content_env(env, recup));
+				free(recup);
+				recup = NULL;
 			}
 		}
 		else
@@ -124,6 +127,7 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		f = 0;
 	}
 	free(str);
+	free(recup);
 	//printf("REEEEESSS = %s\n", res);
 	return (res);
 }

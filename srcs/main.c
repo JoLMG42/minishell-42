@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/03 18:44:59 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 14:31:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 int	loop_shell(t_shell *shell)
 {
 	char	*str;
+	int		ret_parsing;
 
+	ret_parsing = 0;
 	while (1)
 	{
 		str = readline("ft_jsardashell$ ");
 		if (!str)
 			return (1);
-		if (parse_input(str, shell))
+		ret_parsing = parse_input(str, shell);
+		if (ret_parsing == 1)
 			return (1);
-		if (exec(shell) == 0)
+		if (ret_parsing == 0 && (shell) == 0)
 			add_history(str);
+		ft_clear_datas(&(shell->datas));
 
 	}
 	return (0);
@@ -49,9 +53,9 @@ t_env	*ft_lstnew_env(char *line, char *name, char *value)
 	tmp = malloc(sizeof(struct s_env));
 	if (!tmp)
 		return (0);
-	tmp->line = line;
-	tmp->name = name;
-	tmp->value = value;
+	tmp->line = ft_strdup(line);
+	tmp->name = ft_strdup(name);
+	tmp->value = ft_strdup(value);
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -107,6 +111,8 @@ int	env_init(t_env **env, char **envp)
 		if (!split || !split[0] || !split[1])
 			return (freetab(split), 0);
 		ft_lstadd_back_env(env, ft_lstnew_env(envp[i], split[0], split[1]));
+		freetab(split);
+		split = NULL;
 		i++;
 	}
 	return (0);
@@ -136,4 +142,7 @@ int	main(int ac, char **av, char **envp)
 	// 	env = env->next;
 	// }
 	loop_shell(shell);
+	ft_free_env_list(&(shell->envp));
+	ft_free_env_list(&(shell->exp));
+	free(shell);
 }
