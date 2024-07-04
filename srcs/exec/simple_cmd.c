@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 19:25:53 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/04 07:49:08 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 				current = current->next;
 			}
 		}
-		exec_built_in(shell);
+		exec_built_in(data,shell);
 		return ;
 	}
 	path = get_cmd_path(current, shell);

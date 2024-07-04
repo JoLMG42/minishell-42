@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 19:30:10 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/04 07:49:56 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	handle_builtin(t_shell *shell)
 	{
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
 			handle_redir(data);
-		exec_built_in(shell);
+		exec_built_in(data, shell);
 	}
 }
 

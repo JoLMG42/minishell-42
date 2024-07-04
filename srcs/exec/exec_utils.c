@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/03 19:27:34 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/04 07:43:59 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int	check_if_redir(t_data *datas)
 	return (1);
 }
 
-void	exec_built_in(t_shell *shell)
+void	exec_built_in(t_data *datas, t_shell *shell)
 {
 	int		index;
-	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_shell *);
+	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_data *, t_shell *);
 
 	built_in_funcs[0] = &ft_pwd;
 	built_in_funcs[1] = &ft_env;
@@ -95,8 +95,8 @@ void	exec_built_in(t_shell *shell)
 	// built_in_funcs[3] = &ft_cd;
 	// built_in_funcs[5] = &ft_unset;
 	// built_in_funcs[6] = &ft_export;
-	index = is_built_in(shell->datas);
+	index = is_built_in(datas);
 	if (index == -1)
 		return ;
-	built_in_funcs[index](shell);
+	built_in_funcs[index](datas, shell);
 }
