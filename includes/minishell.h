@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 15:09:46 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:16:52 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	exec_pipe(t_data *datas, t_shell *shell);
 int		ft_strslen_tab_until(char **tab, int pos);
 char	**ft_erase_in_tab(char **tab, int pos, int pos2);
 int		ft_tablen(char **tab);
-void	modify_value(t_env *env, const char *value);
 size_t	count_args(char **args);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env	*ft_lstnew_env(char *line, char *name, char *value);

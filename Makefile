@@ -19,8 +19,6 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/main.c \
 			srcs/exec/pipe_exec.c \
 			srcs/builtins/ft_export.c \
-			srcs/builtins/export_utils.c \
-			srcs/builtins/export_utils2.c \
 
 RM		:= rm -f
 

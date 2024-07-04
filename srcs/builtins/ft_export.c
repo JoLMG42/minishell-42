@@ -6,43 +6,27 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 15:04:49 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/04 15:16:06 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	create_var(t_env *env, const char *name, const char *value)
-// {
-// 	t_env	*new_var;
-
-// 	new_var = allocate_new_var();
-// 	if (!new_var)
-// 		return ;
-// 	if (!set_key(new_var, name))
-// 		return ;
-// 	printf("setting the key...\n");
-// 	if (!set_str(new_var, name, value))
-// 		return ;
-// 	printf("setting the str...\n");
-// 	if (!set_value(new_var, value))
-// 		return ;
-// 	printf("setting the value...\n");
-// 	if (shell == NULL)
-// 	{
-// 		new_var->next = new_var;
-// 		shell = new_var;
-// 	}
-// 	else
-// 	{
-// 		shell = new_var;
-// 		insert_new_var(shell, new_var);
-// 	}
-// }
+void	modify_value(t_env *env, const char *value)
+{
+	free(env->value);
+	env->value = ft_strdup(value);
+	if (!env->value)
+	{
+		perror("strdup");
+		return ;
+	}
+}
 
 void	handle_env_change(t_shell *shell, char **var, char *args)
 {
 	t_env	*current;
+	char	*tmp_name;
 
 	current = shell->envp;
 	while (current)
@@ -58,14 +42,16 @@ void	handle_env_change(t_shell *shell, char **var, char *args)
 	}
 	if (ft_strchr(args, '=') && !current)
 	{
-		char *tmp_name = ft_strjoin(var[0], "=");
-		ft_lstadd_back_env(&(shell->envp), ft_lstnew_env(ft_strjoin(tmp_name, var[1]), var[0], var[1]));
+		tmp_name = ft_strjoin(var[0], "=");
+		ft_lstadd_back_env(&(shell->envp), ft_lstnew_env(ft_strjoin(tmp_name,
+					var[1]), var[0], var[1]));
 	}
 }
 
 void	handle_exp_change(t_shell *shell, char **var)
 {
 	t_env	*current_exp;
+	char	*tmp_name;
 
 	current_exp = shell->exp;
 	while (current_exp)
@@ -82,12 +68,12 @@ void	handle_exp_change(t_shell *shell, char **var)
 	}
 	if (!current_exp)
 	{
-		char *tmp_name = ft_strjoin(var[0], "=");
+		tmp_name = ft_strjoin(var[0], "=");
 		printf("name is : %s\n", var[0]);
 		printf("valeur is : %s\n", var[1]);
 		printf("line is : %s\n", ft_strjoin(tmp_name, var[1]));
-
-		ft_lstadd_back_env(&(shell->exp), ft_lstnew_env(ft_strjoin(tmp_name, var[1]), var[0], var[1]));
+		ft_lstadd_back_env(&(shell->exp), ft_lstnew_env(ft_strjoin(tmp_name,
+					var[1]), var[0], var[1]));
 	}
 }
 
