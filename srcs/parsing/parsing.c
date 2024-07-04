@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:22:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:54:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,8 @@ int	count_operators(char *input)
 	return (count);
 }
 
-char	*add_space(char *input)
+char	*add_space_loop(char *res, char *input, int i, int j)
 {
-	char	*res;
-	int		count;
-	int		j;
-	int		i;
-
-	count = count_operators(input);
-	if (count == 0)
-		return (input);
-	res = malloc(sizeof(char) * (ft_strlen(input) + count + 5));
-	if (!res)
-		return (NULL);
-	i = 0;
-	j = 0;
 	while (input[i])
 	{
 		if ((input[i] == '<' && input[i + 1] == '<')
@@ -111,6 +98,22 @@ char	*add_space(char *input)
 		i++;
 	}
 	res[j] = 0;
+	return (res);
+}
+
+char	*add_space(char *input)
+{
+	char	*res;
+	int		count;
+
+	count = count_operators(input);
+	if (count == 0)
+		return (input);
+	res = malloc(sizeof(char) * (ft_strlen(input) + count + 5));
+	if (!res)
+		return (NULL);
+	res = add_space_loop(res, input, 0, 0);
+
 	free(input);
 	return (res);
 }
@@ -121,7 +124,6 @@ char	*ft_erase(char *str, int pos, int len)
 	int		i;
 	int		j;
 
-	// printf("in ft_erase str = %s   pos = %d   len = %d\n", str, pos, len);
 	res = malloc(sizeof(char) * ((ft_strlen(str) - len) + 2));
 	if (!res)
 		free(NULL);
@@ -157,6 +159,42 @@ int	count_hd_operator(char *str)
 	return (c);
 }
 
+int	count_in_operator(char *str, int i)
+{
+	int	c;
+
+	c = 0;
+	if (i == 0)
+	{
+		if (str[i] == '<' && str[i + 1] != '<')
+			c++;
+	}
+	else
+	{
+		if (str[i] == '<' && str[i + 1] != '<' && str[i - 1] != '<')
+			c++;
+	}
+	return (c);
+}
+
+int	count_out_operator(char *str, int i)
+{
+	int	c;
+
+	c = 0;
+	if (i == 0)
+	{
+		if (str[i] == '>' && str[i + 1] != '>')
+			c++;
+	}
+	else
+	{
+		if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
+			c++;
+	}
+	return (c);
+}
+
 int	count_redir_operator(char *str, int mode)
 {
 	int i;
@@ -167,31 +205,9 @@ int	count_redir_operator(char *str, int mode)
 	while (str[i])
 	{
 		if (mode == 1)
-		{
-			if (i == 0)
-			{
-				if (str[i] == '<' && str[i + 1] != '<')
-					c++;
-			}
-			else
-			{
-				if (str[i] == '<' && str[i + 1] != '<' && str[i - 1] != '<')
-					c++;
-			}
-		}
+			c += count_in_operator(str, i);
 		else
-		{
-			if (i == 0)
-			{
-				if (str[i] == '>' && str[i + 1] != '>')
-					c++;
-			}
-			else
-			{
-				if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
-					c++;
-			}
-		}
+			c += count_out_operator(str, i);
 		i++;
 	}
 	return (c);
@@ -227,7 +243,7 @@ char	*delete_extra_quotes(char *str)
 	int	dq = 0;
 	int	pos1 = 0;
 	int	pos2 = 0;
-	// printf("str in deltequeote = %s\n", str);
+	
 	i = 0;
 	while (str[i])
 	{
@@ -242,10 +258,7 @@ char	*delete_extra_quotes(char *str)
 		{
 			pos2 = recup_second_quote(str, i+1, 1);
 			if (pos2 == -1)
-			{
-				printf("EXIT 1\n");
-				exit(0);
-			}
+				return (NULL);
 			else
 			{
 				str = ft_erase(str, pos1, 1);
@@ -258,10 +271,7 @@ char	*delete_extra_quotes(char *str)
 		{
 			pos2 = recup_second_quote(str, i+1, 2);
 			if (pos2 == -1)
-			{
-				printf("EXIT 2\n");
-				exit(0);
-			}
+				return (NULL);
 			else
 			{
 				str = ft_erase(str, pos1, 1);
@@ -270,9 +280,6 @@ char	*delete_extra_quotes(char *str)
 			}
 			i += pos2 - 2;
 		}
-		// printf("str in deltequeote fin = %s\n", str);
-		// printf("str in deltequeote + i = %s\n", str+i);
-
 		i++;
 	}
 	return (str);

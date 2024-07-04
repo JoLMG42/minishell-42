@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 16:45:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:41:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ int	valid_name(char c)
 	return (0);
 }
 
-char	*reallocator(char *res, char c)
+char	*reallocator(char *res, char c, int i)
 {
-	int		i;
 	char	*cpy;
 
-	i = 0;
 	cpy = NULL;
 	if (!res)
 	{
@@ -72,7 +70,6 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		return (str);
 
 	int	c = 0;
-	// int	j;
 	int	sq = 0;
 	int	dq = 0;
 	int	f = 0;
@@ -95,12 +92,11 @@ char	*expander(char *str, t_env **env, int i, char *res)
 			dq = 0;
 		if (str[i] == '$' && sq == 0)
 		{
-			// j = 0;
 			i++;
 			c++;
 			while (str && str[i] && str[i] != ' ' && valid_name(str[i]) && str[i] != '$')
 			{
-				recup = reallocator(recup, str[i]);
+				recup = reallocator(recup, str[i], 0);
 				i++;
 			}
 			if (str[i] == '$' || str[i] == ' ' || !valid_name(str[i]))
@@ -127,10 +123,10 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		else
 		{
 			f = 1;
-			res = reallocator(res, str[i]);
+			res = reallocator(res, str[i], 0);
 		}
 		if (!recup && f == 0)
-			res = reallocator(res, str[i]);
+			res = reallocator(res, str[i], 0);
 		i++;
 		c++;
 		f = 0;
