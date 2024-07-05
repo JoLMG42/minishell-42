@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 14:10:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:11:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	exec_child_process(t_shell *shell, char *path)
 	// 	free_minishell(data, list);
 	// 	exit(EXIT_FAILURE);
 	// }
+	// ft_dup(datas);
 	if (path == NULL || execve(path, datas->args, env) == -1)
 	{
 		perror("execve");
@@ -61,6 +62,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	current = data;
 	if (is_built_in(data) != -1)
 	{
+		printf("its a buildin %d\n", is_built_in(data));
 		if (check_if_redir(current) == 0 || current->is_hd == 1)
 		{
 			while (current)

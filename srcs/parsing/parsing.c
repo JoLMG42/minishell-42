@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 14:03:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:12:04 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ char	*delete_extra_quotes(char *str)
 	int	dq = 0;
 	int	pos1 = 0;
 	int	pos2 = 0;
-	
+
 	i = 0;
 	while (str[i])
 	{
@@ -350,7 +350,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	flag = 0;
 	if (check_syntaxes(tmp_str))
 		return (free(tmp_str), freetab(split), ft_errors_parsing(0, "syntax error\n", shell), NULL);
-		
+
 	printf("STR = %s\n", tmp_str);
 	// int j =0;
 	// while (split[j])
@@ -577,7 +577,7 @@ int	parse_input(char *input, t_shell *shell)
 		return (ft_clear_datas(&(shell->datas)), 2);
 
 	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
-	
+
 	free(input);
 	return (0);
 

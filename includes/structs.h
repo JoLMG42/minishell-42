@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:26:31 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 11:01:00 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #define IN 3     // '<'
 #define HD 4     // '<<'
 
-#define NUM_OF_BUILT_INS 3
+#define NUM_OF_BUILT_INS 5
 
 typedef struct s_env
 {
@@ -40,6 +40,8 @@ typedef struct s_data
 	int				fdout;
 	char			**nameout;
 	int				nb_out;
+	int				pid;
+	int				print_exit;
 
 	int				is_hd;
 	char			**limiter_hd;
