@@ -6,17 +6,11 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 17:25:09 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:43:14 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_dup(t_data *datas)
-{
-	dup2(datas->fdin, 0);
-	dup2(datas->fdout, 1);
-}
 
 void	exec_child_process(t_shell *shell, char *path)
 {

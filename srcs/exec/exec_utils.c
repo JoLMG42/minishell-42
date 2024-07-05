@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 17:20:12 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:43:48 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ void	exec_built_in(t_data *datas, t_shell *shell)
 	built_in_funcs[index](datas, shell);
 }
 
-// void	ft_dup(t_data *data)
-// {
-// 	dup2(data->fdin, STDIN_FILENO);
-// 	dup2(data->fdout, STDOUT_FILENO);
-// }
+void	ft_dup(t_data *data)
+{
+	dup2(data->fdin, STDIN_FILENO);
+	dup2(data->fdout, STDOUT_FILENO);
+}

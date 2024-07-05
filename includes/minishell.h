@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 17:24:49 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:43:29 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int			ft_tablen(char **tab);
 size_t		count_args(char **args);
 void		ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env		*ft_lstnew_env(char *line, char *name, char *value);
-char	*ft_wildcards(char *str);
+char		*ft_wildcards(char *str);
+void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell);
