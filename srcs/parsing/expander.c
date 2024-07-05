@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 13:08:29 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 14:22:26 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_content_env(t_env **env, char *find)
 	if (ft_strncmp(find, "?", ft_strlen(find)) == 0)
 		return ((ft_itoa(g_return_satus)));
 	tmp = *env;
-	while (tmp->next)
+	while (tmp)
 	{
 		if (ft_strncmp(find, tmp->name, ft_strlen(find)) == 0)
 			return (ft_strdup(tmp->value));
