@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:36:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:40:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int		ft_tablen(char **tab);
 size_t	count_args(char **args);
 void	ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env	*ft_lstnew_env(char *line, char *name, char *value);
+char	*ft_wildcards(char *str);
 
 /*			ERRORS			*/
 void	ft_errors_parsing(int err, char *msg, t_shell *shell);

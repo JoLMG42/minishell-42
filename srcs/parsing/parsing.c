@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:54:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:03:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,24 +372,32 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 		flag = 0;
 		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
 			datas->redir_type_in = HD;
 			datas->is_hd = 1;
@@ -398,24 +406,32 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 
 		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_in = IN;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = OUT;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
 			datas->redir_type_out = APPEND;
 			flag = 1;
 		}
 		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
 		{
+			if (!split[i + 1])
+				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
 			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
 			datas->redir_type_in = HD;
 			datas->is_hd = 1;
@@ -449,6 +465,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
 	{
 		datas->args[i] = expander(datas->args[i], &shell->envp, 0, NULL);
 		datas->args[i] = delete_extra_quotes(datas->args[i]);
+		// datas->args[i] = ft_wildcards(datas->args[i]);
 		i++;
 	}
 	datas->cmd = ft_strdup(datas->args[0]);
@@ -535,12 +552,28 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	return (0);
 }
 
+// int	last_check_syntax(t_data **datas)
+// {
+// 	t_data	*tmp;
+
+// 	tmp = *datas;
+// 	while (tmp->next)
+// 	{
+// 		if (tmp->redir_type_in && tmp->namein == NULL)
+// 			return (1);
+// 		if (tmp->redir_type_out && tmp->nameout == NULL)
+// 			return (1);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
+
 int	parse_input(char *input, t_shell *shell)
 {
 	input = add_space(input);
 	if (!input)
 		return (1);
-	if (create_list(input, &(shell->datas), shell))
+	if (create_list(input, &(shell->datas), shell))// && last_check_syntax(&(shell->datas)))
 		return (ft_clear_datas(&(shell->datas)), 2);
 
 	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES

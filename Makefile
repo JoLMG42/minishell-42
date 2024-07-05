@@ -4,6 +4,7 @@ CFLAGS	:= -Wall -Wextra -Werror -I ./includes -g3
 LIBS =	-lreadline libft/libft.a
 SRCS	=	srcs/parsing/expander.c \
 			srcs/parsing/parsing.c \
+			srcs/parsing/wildcards.c \
 			srcs/utils/ft_split_quotes.c \
 			srcs/utils/ft_errors_parsing.c \
 			srcs/utils/env_utils.c \
