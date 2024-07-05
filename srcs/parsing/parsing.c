@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 14:12:04 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 14:19:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,10 @@ char	*delete_extra_quotes(char *str)
 			sq = 1;
 		}
 		else if (str[i] == '\"' && dq == 0 && sq == 0)
+		{
+			pos1 = i;
 			dq = 1;
+		}
 		if (dq == 1 && sq == 0)
 		{
 			pos2 = recup_second_quote(str, i+1, 1);
