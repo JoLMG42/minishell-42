@@ -6,16 +6,22 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 13:49:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:19:23 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	ft_dup(t_data *datas)
+{
+	dup2(datas->fdin, 0);
+	dup2(datas->fdout, 1);
+}
+
 void	exec_child_process(t_shell *shell, char *path)
 {
-	t_data *datas;
-	t_data *current;
+	t_data	*datas;
+	t_data	*current;
 	char	**env;
 
 	datas = shell->datas;
@@ -34,12 +40,15 @@ void	exec_child_process(t_shell *shell, char *path)
 	// 	free_minishell(data, list);
 	// 	exit(EXIT_FAILURE);
 	// }
-	// ft_dup(datas);
+	ft_dup(datas);
 	if (path == NULL || execve(path, datas->args, env) == -1)
 	{
 		perror("execve");
 		fprintf(stderr, "minishell: %s: command not found\n", datas->cmd);
 	}
+	// free_child(datas, shell, 0);
+	close(datas->fdin);
+	close(datas->fdout);
 	// free_minishell(data, list);
 	free(path);
 	exit(0);
@@ -57,12 +66,11 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 {
 	t_data	*current;
 	pid_t	pid;
-	char *path;
+	char	*path;
 
 	current = data;
 	if (is_built_in(data) != -1)
 	{
-		printf("its a buildin %d\n", is_built_in(data));
 		if (check_if_redir(current) == 0 || current->is_hd == 1)
 		{
 			while (current)
@@ -71,7 +79,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 				current = current->next;
 			}
 		}
-		exec_built_in(data,shell);
+		exec_built_in(data, shell);
 		return ;
 	}
 	data->path = get_cmd_path(current, shell);

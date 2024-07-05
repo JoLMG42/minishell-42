@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 13:37:57 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:19:55 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			parse_input(char *input, t_shell *shell);
 void		freetab(char **tab);
 int			exec(t_shell *datas);
 void		get_tmp_file(t_data *datas);
-void		heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
+int			heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
 void		exec_built_in(t_data *datas, t_shell *shell);
 int			is_built_in(t_data *data);
 int			check_if_redir(t_data *datas);
@@ -64,7 +64,6 @@ int			ft_tablen(char **tab);
 size_t		count_args(char **args);
 void		ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env		*ft_lstnew_env(char *line, char *name, char *value);
-void		ft_dup(t_data *data);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell);

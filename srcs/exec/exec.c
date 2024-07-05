@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 13:51:33 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:17:57 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@
 // 	datas->fdout = dup(1);
 // }
 
-void	ft_dup2(t_data *datas)
-{
-	dup2(datas->fdin, 0);
-	dup2(datas->fdout, 1);
-	close(datas->fdin);
-	close(datas->fdout);
-	if (datas->is_hd)
-	{
-		unlink(datas->tmpfile_hd);
-		free(datas->tmpfile_hd);
-		datas->tmpfile_hd = NULL;
-	}
-}
+// void	ft_dup2(t_data *datas)
+// {
+// 	dup2(datas->fdin, 0);
+// 	dup2(datas->fdout, 1);
+// 	close(datas->fdin);
+// 	close(datas->fdout);
+// 	if (datas->is_hd)
+// 	{
+// 		unlink(datas->tmpfile_hd);
+// 		free(datas->tmpfile_hd);
+// 		datas->tmpfile_hd = NULL;
+// 	}
+// }
 
 int	exec(t_shell *shell)
 {
@@ -56,7 +56,6 @@ int	exec(t_shell *shell)
 			datas = datas->next;
 		}
 	}
-	ft_dup(datas);
 	if (datas->next != NULL)
 	{
 		datas->print_exit = 1;
@@ -64,5 +63,5 @@ int	exec(t_shell *shell)
 	}
 	else
 		exec_simple_cmd(datas, shell);
-	return (ft_dup2(datas), 0);
+	return (0);
 }

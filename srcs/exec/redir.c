@@ -6,27 +6,26 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 09:41:21 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 17:17:32 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
+int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
 	char	*buf;
-	int		fd;
 
 	if (!eof)
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token `newline'",
 			2);
-		return ;
+		return 0;
 	}
-	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	data->fdin = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->fdin == -1)
 		return (perror("Error opening output file in heredoc"),
-			free_child(data, shell, 1));
+			free_child(data, shell, 1), 0);
 	while (1)
 	{
 		buf = readline("> ");
@@ -37,66 +36,60 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 		}
 		if (buf)
 		{
-			ft_putendl_fd(buf, fd);
+			ft_putendl_fd(buf, data->fdin);
 			free(buf);
 		}
 	}
-	close(fd);
+	return (data->fdout);
 }
 
-void	redir_in(t_data *data, t_shell *shell, char *file_name)
+int	redir_in(t_data *data, t_shell *shell, char *file_name)
 {
-	int	fd;
-
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
+	data->fdin = open(file_name, O_RDONLY);
+	if (data->fdin == -1)
 	{
 		perror("Error opening input file");
 		free_child(data, shell, 1);
 	}
-	if (dup2(fd, STDIN_FILENO) == -1)
+	if (dup2(data->fdin, STDIN_FILENO) == -1)
 	{
 		perror("Error redirecting stdin");
 		free_child(data, shell, 1);
 	}
-	close(fd);
+	return (data->fdout);
 }
 
-void	redir_out(t_data *data, t_shell *shell, char *file_name)
+int	redir_out(t_data *data, t_shell *shell, char *file_name)
 {
-	int	fd;
-
-	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->fdout == -1)
 	{
 		perror("Error opening output file");
 		free_child(data, shell, 1);
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
-		close(fd);
+		close(data->fdout);
 		free_child(data, shell, 1);
 	}
-	close(fd);
+	return (data->fdout);
 }
 
-void	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
+int	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 {
-	int	fd;
-
-	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
+	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (data->fdout == -1)
 	{
 		perror("Error opening output file");
 		free_child(data, shell, 1);
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
+	if (dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
 		free_child(data, shell, 1);
 	}
-	close(fd);
+	return (data->fdout);
 }
 
 void	handle_redir(t_shell *shell, t_data *datas)
@@ -111,18 +104,18 @@ void	handle_redir(t_shell *shell, t_data *datas)
 		while (current->namein && current->namein[i])
 		{
 			if (current->redir_type_in == HD)
-				redir_in(datas, shell, current->tmpfile_hd);
+				datas->fdin = redir_in(datas, shell, current->tmpfile_hd);
 			else if (current->redir_type_in == IN)
-				redir_in(datas, shell, current->namein[i]);
+				datas->fdin = redir_in(datas, shell, current->namein[i]);
 			i++;
 		}
 		i = 0;
 		while (current->nameout && current->nameout[i])
 		{
 			if (current->redir_type_out == OUT)
-				redir_out(datas, shell, current->nameout[i]);
+				datas->fdout = redir_out(datas, shell, current->nameout[i]);
 			else if (current->redir_type_out == APPEND)
-				appen_redir_out(datas, shell, current->nameout[i]);
+				datas->fdout = appen_redir_out(datas, shell, current->nameout[i]);
 			i++;
 		}
 		current = current->next;
