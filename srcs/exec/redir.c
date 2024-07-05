@@ -6,21 +6,11 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 17:37:11 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 09:41:21 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_child(t_data *data, t_shell *shell)
-{
-	ft_free_env_list(&(shell->envp));
-	ft_free_env_list(&(shell->exp));
-	free(data->path);
-	ft_clear_datas(&(shell->datas));
-	free(shell);
-	exit(EXIT_FAILURE);
-}
 
 void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
@@ -36,7 +26,7 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 		return (perror("Error opening output file in heredoc"),
-			free_child(data, shell));
+			free_child(data, shell, 1));
 	while (1)
 	{
 		buf = readline("> ");
@@ -62,12 +52,12 @@ void	redir_in(t_data *data, t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening input file");
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("Error redirecting stdin");
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	close(fd);
 }
@@ -80,13 +70,13 @@ void	redir_out(t_data *data, t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening output file");
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
 		close(fd);
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	close(fd);
 }
@@ -99,12 +89,12 @@ void	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 	if (fd == -1)
 	{
 		perror("Error opening output file");
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
-		free_child(data, shell);
+		free_child(data, shell, 1);
 	}
 	close(fd);
 }

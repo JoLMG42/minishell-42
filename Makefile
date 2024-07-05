@@ -15,10 +15,12 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/exec/redir.c \
 			srcs/exec/simple_cmd.c \
 			srcs/builtins/ft_pwd.c \
+			srcs/builtins/ft_exit.c \
 			srcs/builtins/ft_env.c \
+			srcs/builtins/ft_echo.c \
 			srcs/main.c \
 			srcs/builtins/ft_export.c \
-			# srcs/exec/pipe_exec.c \
+			srcs/exec/pipe_exec.c \
 
 RM		:= rm -f
 

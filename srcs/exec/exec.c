@@ -6,17 +6,17 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 18:29:39 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/05 13:51:33 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_dup(t_data *datas)
-{
-	datas->fdin = dup(0);
-	datas->fdout = dup(1);
-}
+// void	ft_dup(t_data *datas)
+// {
+// 	datas->fdin = dup(0);
+// 	datas->fdout = dup(1);
+// }
 
 void	ft_dup2(t_data *datas)
 {
@@ -38,6 +38,7 @@ int	exec(t_shell *shell)
 	t_data	*datas;
 
 	datas = shell->datas;
+	datas->print_exit = 0;
 	if (!datas)
 		return (1);
 	i = 0;
@@ -58,8 +59,8 @@ int	exec(t_shell *shell)
 	ft_dup(datas);
 	if (datas->next != NULL)
 	{
-		// dat->print_exit
-		//exec_pipe(datas, shell);
+		datas->print_exit = 1;
+		exec_pipe(shell);
 	}
 	else
 		exec_simple_cmd(datas, shell);

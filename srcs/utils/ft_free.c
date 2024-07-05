@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 17:02:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:41:25 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	ft_clear_datas(t_data **datas)
 
 void	ft_free_env_list(t_env **env)
 {
-	t_env *tmp;
-	
+	t_env	*tmp;
+
 	if (!env || !*env)
 		return ;
 	while (env && *env)
@@ -72,4 +72,14 @@ void	ft_free_env_list(t_env **env)
 		ft_clear_one_block_env(*env);
 		*env = tmp;
 	}
+}
+
+void	free_child(t_data *data, t_shell *shell, int exit_status)
+{
+	ft_free_env_list(&(shell->envp));
+	ft_free_env_list(&(shell->exp));
+	free(data->path);
+	ft_clear_datas(&(shell->datas));
+	free(shell);
+	exit(exit_status);
 }
