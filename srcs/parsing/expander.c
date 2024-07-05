@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 14:22:26 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 20:01:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,36 +64,42 @@ char	*reallocator(char *res, char c, int i)
 	return (res);
 }
 
+void	recup_dq_sq_expander(char *str, int i, int *sq, int *dq)
+{
+	if (str[i] == '\'' && *sq == 0 && *dq == 1)
+		;
+	else if (str[i] == '\'' && *sq == 0 && *dq == 0)
+		*sq = 1;
+	else if (str[i] == '\'' && *sq == 1)
+		*sq = 0;
+	else if (str[i] == '\"' && *dq == 0 && *sq == 1)
+		;
+	else if (str[i] == '\"' && *dq == 0 && *sq == 0)
+		*dq = 1;
+	else if (str[i] == '\"' && *dq == 1)
+		*dq = 0;
+}
+
 char	*expander(char *str, t_env **env, int i, char *res)
 {
+	int	sq;
+	int	dq;
+	int	f;
+	char	*recup;
+	char	*tmp_res;
+
+	sq = 0;
+	dq = 0;
+	f = 0;
 	if (!str || !str[i])
 		return (str);
-
-	int	c = 0;
-	int	sq = 0;
-	int	dq = 0;
-	int	f = 0;
-	char	*recup = NULL;
-	char	*tmp_res;
 	while (str && str[i])
 	{
 		recup = NULL;
-		if (str[i] == '\'' && sq == 0 && dq == 1)
-			;
-		else if (str[i] == '\'' && sq == 0 && dq == 0)
-			sq = 1;
-		else if (str[i] == '\'' && sq == 1)
-			sq = 0;
-		else if (str[i] == '\"' && dq == 0 && sq == 1)
-			;
-		else if (str[i] == '\"' && dq == 0 && sq == 0)
-			dq = 1;
-		else if (str[i] == '\"' && dq == 1)
-			dq = 0;
+		recup_dq_sq_expander(str, i, &sq, &dq);
 		if (str[i] == '$' && sq == 0)
 		{
 			i++;
-			c++;
 			while (str && str[i] && str[i] != ' ' && valid_name(str[i]) && str[i] != '$')
 			{
 				recup = reallocator(recup, str[i], 0);
@@ -128,7 +134,6 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		if (!recup && f == 0)
 			res = reallocator(res, str[i], 0);
 		i++;
-		c++;
 		f = 0;
 	}
 	free(str);

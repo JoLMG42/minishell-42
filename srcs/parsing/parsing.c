@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 14:19:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:50:21 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	DEBUG_print_block(t_data **list)
 		printf("\tis_hd = %d\n", datas->is_hd);
 		j = 0;
 		printf("\tlimiters:\n");
-		while (datas->limiter_hd[j])
+		while (datas->limiter_hd && datas->limiter_hd[j])
 		{
 			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
 			j++;
@@ -109,11 +109,11 @@ char	*add_space(char *input)
 	count = count_operators(input);
 	if (count == 0)
 		return (input);
-	res = malloc(sizeof(char) * (ft_strlen(input) + count + 5));
+	res = malloc(sizeof(char) * (ft_strlen(input) + (count * 2) + 1));
 	if (!res)
 		return (NULL);
+	ft_bzero(res, count + 1);
 	res = add_space_loop(res, input, 0, 0);
-
 	free(input);
 	return (res);
 }
@@ -145,7 +145,7 @@ char	*ft_erase(char *str, int pos, int len)
 
 int	count_hd_operator(char *str)
 {
-	int i;
+	int	i;
 	int	c;
 
 	i = 0;
@@ -191,13 +191,15 @@ int	count_out_operator(char *str, int i)
 	{
 		if (str[i] == '>' && str[i + 1] != '>' && str[i - 1] != '>')
 			c++;
+		if (str[i] == '>' && str[i + 1] == '>' && str[i - 1] != '>')
+			c++;
 	}
 	return (c);
 }
 
 int	count_redir_operator(char *str, int mode)
 {
-	int i;
+	int	i;
 	int	c;
 
 	i = 0;
@@ -213,7 +215,7 @@ int	count_redir_operator(char *str, int mode)
 	return (c);
 }
 
-int		recup_second_quote(char *str, int i, int mode)
+int	recup_second_quote(char *str, int i, int mode)
 {
 	if (mode == 1)
 	{
@@ -236,51 +238,54 @@ int		recup_second_quote(char *str, int i, int mode)
 	return (-1);
 }
 
-char	*delete_extra_quotes(char *str)
+char	*cut_delete_quote(char *str, int pos1, int pos2)
 {
-	int		i;
-	int	sq = 0;
-	int	dq = 0;
-	int	pos1 = 0;
-	int	pos2 = 0;
+	if (pos2 == -1)
+		return (NULL);
+	else
+	{
+		str = ft_erase(str, pos1, 1);
+		str = ft_erase(str, pos2 - 1, 1);
+	}
+	return (str);
+}
 
-	i = 0;
+int	cut_delete_quote_loop(char *str, int i, int *dq, int *sq)
+{
+	if (str[i] == '\'' && *sq == 0 && *dq == 0)
+	{
+		*sq = 1;
+		return (i);
+	}
+	else if (str[i] == '\"' && *dq == 0 && *sq == 0)
+	{
+		*dq = 1;
+		return (i);
+	}
+	return (0);
+}
+
+char	*delete_extra_quotes(char *str, int i, int dq, int sq)
+{
+	int	pos1;
+	int	pos2;
+
+	pos1 = 0;
+	pos2 = -1;
 	while (str[i])
 	{
-		if (str[i] == '\'' && sq == 0 && dq == 0)
-		{
-			pos1 = i;
-			sq = 1;
-		}
-		else if (str[i] == '\"' && dq == 0 && sq == 0)
-		{
-			pos1 = i;
-			dq = 1;
-		}
+		pos1 = cut_delete_quote_loop(str, i, &dq, &sq);
 		if (dq == 1 && sq == 0)
-		{
-			pos2 = recup_second_quote(str, i+1, 1);
-			if (pos2 == -1)
-				return (NULL);
-			else
-			{
-				str = ft_erase(str, pos1, 1);
-				str = ft_erase(str, pos2 - 1, 1);
-				dq = 0;
-			}
-			i += pos2 - 2;
-		}
+			pos2 = recup_second_quote(str, i + 1, 1);
 		if (sq == 1 && dq == 0)
+			pos2 = recup_second_quote(str, i + 1, 2);
+		if (pos2 != -1)
 		{
-			pos2 = recup_second_quote(str, i+1, 2);
-			if (pos2 == -1)
+			str = cut_delete_quote(str, pos1, pos2);
+			if (!str)
 				return (NULL);
-			else
-			{
-				str = ft_erase(str, pos1, 1);
-				str = ft_erase(str, pos2 - 1, 1);
-				sq = 0;
-			}
+			sq = 0;
+			dq = 0;
 			i += pos2 - 2;
 		}
 		i++;
@@ -290,7 +295,7 @@ char	*delete_extra_quotes(char *str)
 
 int	check_valid_quotes(char *str)
 {
-	int i;
+	int	i;
 	int	sq;
 	int	dq;
 
@@ -314,7 +319,6 @@ int	check_valid_quotes(char *str)
 	return (0);
 }
 
-
 int	check_syntaxes(char *str)
 {
 	if (str == NULL || ft_strncmp(str, " ", ft_strlen(str)) == 0)
@@ -324,160 +328,194 @@ int	check_syntaxes(char *str)
 	return (0);
 }
 
-t_data	*parse_block(char *str, t_data *datas, t_shell *shell)
+void	init_redir_arrays(t_data *datas, char *tmp_str)
 {
-	int		i;
-	char	**split;
-	int		flag;
-	char	*tmp_str;
-	//char	*res; // initialised but not used
+	int	nb_redir_in;
+	int	nb_redir_out;
+	int	nb_hd;
 
-	//res = NULL;
-	i = 0;
-	flag = 0;
-	split = ft_split_quotes(str, ' ');
-	free(str);
-	// str = malloc(1);
-	// str[0] = 0;
-	int k = 0;
-	tmp_str = malloc(1);
-	tmp_str[0] = '\0';
-	while (split[k])
-	{
-		str = ft_strjoin(tmp_str, split[k]);
-		free(tmp_str);
-		tmp_str = ft_strjoin(str, " ");
-		free(str);
-		k++;
-	}
-	flag = 0;
-	if (check_syntaxes(tmp_str))
-		return (free(tmp_str), freetab(split), ft_errors_parsing(0, "syntax error\n", shell), NULL);
-
-	printf("STR = %s\n", tmp_str);
-	// int j =0;
-	// while (split[j])
-	// {
-	// 	printf("split[%d] = %s\n", j, split[j]);
-	// 	j++;
-	// }
-	if (!split)
-		return (freetab(split), NULL);
-	int nb_redir_in = count_redir_operator(tmp_str, 1);
-	int nb_redir_out = count_redir_operator(tmp_str, 0);
-	datas->limiter_hd = malloc(sizeof(char *) * (count_hd_operator(tmp_str) + 1));
+	nb_redir_in = count_redir_operator(tmp_str, 1);
+	nb_redir_out = count_redir_operator(tmp_str, 0);
+	nb_hd = count_hd_operator(tmp_str);
+	if (nb_hd)
+		datas->limiter_hd = malloc(sizeof(char *) * (nb_hd + 1));
 	if (nb_redir_in)
 		datas->namein = malloc(sizeof(char *) * (nb_redir_in + 1));
 	if (nb_redir_out)
 		datas->nameout = malloc(sizeof(char *) * (nb_redir_out + 1));
-	while (split[i])
-	{
-		flag = 0;
-		if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_in = IN;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_out = OUT;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_out = APPEND;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
-			datas->redir_type_in = HD;
-			datas->is_hd = 1;
-			flag = 1;
-		}
+}
 
-		else if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_in = IN;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_out = OUT;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]), &shell->envp, 0, NULL);
-			datas->redir_type_out = APPEND;
-			flag = 1;
-		}
-		else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
-		{
-			if (!split[i + 1])
-				return (ft_errors_parsing(0, "syntax error near unexpected token `newline'\n", shell), NULL);
-			datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
-			datas->redir_type_in = HD;
-			datas->is_hd = 1;
-			flag = 1;
-		}
-		if (flag == 1)
-		{
-			split = ft_erase_in_tab(split, i, i + 1);
-			i = 0;
-			continue ;
-		}
-		if (!split[i])
-			break ;
-		i++;
-	}
-	datas->limiter_hd[datas->nb_hd] = 0;
-	if (nb_redir_in)
-		datas->namein[datas->nb_in] = 0;
-	if (nb_redir_out)
-		datas->nameout[datas->nb_out] = 0;
-	i = 0;
-	datas->args = malloc(sizeof(char *) * (ft_tablen(split) + 1));
-	while (split[i])
+char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell)
+{
+	int	k;
+
+	if (!tab)
+		return (freetab(tab), free(str), NULL);
+	free(str);
+	s = malloc(1);
+	s[0] = '\0';
+	k = -1;
+	while (tab[++k])
 	{
-		datas->args[i] = ft_strdup(split[i]);
-		i++;
+		str = ft_strjoin(s, tab[k]);
+		free(s);
+		s = ft_strjoin(str, " ");
+		free(str);
 	}
+	if (check_syntaxes(s))
+		return (free(s), freetab(tab),
+			ft_errors_parsing(0, "syntax error\n", shell), NULL);
+	return (s);
+}
+
+int	ccut_parse_block_loop_1(char **split, int i, t_data *datas, t_shell *shell)
+{
+	if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])) && i == 0)
+	{
+		datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_out = APPEND;
+		return (1);
+	}
+	else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])) && i == 0)
+	{
+		datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[1]);
+		datas->redir_type_in = HD;
+		datas->is_hd = 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	cut_parse_block_loop_1(char **split, int i, t_data *datas, t_shell *shell)
+{
+	if (!ft_strncmp(split[i], "<", ft_strlen(split[i])) && i == 0)
+	{
+		datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_in = IN;
+		return (1);
+	}
+	else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])) && i == 0)
+	{
+		datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_out = OUT;
+		return (1);
+	}
+	else
+		return (ccut_parse_block_loop_1(split, i, datas, shell));
+	return (0);
+}
+
+int	ccut_parse_block_loop_2(char **split, int i, t_data *datas, t_shell *shell)
+{
+	if (!ft_strncmp(split[i], ">>", ft_strlen(split[i])))
+	{
+		datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_out = APPEND;
+		return (1);
+	}
+	else if (!ft_strncmp(split[i], "<<", ft_strlen(split[i])))
+	{
+		datas->limiter_hd[datas->nb_hd++] = ft_strdup(split[i + 1]);
+		datas->redir_type_in = HD;
+		datas->is_hd = 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	cut_parse_block_loop_2(char **split, int i, t_data *datas, t_shell *shell)
+{
+	if (!ft_strncmp(split[i], "<", ft_strlen(split[i])))
+	{
+		datas->namein[datas->nb_in++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_in = IN;
+		return (1);
+	}
+	else if (!ft_strncmp(split[i], ">", ft_strlen(split[i])))
+	{
+		datas->nameout[datas->nb_out++] = expander(ft_strdup(split[i + 1]),
+				&shell->envp, 0, NULL);
+		datas->redir_type_out = OUT;
+		return (1);
+	}
+	else
+		return (ccut_parse_block_loop_2(split, i, datas, shell));
+	return (0);
+}
+
+t_data	*end_init_one_block(t_data *datas, char **tab, char *s, t_shell *shell)
+{
+	int	i;
+
+	if (datas->limiter_hd)
+		datas->limiter_hd[datas->nb_hd] = 0;
+	if (datas->namein)
+		datas->namein[datas->nb_in] = 0;
+	if (datas->nameout)
+		datas->nameout[datas->nb_out] = 0;
+	datas->args = malloc(sizeof(char *) * (ft_tablen(tab) + 1));
+	i = -1;
+	while (tab[++i])
+		datas->args[i] = ft_strdup(tab[i]);
 	datas->args[i] = 0;
-	i = 0;
-	while (datas->args[i])
+	i = -1;
+	while (datas->args[++i])
 	{
 		datas->args[i] = expander(datas->args[i], &shell->envp, 0, NULL);
-		datas->args[i] = delete_extra_quotes(datas->args[i]);
-		// datas->args[i] = ft_wildcards(datas->args[i]);
-		i++;
+		datas->args[i] = delete_extra_quotes(datas->args[i], 0, 0, 0);
 	}
 	datas->cmd = ft_strdup(datas->args[0]);
-	freetab(split);
-	free(tmp_str);
+	freetab(tab);
+	free(s);
 	return (datas);
 }
 
-t_data	*pre_init_block()
+char	**erase_split_parse_block(char **split, t_shell *shell, char *s, int *i)
+{
+	if (!split[*i + 1])
+		return (ft_errors_parsing(0,
+				"syntax error near unexpected token `newline'\n",
+				shell), freetab(split), free(s), NULL);
+	split = ft_erase_in_tab(split, *i, *i + 1);
+	*i = -1;
+	return (split);
+}
+
+t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag)
+{
+	int		i;
+	char	**split;
+	char	*tmp_str;
+
+	tmp_str = NULL;
+	split = ft_split_quotes(str, ' ');
+	tmp_str = ft_recreate_input(str, split, tmp_str, shell);
+	if (!tmp_str)
+		return (NULL);
+	init_redir_arrays(datas, tmp_str);
+	i = -1;
+	while (split[++i])
+	{
+		flag = cut_parse_block_loop_1(split, i, datas, shell);
+		if (flag == 0)
+			flag = cut_parse_block_loop_2(split, i, datas, shell);
+		if (flag == 1)
+		{
+			split = erase_split_parse_block(split, shell, tmp_str, &i);
+			if (!split)
+				return (NULL);
+			continue ;
+		}
+	}
+	return (end_init_one_block(datas, split, tmp_str, shell));
+}
+
+t_data	*pre_init_block(void)
 {
 	t_data	*tmp;
 
@@ -502,35 +540,33 @@ t_data	*pre_init_block()
 	return (tmp);
 }
 
-t_data   *ft_lstlast_block(t_data *lst)
+t_data	*ft_lstlast_block(t_data *lst)
 {
-        t_data   *tmp;
+	t_data	*tmp;
 
-        while (lst)
-        {
-                tmp = lst;
-                lst = lst->next;
-        }
-        return (tmp);
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+	}
+	return (tmp);
 }
 
 int	block_add_back(t_data **alst, t_data *new)
 {
-		t_data   *tmp;
+	t_data	*tmp;
 
-		tmp = *alst;
-		if (!new)
-			return (1);
-		if ((*alst))
-		{
-				tmp = ft_lstlast_block(*alst);
-				tmp->next = new;
-		}
-		else
-		{
-				*alst = new;
-		}
-		return (0);
+	tmp = *alst;
+	if (!new)
+		return (1);
+	if ((*alst))
+	{
+		tmp = ft_lstlast_block(*alst);
+		tmp->next = new;
+	}
+	else
+		*alst = new;
+	return (0);
 }
 
 int	create_list(char *input, t_data **datas, t_shell *shell)
@@ -542,46 +578,28 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	*datas = NULL;
 	split = ft_split(input, '|');
 	if (!split || !split[0])
-		return (freetab(split), 0);
+		return (freetab(split), 2);
 	i = 0;
 	while (split[i])
 	{
 		tmp_data = pre_init_block();
-		if (block_add_back(datas, parse_block(ft_strdup(split[i]), tmp_data, shell)))
-			return (free(tmp_data), free(input), freetab(split), 1);
+		if (block_add_back(datas, parse_block(ft_strdup(split[i]),
+					tmp_data, shell, 0)))
+			return (free(tmp_data), freetab(split), 1);
 		i++;
 	}
 	freetab(split);
 	return (0);
 }
 
-// int	last_check_syntax(t_data **datas)
-// {
-// 	t_data	*tmp;
-
-// 	tmp = *datas;
-// 	while (tmp->next)
-// 	{
-// 		if (tmp->redir_type_in && tmp->namein == NULL)
-// 			return (1);
-// 		if (tmp->redir_type_out && tmp->nameout == NULL)
-// 			return (1);
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
-
 int	parse_input(char *input, t_shell *shell)
 {
 	input = add_space(input);
 	if (!input)
 		return (1);
-	if (create_list(input, &(shell->datas), shell))// && last_check_syntax(&(shell->datas)))
-		return (ft_clear_datas(&(shell->datas)), 2);
-
-	DEBUG_print_block(&(shell->datas));	// POUR AFFICHER LES BLOCKS DE COMMANDES
-
+	if (create_list(input, &(shell->datas), shell))
+		return (ft_clear_datas(&(shell->datas)), free(input), 3);
+	DEBUG_print_block(&(shell->datas));
 	free(input);
 	return (0);
-
 }

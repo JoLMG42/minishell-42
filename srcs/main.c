@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 14:13:34 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/05 18:30:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int	loop_shell(t_shell *shell)
 		ret_parsing = parse_input(ft_strdup(str), shell);
 		if (ret_parsing == 1)
 			return (1);
-		else
+		else if (ret_parsing == 2)
 			g_return_satus = 2;
-		if (ret_parsing != 2)
-			exec(shell);
+		// if (ret_parsing != 2 && ret_parsing != 3)
+			// exec(shell);
 		add_history(str);
 		free(str);	
 		ft_clear_datas(&(shell->datas));
