@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 14:08:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/08 19:26:55 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ void	sort_ascii(t_env *env)
 {
 	int		swapped;
 	t_env	*exp;
-	t_env	*head;
 
 	exp = env;
-	head = NULL;
 	if (env == NULL)
 		return ;
 	swapped = 1;
@@ -55,7 +53,6 @@ void	sort_ascii(t_env *env)
 			swapped = ft_swap(exp);
 			exp = exp->next;
 		}
-		head = exp;
 	}
 }
 

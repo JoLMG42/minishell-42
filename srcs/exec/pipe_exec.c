@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/08 13:08:41 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/08 19:37:30 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_lstsize_cmd(t_data *lst)
+int ft_lstsize_cmd(t_data *lst)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (lst)
@@ -25,9 +25,9 @@ int	ft_lstsize_cmd(t_data *lst)
 	return (i);
 }
 
-void	handle_heredoc(t_shell *shell, t_data *data)
+void handle_heredoc(t_shell *shell, t_data *data)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (data->is_hd && !data->next)
@@ -45,9 +45,9 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 	}
 }
 
-void	handle_builtin(t_shell *shell)
+void handle_builtin(t_shell *shell)
 {
-	t_data	*data;
+	t_data *data;
 
 	data = shell->datas;
 	if (is_built_in(data) != -1)
@@ -58,19 +58,19 @@ void	handle_builtin(t_shell *shell)
 	}
 }
 
-void	close_fd(t_data *data)
+void close_fd(t_data *data)
 {
 	if (data->fdin != -1)
 		close(data->fdin);
 	if (data->fdout != -1)
 	{
 		if (data->next && data->next->fdout != data->fdout)
-			return ;
+			return;
 		close(data->fdout);
 	}
 }
 
-void	exit_first_child(t_data *data, t_shell *shell)
+void exit_first_child(t_data *data, t_shell *shell)
 {
 	if (!data->cmd)
 	{
@@ -83,7 +83,7 @@ void	exit_first_child(t_data *data, t_shell *shell)
 	exit(127);
 }
 
-void	exit_other_child(t_data *data, t_shell *shell)
+void exit_other_child(t_data *data, t_shell *shell)
 {
 	if (!data->cmd)
 	{
@@ -96,7 +96,7 @@ void	exit_other_child(t_data *data, t_shell *shell)
 	exit(127);
 }
 
-void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
+void manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 {
 	printf("shell pipe[0] shell pipe[1]%d %d\n", shell->pipes[0], shell->pipes[1]);
 	data->fdin = fd_tmp;
@@ -104,35 +104,46 @@ void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 	data->fdout = shell->pipes[1];
 }
 
-void	last_exec(t_shell *shell, t_data *data, char *path)
+void first_exec(t_shell *shell, t_data *data, char *path)
 {
-	char	**env;
+	char **env;
 
 	env = NULL;
 	data->pid = fork();
 	if (data->pid == 0)
 	{
-		// if (data->fdin == 0)
-		data->fdin = shell->pipes[0];
+		close(shell->pipes[0]);
+		handle_redir(shell, data);
+		if (data->fdin != -1)
+		{
+			dup2(data->fdin, STDIN_FILENO);
+			close(data->fdin);
+		}
+		if (data->fdout != -1)
+		{
+			dup2(data->fdout, STDOUT_FILENO);
+			close(data->fdout);
+		}
+		else
+			dup2(shell->pipes[1], STDOUT_FILENO);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
-			ft_dup(data);
 			if (execve(path, data->args, env) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 		}
-		exit_other_child(data, shell);
+		exit_first_child(data, shell);
 	}
-	close(shell->pipes[0]);
+	close(shell->pipes[1]);
 	close_fd(data);
 }
 
-void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
+void middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 {
-	char	**env;
+	char **env;
 
 	env = NULL;
 	pipe(shell->pipes);
@@ -140,11 +151,23 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	if (data->pid == 0)
 	{
 		manager_mid(data, shell, fd_tmp);
+		handle_redir(shell, data);
+		if (data->fdin != -1)
+		{
+			dup2(data->fdin, STDIN_FILENO);
+			close(data->fdin);
+		}
+
+		if (data->fdout != -1)
+		{
+			dup2(data->fdout, STDOUT_FILENO);
+			close(data->fdout);
+		}
+		else
+			dup2(shell->pipes[1], STDOUT_FILENO);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
-			ft_dup(data);
-			printf("fdin %d fdout %d\n", data->fdin, data->fdout);
 			if (execve(path, data->args, env) == -1)
 			{
 				perror("execve");
@@ -158,36 +181,44 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	close_fd(data);
 }
 
-void	first_exec(t_shell *shell, t_data *data, char *path)
+void last_exec(t_shell *shell, t_data *data, char *path)
 {
-	char	**env;
+	char **env;
 
 	env = NULL;
 	data->pid = fork();
 	if (data->pid == 0)
 	{
-		close(shell->pipes[0]);
+		data->fdin = shell->pipes[0];
+		handle_redir(shell, data);
+		if (data->fdin != -1)
+		{
+			dup2(data->fdin, STDIN_FILENO);
+			close(data->fdin);
+		}
+		if (data->fdout != -1)
+		{
+			dup2(data->fdout, STDOUT_FILENO);
+			close(data->fdout);
+		}
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
-			data->fdout = shell->pipes[1];
-			ft_dup(data);
-			// dup2(shell->pipes[1], 1);
 			if (execve(path, data->args, env) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 		}
-		exit_first_child(data, shell);
+		exit_other_child(data, shell);
 	}
-	close(shell->pipes[1]);
+	close(shell->pipes[0]);
 	close_fd(data);
 }
 
-void	ft_wait(t_data *data)
+void ft_wait(t_data *data)
 {
-	int	status;
+	int status;
 
 	while (data)
 	{
@@ -200,7 +231,7 @@ void	ft_wait(t_data *data)
 			}
 			else
 				status = WEXITSTATUS(status);
-			break ;
+			break;
 		}
 		waitpid(data->pid, &status, 0);
 		if (WIFSIGNALED(status) && WIFSIGNALED(status) != 1)
@@ -211,11 +242,11 @@ void	ft_wait(t_data *data)
 	}
 }
 
-void	exec_pipe(t_shell *shell)
+void exec_pipe(t_shell *shell)
 {
-	int		i;
-	int		num_cmd;
-	t_data	*head;
+	int i;
+	int num_cmd;
+	t_data *head;
 
 	head = shell->datas;
 	i = 0;
