@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 11:01:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/08 12:00:14 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_data
 	int				nb_hd;
 	char			*tmpfile_hd;
 	struct s_data	*next;
-	int				pipes[2];
 }					t_data;
 
 typedef struct s_shell
@@ -56,4 +55,5 @@ typedef struct s_shell
 	t_env			*envp;
 	t_env			*exp;
 	t_data			*datas;
+	int				pipes[2];
 }					t_shell;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 18:30:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:08:04 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	loop_shell(t_shell *shell)
 			return (1);
 		else if (ret_parsing == 2)
 			g_return_satus = 2;
-		// if (ret_parsing != 2 && ret_parsing != 3)
-			// exec(shell);
+		if (ret_parsing != 2 && ret_parsing != 3)
+			exec(shell);
 		add_history(str);
-		free(str);	
+		free(str);
 		ft_clear_datas(&(shell->datas));
 	}
 	return (0);

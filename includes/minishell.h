@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 17:43:29 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/08 12:05:56 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		ft_print_exp(t_env *exp);
 /*			UTILS	STR/TAB		*/
 
 char		**ft_split_quotes(char *s, char c);
-void		exec_pipe(t_shell *shell);
+void	exec_pipe(t_shell *shell);
 int			ft_strslen_tab_until(char **tab, int pos);
 char		**ft_erase_in_tab(char **tab, int pos, int pos2);
 int			ft_tablen(char **tab);

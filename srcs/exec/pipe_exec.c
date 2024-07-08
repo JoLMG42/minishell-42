@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 19:12:34 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/08 13:08:41 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,17 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 	int	i;
 
 	i = 0;
-	if (data->is_hd)
+	if (data->is_hd && !data->next)
 	{
-		while (data->limiter_hd[i])
+		while (data)
 		{
-			get_tmp_file(data);
-			heredoc(data, shell, data->limiter_hd[i], data->tmpfile_hd);
-			i++;
-			if (data->limiter_hd[i])
-				unlink(data->tmpfile_hd);
+			while (data->limiter_hd[i])
+			{
+				if (!data->tmpfile_hd)
+					get_tmp_file(data);
+				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+			}
+			data = data->next;
 		}
 	}
 }
@@ -58,7 +60,7 @@ void	handle_builtin(t_shell *shell)
 
 void	close_fd(t_data *data)
 {
-	if (data->fdin != 0)
+	if (data->fdin != -1)
 		close(data->fdin);
 	if (data->fdout != -1)
 	{
@@ -68,41 +70,38 @@ void	close_fd(t_data *data)
 	}
 }
 
-void	exit_first_child(t_shell *shell)
+void	exit_first_child(t_data *data, t_shell *shell)
 {
-	if (!shell->datas->cmd)
+	if (!data->cmd)
 	{
-		close(shell->datas->pipes[1]);
-		free_child(shell->datas, shell, 0);
+		close(shell->pipes[1]);
+		free_child(data, shell, 0);
 		exit(0);
 	}
-	close(shell->datas->pipes[1]);
-	free_child(shell->datas, shell, 0);
+	close(shell->pipes[1]);
+	free_child(data, shell, 0);
 	exit(127);
 }
 
-void	exit_other_child(t_shell *shell)
+void	exit_other_child(t_data *data, t_shell *shell)
 {
-	if (!shell->datas->cmd )
+	if (!data->cmd)
 	{
-		free_child(shell->datas, shell, 0);
+		free_child(data, shell, 0);
 		exit(1);
 	}
-	free_child(shell->datas, shell, 0);
+	free_child(data, shell, 0);
 	if (errno == 13)
 		exit(126);
 	exit(127);
 }
 
-void	manager_mid(t_data *data, int fd_tmp)
+void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 {
-	if (data->fdin == 0)
-		data->fdin = fd_tmp;
-	if (data->fdout == 1)
-	{
-		close(data->pipes[0]);
-		data->fdout = data->pipes[1];
-	}
+	printf("shell pipe[0] shell pipe[1]%d %d\n", shell->pipes[0], shell->pipes[1]);
+	data->fdin = fd_tmp;
+	close(shell->pipes[0]);
+	data->fdout = shell->pipes[1];
 }
 
 void	last_exec(t_shell *shell, t_data *data, char *path)
@@ -113,8 +112,8 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	data->pid = fork();
 	if (data->pid == 0)
 	{
-		if (data->fdin == 0)
-			data->fdin = data->pipes[0];
+		// if (data->fdin == 0)
+		data->fdin = shell->pipes[0];
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
@@ -125,11 +124,9 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		// else if (is_built_in(data) != -1)
-		// 	handle_builtin(shell);
-		exit_other_child(shell);
+		exit_other_child(data, shell);
 	}
-	close(data->pipes[0]);
+	close(shell->pipes[0]);
 	close_fd(data);
 }
 
@@ -138,26 +135,25 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	char	**env;
 
 	env = NULL;
-	pipe(data->pipes);
+	pipe(shell->pipes);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
-		manager_mid(data, fd_tmp);
+		manager_mid(data, shell, fd_tmp);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 			ft_dup(data);
+			printf("fdin %d fdout %d\n", data->fdin, data->fdout);
 			if (execve(path, data->args, env) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 		}
-		// else if (is_built_in(data) != -1)
-		// 	handle_builtin(shell);
-		exit_other_child(shell);
+		exit_other_child(data, shell);
 	}
-	close(data->pipes[1]);
+	close(shell->pipes[1]);
 	close(fd_tmp);
 	close_fd(data);
 }
@@ -170,24 +166,22 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	data->pid = fork();
 	if (data->pid == 0)
 	{
-		close(data->pipes[0]);
-		if (data->fdout == 1)
-			data->fdout = data->pipes[1];
+		close(shell->pipes[0]);
 		if (data->cmd && is_built_in(data) == -1)
 		{
 			env = create_char_env(shell->envp, get_env_list_size(shell->envp));
+			data->fdout = shell->pipes[1];
 			ft_dup(data);
+			// dup2(shell->pipes[1], 1);
 			if (execve(path, data->args, env) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 		}
-		// else if (is_built_in(data) != -1)
-		// 	handle_builtin(shell);
-		exit_first_child(shell);
+		exit_first_child(data, shell);
 	}
-	close(data->pipes[1]);
+	close(shell->pipes[1]);
 	close_fd(data);
 }
 
@@ -219,15 +213,15 @@ void	ft_wait(t_data *data)
 
 void	exec_pipe(t_shell *shell)
 {
-	t_data	*head;
 	int		i;
 	int		num_cmd;
+	t_data	*head;
 
 	head = shell->datas;
 	i = 0;
 	num_cmd = ft_lstsize_cmd(shell->datas);
-	pipe(head->pipes);
-	if (head->fdin != -1)
+	pipe(shell->pipes);
+	if (num_cmd > 1)
 	{
 		head->path = get_cmd_path(head, shell);
 		first_exec(shell, head, head->path);
@@ -235,16 +229,16 @@ void	exec_pipe(t_shell *shell)
 		head->path = NULL;
 	}
 	else
-		close(head->pipes[1]);
+		close(shell->pipes[1]);
 	head = head->next;
 	while (i < (num_cmd - 2))
 	{
 		head->path = get_cmd_path(head, shell);
-		middle_exec(shell, head, head->path, head->pipes[0]);
-		i++;
+		middle_exec(shell, head, head->path, shell->pipes[0]);
 		free(head->path);
 		head->path = NULL;
 		head = head->next;
+		i++;
 	}
 	head->path = get_cmd_path(head, shell);
 	last_exec(shell, head, head->path);
