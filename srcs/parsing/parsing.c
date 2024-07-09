@@ -6,55 +6,55 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:18:46 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:55:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	DEBUG_print_block(t_data **list)
-// {
-// 	t_data *datas = *list;
-// 	int i = 0;
-// 	while (datas)
-// 	{
-// 		printf("CMD %d\n", i);
-// 		printf("\tcmd = %s\n", datas->cmd);
-// 		int j = 0;
-// 		printf("\targs:\n");
-// 		while (datas->args[j])
-// 		{
-// 			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
-// 			j++;
-// 		}
-// 		printf("\tredir_type_in = %d\n", datas->redir_type_in);
-// 		printf("\tredir_type_out = %d\n", datas->redir_type_out);
-// 		j = 0;
-// 		printf("\tnamein:\n");
-// 		while (datas->namein && datas->namein[j])
-// 		{
-// 			printf("\t\tnamein[%d] = %s\n", j, datas->namein[j]);
-// 			j++;
-// 		}
-// 		j = 0;
-// 		printf("\tnameout:\n");
-// 		while (datas->nameout && datas->nameout[j])
-// 		{
-// 			printf("\t\tnameout[%d] = %s\n", j, datas->nameout[j]);
-// 			j++;
-// 		}
-// 		printf("\tis_hd = %d\n", datas->is_hd);
-// 		j = 0;
-// 		printf("\tlimiters:\n");
-// 		while (datas->limiter_hd && datas->limiter_hd[j])
-// 		{
-// 			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
-// 			j++;
-// 		}
-// 		datas = datas->next;
-// 		i++;
-// 	}
-// }
+void	DEBUG_print_block(t_data **list)
+{
+	t_data *datas = *list;
+	int i = 0;
+	while (datas)
+	{
+		printf("CMD %d\n", i);
+		printf("\tcmd = %s\n", datas->cmd);
+		int j = 0;
+		printf("\targs:\n");
+		while (datas->args[j])
+		{
+			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
+			j++;
+		}
+		printf("\tredir_type_in = %d\n", datas->redir_type_in);
+		printf("\tredir_type_out = %d\n", datas->redir_type_out);
+		j = 0;
+		printf("\tnamein:\n");
+		while (datas->namein && datas->namein[j])
+		{
+			printf("\t\tnamein[%d] = %s\n", j, datas->namein[j]);
+			j++;
+		}
+		j = 0;
+		printf("\tnameout:\n");
+		while (datas->nameout && datas->nameout[j])
+		{
+			printf("\t\tnameout[%d] = %s\n", j, datas->nameout[j]);
+			j++;
+		}
+		printf("\tis_hd = %d\n", datas->is_hd);
+		j = 0;
+		printf("\tlimiters:\n");
+		while (datas->limiter_hd && datas->limiter_hd[j])
+		{
+			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
+			j++;
+		}
+		datas = datas->next;
+		i++;
+	}
+}
 
 char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell)
 {
@@ -146,14 +146,43 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	return (0);
 }
 
+char	*clear_first_space(char *input)
+{
+	char	*res;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (input[i] && input[i] == ' ')
+		i++;
+	res = malloc(sizeof(char) * (ft_strlen(input) - i + 1));
+	if (!res)
+		return (NULL);
+	j = 0;
+	while (input[i])
+	{
+		res[j] = input[i];
+		j++;
+		i++;
+	}
+	res[j] = 0;
+	if (ft_strlen(res) == 0)
+		return (free(input), free(res), NULL);
+	free(input);
+	return (res);
+}
+
 int	parse_input(char *input, t_shell *shell)
 {
+	input = clear_first_space(input);
+	if (!input)
+		return (4);
 	input = add_space(input);
 	if (!input)
 		return (1);
 	if (create_list(input, &(shell->datas), shell))
 		return (ft_clear_datas(&(shell->datas)), free(input), 3);
-	// DEBUG_print_block(&(shell->datas));
+	DEBUG_print_block(&(shell->datas));
 	free(input);
-	return (0);
+	return (0); 
 }

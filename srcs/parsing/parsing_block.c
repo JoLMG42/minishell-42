@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:56:03 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:20:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:01:03 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag)
 		{
 			split = erase_split_parse_block(split, shell, tmp_str, &i);
 			if (!split)
-				return (NULL);
+				return (freetab(datas->namein), freetab(datas->nameout), NULL);
 			continue ;
 		}
 	}
