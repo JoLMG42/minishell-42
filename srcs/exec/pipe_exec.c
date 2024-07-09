@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 16:14:37 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 16:48:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,21 @@ int	ft_lstsize_cmd(t_data *lst)
 
 void	handle_heredoc(t_shell *shell, t_data *data)
 {
-	int		i;
-	t_data	*current;
+	int	i;
 
-	current = data;
 	i = 0;
-	if (current->is_hd)
+	if (data->is_hd)
 	{
-		if (!current->tmpfile_hd)
-			get_tmp_file(current);
-		heredoc(current, shell, current->limiter_hd[0], current->tmpfile_hd);
+		while (data->limiter_hd[i])
+		{
+			if (!data->tmpfile_hd)
+				get_tmp_file(data);
+			heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+		}
 	}
 }
 
-void	handle_builtin(t_shell *shell)
+int	handle_builtin(t_shell *shell)
 {
 	t_data	*data;
 
@@ -50,7 +51,9 @@ void	handle_builtin(t_shell *shell)
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
 			handle_redir(shell, data);
 		exec_built_in(data, shell);
+		return (1);
 	}
+	return (0);
 }
 
 void	close_fd(t_data *data)
