@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 16:07:01 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 21:01:40 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 		}
 		if (buf && !ft_strncmp(eof, buf, ft_strlen(eof)))
 		{
-			write(2, "here\n", 5);
 			free(buf);
 			break ;
 		}
@@ -107,10 +106,14 @@ void	handle_redir(t_shell *shell, t_data *data)
 
 	i = 0;
 	if (data->redir_type_in == HD)
+	{
+		int tmp;
+		tmp = data->fdin;
 		data->fdin = redir_in(data, shell, data->tmpfile_hd);
+		data->fdin = tmp;
+	}
 	while (data->namein && data->namein[i])
 	{
-		printf("in redir %s\n", data->tmpfile_hd);
 		if (data->redir_type_in == IN)
 			data->fdin = redir_in(data, shell, data->namein[i]);
 		i++;

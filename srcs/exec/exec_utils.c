@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 15:55:06 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 20:44:58 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 void	get_tmp_file(t_data *datas)
 {
-	int		random_fd;
 	size_t	i;
 	char	rand_char;
 	char	filename[36] = "/tmp/.minishell-XXXXXX";
 
 	i = 11;
-	random_fd = open("/dev/urandom", O_RDONLY);
-	if (random_fd == -1)
+	datas->fdin = open("/dev/urandom", O_RDONLY);
+	if (datas->fdin == -1)
 	{
 		perror("Error opening /dev/urandom");
 		return ;
 	}
 	while (i < 22)
 	{
-		if (read(random_fd, &rand_char, 1) != 1)
+		if (read(datas->fdin, &rand_char, 1) != 1)
 		{
 			perror("Error reading /dev/urandom");
-			close(random_fd);
+			close(datas->fdin);
 			return ;
 		}
 		filename[i] = 'a' + (rand_char % 26);
@@ -40,9 +39,7 @@ void	get_tmp_file(t_data *datas)
 	filename[i] = '\0';
 	if (datas->tmpfile_hd)
 		free(datas->tmpfile_hd);
-	printf("in creation %s\n", filename);
 	datas->tmpfile_hd = ft_strdup(filename);
-	close(random_fd);
 	datas->tmpfile_hd[sizeof(datas->tmpfile_hd)] = '\0';
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 17:26:52 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 20:59:20 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 				get_tmp_file(data);
 			heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
 		}
-	}
-}
-
-void	handle_builtin(t_data *data, t_shell *shell)
-{
-	if (is_built_in(data) != -1)
-	{
-		if (check_if_redir(data) == 0 || data->is_hd == 1)
-			handle_redir(shell, data);
 	}
 }
 
@@ -105,9 +96,7 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		close(shell->pipes[0]);
-		handle_builtin(data, shell);
-		if (is_built_in(data) == -1)
-			handle_redir(shell, data);
+		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -129,7 +118,8 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		exec_built_in(data, shell);
+		if (is_built_in(data) != -1)
+			exec_built_in(data, shell);
 		exit_first_child(data, shell);
 	}
 	close(shell->pipes[1]);
@@ -141,15 +131,13 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	char	**env;
 
 	env = NULL;
-	handle_heredoc(shell, data);
 	pipe(shell->pipes);
+	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
 		manager_mid(data, shell, fd_tmp);
-		handle_builtin(data, shell);
-		if (is_built_in(data) == -1)
-			handle_redir(shell, data);
+		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -171,7 +159,8 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 				exit(EXIT_FAILURE);
 			}
 		}
-		exec_built_in(data, shell);
+		if (is_built_in(data) != -1)
+			exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
 	close(shell->pipes[1]);
@@ -189,9 +178,7 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		data->fdin = shell->pipes[0];
-		handle_builtin(data, shell);
-		if (is_built_in(data) == -1)
-			handle_redir(shell, data);
+		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -211,7 +198,8 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
-		exec_built_in(data, shell);
+		if (is_built_in(data) != -1)
+			exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
 	close(shell->pipes[0]);
