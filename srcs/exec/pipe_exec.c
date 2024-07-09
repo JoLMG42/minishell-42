@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 16:50:48 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 17:26:52 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,13 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 	}
 }
 
-int	handle_builtin(t_shell *shell)
+void	handle_builtin(t_data *data, t_shell *shell)
 {
-	t_data	*data;
-
-	data = shell->datas;
 	if (is_built_in(data) != -1)
 	{
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
 			handle_redir(shell, data);
-		exec_built_in(data, shell);
-		return (1);
 	}
-	return (0);
 }
 
 void	close_fd(t_data *data)
@@ -96,8 +90,6 @@ void	exit_other_child(t_data *data, t_shell *shell)
 
 void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 {
-	printf("shell pipe[0] shell pipe[1]%d %d\n", shell->pipes[0],
-		shell->pipes[1]);
 	data->fdin = fd_tmp;
 	close(shell->pipes[0]);
 	data->fdout = shell->pipes[1];
@@ -113,7 +105,9 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		close(shell->pipes[0]);
-		handle_redir(shell, data);
+		handle_builtin(data, shell);
+		if (is_built_in(data) == -1)
+			handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -135,6 +129,7 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
+		exec_built_in(data, shell);
 		exit_first_child(data, shell);
 	}
 	close(shell->pipes[1]);
@@ -152,7 +147,9 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	if (data->pid == 0)
 	{
 		manager_mid(data, shell, fd_tmp);
-		handle_redir(shell, data);
+		handle_builtin(data, shell);
+		if (is_built_in(data) == -1)
+			handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -174,6 +171,7 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 				exit(EXIT_FAILURE);
 			}
 		}
+		exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
 	close(shell->pipes[1]);
@@ -191,7 +189,9 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		data->fdin = shell->pipes[0];
-		handle_redir(shell, data);
+		handle_builtin(data, shell);
+		if (is_built_in(data) == -1)
+			handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -211,6 +211,7 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 				exit(EXIT_FAILURE);
 			}
 		}
+		exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
 	close(shell->pipes[0]);
