@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 16:52:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:19:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	exec_child_process(t_shell *shell, char *path)
 	// }
 	ft_dup(datas);
 	if (path == NULL || execve(path, datas->args, env) == -1)
-	{
 		perror("execve");
-		fprintf(stderr, "minishell: %s: command not found\n", datas->cmd);
-	}
 	// free_child(datas, shell, 0);
 	close(datas->fdin);
 	close(datas->fdout);
@@ -78,13 +75,15 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	}
 	data->path = get_cmd_path(current, shell);
 	path = data->path;
-	if (!path)
+	if (!path && data->cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(data->cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		return ;
 	}
+	if (!data->cmd)
+		return ;
 	pid = fork();
 	if (pid < 0)
 		perror("fork");
