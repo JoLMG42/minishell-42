@@ -1,20 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.c                                        :+:      :+:    :+:   */
+/*   parsing_syntax_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 13:36:33 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 13:43:18 by jtaravel         ###   ########.fr       */
+/*   Created: 2024/07/09 17:09:53 by jtaravel          #+#    #+#             */
+/*   Updated: 2024/07/09 17:19:03 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_wildcards(char *str)
+int	recup_second_quote(char *str, int i, int mode)
 {
-	
-	printf("str in widl cards = %s\n", str);
-	return (str);
+	if (mode == 1)
+	{
+		while (str[i])
+		{
+			if (str[i] == '"')
+				return (i);
+			i++;
+		}
+	}
+	else if (mode == 2)
+	{
+		while (str[i])
+		{
+			if (str[i] == '\'')
+				return (i);
+			i++;
+		}
+	}
+	return (-1);
 }

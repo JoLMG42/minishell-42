@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/08 19:28:56 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/09 17:17:55 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,37 @@ void		exec_simple_cmd(t_data *data, t_shell *shell);
 void		handle_redir(t_shell *shell, t_data *datas);
 char		*get_cmd_path(t_data *data, t_shell *shell);
 
-/*			UTILS	ENV*/
+/*			PARSING / PARSING UTILS			*/
+
+int		create_list(char *input, t_data **datas, t_shell *shell);
+t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag);
+char	**erase_split_parse_block(char **split, t_shell *shell, char *s, int *i);
+t_data	*pre_init_block(void);
+t_data	*ft_lstlast_block(t_data *lst);
+int	block_add_back(t_data **alst, t_data *new);
+char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell);
+void	init_redir_arrays(t_data *datas, char *tmp_str);
+t_data	*end_init_one_block(t_data *datas, char **tab, char *s, t_shell *shell);
+int	cut_parse_block_loop_1(char **split, int i, t_data *datas, t_shell *shell);
+int	ccut_parse_block_loop_1(char **split, int i, t_data *datas, t_shell *shell);
+int	cut_parse_block_loop_2(char **split, int i, t_data *datas, t_shell *shell);
+int	ccut_parse_block_loop_2(char **split, int i, t_data *datas, t_shell *shell);
+int	check_syntaxes(char *str);
+int	count_operators(char *input);
+int	cut_delete_quote_loop(char *str, int i, int *dq, int *sq);
+int	recup_second_quote(char *str, int i, int mode);
+char	*cut_delete_quote(char *str, int pos1, int pos2);
+char	*delete_extra_quotes(char *str, int i, int dq, int sq);
+int	count_redir_operator(char *str, int mode);
+int	count_hd_operator(char *str);
+
+/*			UTILS ENV			*/
 char		**create_char_env(t_env *env, int env_size);
 void		print_env(t_env *list);
 int			get_env_list_size(t_env *list);
 char		*get_content_env(t_env **env, char *find);
 void		ft_print_exp(t_env *exp);
+char	*ft_erase(char *str, int pos, int len);
 
 /*			UTILS	STR/TAB		*/
 

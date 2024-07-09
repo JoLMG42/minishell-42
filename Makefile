@@ -4,7 +4,12 @@ CFLAGS	:= -Wall -Wextra -Werror -I ./includes -g3
 LIBS =	-lreadline libft/libft.a
 SRCS	=	srcs/parsing/expander.c \
 			srcs/parsing/parsing.c \
-			srcs/parsing/wildcards.c \
+			srcs/parsing/parsing_block_redir.c \
+			srcs/parsing/parsing_count_operators.c \
+			srcs/parsing/parsing_syntax.c \
+			srcs/parsing/parsing_syntax_2.c \
+			srcs/parsing/parsing_block.c \
+			srcs/parsing/parsing_block_utils.c \
 			srcs/utils/ft_split_quotes.c \
 			srcs/utils/ft_errors_parsing.c \
 			srcs/utils/env_utils.c \
@@ -19,9 +24,9 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/builtins/ft_exit.c \
 			srcs/builtins/ft_env.c \
 			srcs/builtins/ft_echo.c \
-			srcs/main.c \
 			srcs/builtins/ft_export.c \
 			srcs/exec/pipe_exec.c \
+			srcs/main.c \
 
 RM		:= rm -f
 

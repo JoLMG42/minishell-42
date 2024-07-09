@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:29:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 12:29:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:22:49 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	ft_strslen_tab_until(char **tab, int pos)
 	while (tab[i] && i <= pos)
 	{
 		len += ft_strlen(tab[i]);
-		// printf("in utils split[i] = %s      len = %d\n", tab[i], len);
 		i++;
 	}
 	return (len - ft_strlen(tab[i - 1]) + 1);
@@ -59,6 +58,7 @@ char	**ft_erase_in_tab(char **tab, int pos, int pos2)
 	freetab(tab);
 	return (res);
 }
+
 size_t	count_args(char **args)
 {
 	size_t	len;
@@ -67,4 +67,29 @@ size_t	count_args(char **args)
 	while (args[len])
 		len++;
 	return (len);
+}
+
+char	*ft_erase(char *str, int pos, int len)
+{
+	char	*res;
+	int		i;
+	int		j;
+
+	res = malloc(sizeof(char) * ((ft_strlen(str) - len) + 2));
+	if (!res)
+		free(NULL);
+	i = -1;
+	j = 0;
+	while (str[++i])
+	{
+		if (i == pos)
+			i += len;
+		if ((size_t)i >= ft_strlen(str))
+			break ;
+		res[j] = str[i];
+		j++;
+	}
+	free(str);
+	res[j] = 0;
+	return (res);
 }
