@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 17:43:14 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:48:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,12 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	data->path = get_cmd_path(current, shell);
 	path = data->path;
 	if (!path)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(data->cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return ;
+	}
 	pid = fork();
 	if (pid < 0)
 		perror("fork");

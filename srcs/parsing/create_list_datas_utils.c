@@ -6,13 +6,13 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:17:27 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/04 15:17:49 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:09:27 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	*pre_init_block()
+t_data	*pre_init_block(void)
 {
 	t_data	*tmp;
 
@@ -33,14 +33,14 @@ t_data	*pre_init_block()
 	return (tmp);
 }
 
-t_data   *ft_lstlast_block(t_data *lst)
+t_data	*ft_lstlast_block(t_data *lst)
 {
-        t_data   *tmp;
+	t_data	*tmp;
 
-        while (lst)
-        {
-                tmp = lst;
-                lst = lst->next;
-        }
-        return (tmp);
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+	}
+	return (tmp);
 }

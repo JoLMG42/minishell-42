@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/04 17:13:57 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 14:43:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*get_cmd_path(t_data *data, t_shell *shell)
 		i++;
 	}
 	if (access(data->cmd, X_OK) == 0)
-		return (freetab(paths), data->cmd);
+		return (freetab(paths), ft_strdup(data->cmd));
 	return (freetab(paths), NULL);
 }
 
