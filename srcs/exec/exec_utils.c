@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 17:43:48 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/09 15:55:06 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	get_tmp_file(t_data *datas)
 	filename[i] = '\0';
 	if (datas->tmpfile_hd)
 		free(datas->tmpfile_hd);
+	printf("in creation %s\n", filename);
 	datas->tmpfile_hd = ft_strdup(filename);
 	close(random_fd);
 	datas->tmpfile_hd[sizeof(datas->tmpfile_hd)] = '\0';
@@ -49,7 +50,6 @@ int	is_built_in(t_data *data)
 {
 	int		i;
 	char	*built_in[NUM_OF_BUILT_INS];
-
 	if (!data->cmd)
 		return (-1);
 	built_in[0] = "pwd";

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/08 19:37:30 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/09 16:48:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_lstsize_cmd(t_data *lst)
+int	ft_lstsize_cmd(t_data *lst)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (lst)
@@ -25,29 +25,25 @@ int ft_lstsize_cmd(t_data *lst)
 	return (i);
 }
 
-void handle_heredoc(t_shell *shell, t_data *data)
+void	handle_heredoc(t_shell *shell, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (data->is_hd && !data->next)
+	if (data->is_hd)
 	{
-		while (data)
+		while (data->limiter_hd[i])
 		{
-			while (data->limiter_hd[i])
-			{
-				if (!data->tmpfile_hd)
-					get_tmp_file(data);
-				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
-			}
-			data = data->next;
+			if (!data->tmpfile_hd)
+				get_tmp_file(data);
+			heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
 		}
 	}
 }
 
-void handle_builtin(t_shell *shell)
+int	handle_builtin(t_shell *shell)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = shell->datas;
 	if (is_built_in(data) != -1)
@@ -55,22 +51,24 @@ void handle_builtin(t_shell *shell)
 		if (check_if_redir(data) == 0 || data->is_hd == 1)
 			handle_redir(shell, data);
 		exec_built_in(data, shell);
+		return (1);
 	}
+	return (0);
 }
 
-void close_fd(t_data *data)
+void	close_fd(t_data *data)
 {
 	if (data->fdin != -1)
 		close(data->fdin);
 	if (data->fdout != -1)
 	{
 		if (data->next && data->next->fdout != data->fdout)
-			return;
+			return ;
 		close(data->fdout);
 	}
 }
 
-void exit_first_child(t_data *data, t_shell *shell)
+void	exit_first_child(t_data *data, t_shell *shell)
 {
 	if (!data->cmd)
 	{
@@ -83,7 +81,7 @@ void exit_first_child(t_data *data, t_shell *shell)
 	exit(127);
 }
 
-void exit_other_child(t_data *data, t_shell *shell)
+void	exit_other_child(t_data *data, t_shell *shell)
 {
 	if (!data->cmd)
 	{
@@ -96,19 +94,21 @@ void exit_other_child(t_data *data, t_shell *shell)
 	exit(127);
 }
 
-void manager_mid(t_data *data, t_shell *shell, int fd_tmp)
+void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 {
-	printf("shell pipe[0] shell pipe[1]%d %d\n", shell->pipes[0], shell->pipes[1]);
+	printf("shell pipe[0] shell pipe[1]%d %d\n", shell->pipes[0],
+		shell->pipes[1]);
 	data->fdin = fd_tmp;
 	close(shell->pipes[0]);
 	data->fdout = shell->pipes[1];
 }
 
-void first_exec(t_shell *shell, t_data *data, char *path)
+void	first_exec(t_shell *shell, t_data *data, char *path)
 {
-	char **env;
+	char	**env;
 
 	env = NULL;
+	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
@@ -141,11 +141,12 @@ void first_exec(t_shell *shell, t_data *data, char *path)
 	close_fd(data);
 }
 
-void middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
+void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 {
-	char **env;
+	char	**env;
 
 	env = NULL;
+	handle_heredoc(shell, data);
 	pipe(shell->pipes);
 	data->pid = fork();
 	if (data->pid == 0)
@@ -157,7 +158,6 @@ void middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 			dup2(data->fdin, STDIN_FILENO);
 			close(data->fdin);
 		}
-
 		if (data->fdout != -1)
 		{
 			dup2(data->fdout, STDOUT_FILENO);
@@ -181,11 +181,12 @@ void middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	close_fd(data);
 }
 
-void last_exec(t_shell *shell, t_data *data, char *path)
+void	last_exec(t_shell *shell, t_data *data, char *path)
 {
-	char **env;
+	char	**env;
 
 	env = NULL;
+	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
@@ -216,9 +217,9 @@ void last_exec(t_shell *shell, t_data *data, char *path)
 	close_fd(data);
 }
 
-void ft_wait(t_data *data)
+void	ft_wait(t_data *data)
 {
-	int status;
+	int	status;
 
 	while (data)
 	{
@@ -231,7 +232,7 @@ void ft_wait(t_data *data)
 			}
 			else
 				status = WEXITSTATUS(status);
-			break;
+			break ;
 		}
 		waitpid(data->pid, &status, 0);
 		if (WIFSIGNALED(status) && WIFSIGNALED(status) != 1)
@@ -242,11 +243,11 @@ void ft_wait(t_data *data)
 	}
 }
 
-void exec_pipe(t_shell *shell)
+void	exec_pipe(t_shell *shell)
 {
-	int i;
-	int num_cmd;
-	t_data *head;
+	int		i;
+	int		num_cmd;
+	t_data	*head;
 
 	head = shell->datas;
 	i = 0;
