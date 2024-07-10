@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 12:08:28 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 14:41:09 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 			exec_built_in(data, shell);
 		exit_first_child(data, shell);
 	}
+	if (data->tmpfile_hd)
+		free(data->tmpfile_hd);
 	close(shell->pipes[1]);
 	close_fd(data);
 }
@@ -162,6 +164,8 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 			exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
+	if (data->tmpfile_hd)
+		free(data->tmpfile_hd);
 	close(shell->pipes[1]);
 	close(fd_tmp);
 	close_fd(data);
@@ -201,6 +205,8 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 			exec_built_in(data, shell);
 		exit_other_child(data, shell);
 	}
+	if (data->tmpfile_hd)
+		free(data->tmpfile_hd);
 	close(shell->pipes[0]);
 	close_fd(data);
 }
