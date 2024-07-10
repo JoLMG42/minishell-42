@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 12:12:31 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 13:44:40 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int	parse_input(char *input, t_shell *shell)
 		return (1);
 	if (create_list(input, &(shell->datas), shell))
 		return (ft_clear_datas(&(shell->datas)), free(input), 3);
-	//DEBUG_print_block(&(shell->datas));
+	DEBUG_print_block(&(shell->datas));
 	free(input);
 	return (0);
 }

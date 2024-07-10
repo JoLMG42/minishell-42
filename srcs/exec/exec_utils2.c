@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 14:43:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:54:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*get_cmd_path(t_data *data, t_shell *shell)
 	char		*path;
 	char		*cmd_path;
 
-	if (!data || !shell)
+	if (!data || !shell || !data->cmd || !data->cmd[0])
 		return (NULL);
 	path_value = get_path_value(shell, "PATH");
 	if (!path_value)
