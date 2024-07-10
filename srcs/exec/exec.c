@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 14:51:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 17:18:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	exec(t_shell *shell)
 			heredoc(datas, shell, datas->limiter_hd[i++], datas->tmpfile_hd);
 		}
 	}
+	if (open_files(&datas))
+		return (free(datas->tmpfile_hd), 0);
 	if (datas->next != NULL)
 	{
 		datas->print_exit = 1;

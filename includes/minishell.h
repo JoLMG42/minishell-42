@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:17:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:58:46 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*cut_delete_quote(char *str, int pos1, int pos2);
 char	*delete_extra_quotes(char *str, int i, int dq, int sq);
 int	count_redir_operator(char *str, int mode);
 int	count_hd_operator(char *str);
+int	open_files(t_data **datas);
 
 /*			UTILS ENV			*/
 char		**create_char_env(t_env *env, int env_size);
@@ -93,7 +94,7 @@ char		*ft_wildcards(char *str);
 void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
-void		ft_errors_parsing(int err, char *msg, t_shell *shell);
+void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
 
 /*			FREE			*/
 

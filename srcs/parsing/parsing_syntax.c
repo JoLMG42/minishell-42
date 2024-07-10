@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:08:36 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:20:04 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:17:24 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	check_syntaxes(char *str)
 		return (1);
 	if (check_valid_quotes(str))
 		return (1);
+	// if (check_operators_redir(str))
+	// 	return (1);
 	return (0);
 }
 

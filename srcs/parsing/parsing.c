@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 13:44:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:14:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell)
 	}
 	if (check_syntaxes(s))
 		return (free(s), freetab(tab),
-			ft_errors_parsing(0, "syntax error\n", shell), NULL);
+			ft_errors_parsing(0, "syntax error\n", shell, NULL), NULL);
 	return (s);
 }
 

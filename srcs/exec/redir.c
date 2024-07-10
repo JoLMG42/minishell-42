@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 11:44:08 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 17:06:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	redir_in(t_data *data, t_shell *shell, char *file_name)
 	data->fdin = open(file_name, O_RDONLY);
 	if (data->fdin == -1)
 	{
-		perror("Error opening input file");
 		free_child(data, shell, 1);
 	}
 	if (dup2(data->fdin, STDIN_FILENO) == -1)
@@ -74,7 +73,6 @@ int	redir_out(t_data *data, t_shell *shell, char *file_name)
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fdout == -1)
 	{
-		perror("Error opening output file");
 		free_child(data, shell, 1);
 	}
 	if (dup2(data->fdout, STDOUT_FILENO) == -1)
@@ -91,7 +89,6 @@ int	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->fdout == -1)
 	{
-		perror("Error opening output file");
 		free_child(data, shell, 1);
 	}
 	if (dup2(data->fdout, STDOUT_FILENO) == -1)

@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:07:55 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:19:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:37:40 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int	cut_parse_block_loop_1(char **split, int i, t_data *datas, t_shell *shell)
 		return (1);
 	}
 	else
+	{
 		return (ccut_parse_block_loop_1(split, i, datas, shell));
+	}
 	return (0);
 }
 

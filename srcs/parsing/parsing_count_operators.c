@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:10:43 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:19:24 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:39:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	count_out_operator(char *str, int i)
 	if (i == 0)
 	{
 		if (str[i] == '>' && str[i + 1] != '>')
+			c++;
+		if (str[i] == '>' && str[i + 1] == '>')
 			c++;
 	}
 	else

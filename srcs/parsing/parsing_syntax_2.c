@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:09:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:19:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:09:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,38 @@ int	recup_second_quote(char *str, int i, int mode)
 	}
 	return (-1);
 }
+
+int	open_files(t_data **datas)
+{
+	t_data *tmp_data;
+	int		fd;
+	int		i;
+
+	tmp_data = *datas;
+	while (tmp_data)
+	{
+		i = 0;
+		while (tmp_data->namein && tmp_data->namein[i])
+		{
+			fd = open(tmp_data->namein[i], O_RDONLY, 0644);
+			if (fd == -1)
+				return (ft_errors_parsing(1, strerror(errno),
+					NULL, tmp_data->namein[i]), 2);
+			close(fd);
+			i++;
+		}
+		i = 0;
+		while (tmp_data->nameout && tmp_data->nameout[i])
+		{
+			fd = open(tmp_data->nameout[i], O_WRONLY | O_CREAT, 0644);
+			if (fd == -1)
+				return (ft_errors_parsing(1, strerror(errno),
+					NULL, tmp_data->nameout[i]), 2);
+			close(fd);
+			i++;
+		}
+		tmp_data = tmp_data->next;
+	}
+	return (0);
+}
+

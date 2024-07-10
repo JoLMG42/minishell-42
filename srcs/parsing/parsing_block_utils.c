@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:57:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:20:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:55:57 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**erase_split_parse_block(char **split, t_shell *shell, char *s, int *i)
 	if (!split[*i + 1])
 		return (ft_errors_parsing(0,
 				"syntax error near unexpected token `newline'\n",
-				shell), freetab(split), free(s), NULL);
+				shell, NULL), freetab(split), free(s), NULL);
 	split = ft_erase_in_tab(split, *i, *i + 1);
 	*i = -1;
 	return (split);
