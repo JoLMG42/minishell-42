@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 20:59:20 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/10 12:08:28 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 	i = 0;
 	if (data->is_hd)
 	{
-		while (data->limiter_hd[i])
+		if (data->limiter_hd[i])
 		{
-			if (!data->tmpfile_hd)
-				get_tmp_file(data);
+			get_tmp_file(data);
 			heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
 		}
 	}

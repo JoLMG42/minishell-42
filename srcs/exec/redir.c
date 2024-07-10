@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 21:01:40 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/10 11:44:08 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
 	char	*buf;
+	int		tmpfd;
 
 	if (!eof)
 	{
@@ -22,8 +23,8 @@ int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 			2);
 		return (0);
 	}
-	data->fdin = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (data->fdin == -1)
+	tmpfd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (tmpfd == -1)
 		return (perror("Error opening output file in heredoc"), free_child(data,
 				shell, 1), 0);
 	while (1)
@@ -31,7 +32,8 @@ int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 		buf = readline("> ");
 		if (!buf)
 		{
-			ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file ", 2);
+			ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file ",
+				2);
 			ft_putstr_fd("(", 2);
 			ft_putendl_fd(eof, 2);
 			ft_putstr_fd(")", 2);
@@ -44,11 +46,11 @@ int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 		}
 		if (buf)
 		{
-			ft_putendl_fd(buf, data->fdin);
+			ft_putendl_fd(buf, tmpfd);
 			free(buf);
 		}
 	}
-	return (data->fdin);
+	return (tmpfd);
 }
 
 int	redir_in(t_data *data, t_shell *shell, char *file_name)
@@ -106,12 +108,7 @@ void	handle_redir(t_shell *shell, t_data *data)
 
 	i = 0;
 	if (data->redir_type_in == HD)
-	{
-		int tmp;
-		tmp = data->fdin;
 		data->fdin = redir_in(data, shell, data->tmpfile_hd);
-		data->fdin = tmp;
-	}
 	while (data->namein && data->namein[i])
 	{
 		if (data->redir_type_in == IN)

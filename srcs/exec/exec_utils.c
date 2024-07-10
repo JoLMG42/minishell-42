@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/09 20:44:58 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/10 12:09:06 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,23 @@
 void	get_tmp_file(t_data *datas)
 {
 	size_t	i;
+	int tmp;
 	char	rand_char;
 	char	filename[36] = "/tmp/.minishell-XXXXXX";
 
 	i = 11;
-	datas->fdin = open("/dev/urandom", O_RDONLY);
-	if (datas->fdin == -1)
+	tmp = open("/dev/urandom", O_RDONLY);
+	if (tmp == -1)
 	{
 		perror("Error opening /dev/urandom");
 		return ;
 	}
 	while (i < 22)
 	{
-		if (read(datas->fdin, &rand_char, 1) != 1)
+		if (read(tmp, &rand_char, 1) != 1)
 		{
 			perror("Error reading /dev/urandom");
-			close(datas->fdin);
+			close(tmp);
 			return ;
 		}
 		filename[i] = 'a' + (rand_char % 26);
@@ -40,7 +41,6 @@ void	get_tmp_file(t_data *datas)
 	if (datas->tmpfile_hd)
 		free(datas->tmpfile_hd);
 	datas->tmpfile_hd = ft_strdup(filename);
-	datas->tmpfile_hd[sizeof(datas->tmpfile_hd)] = '\0';
 }
 
 int	is_built_in(t_data *data)

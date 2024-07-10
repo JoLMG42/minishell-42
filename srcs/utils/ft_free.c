@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/05 09:41:25 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 12:08:59 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	free_child(t_data *data, t_shell *shell, int exit_status)
 	ft_free_env_list(&(shell->exp));
 	free(data->path);
 	ft_clear_datas(&(shell->datas));
+	if (data->tmpfile_hd)
+		unlink(data->tmpfile_hd);
 	free(shell);
 	exit(exit_status);
 }
