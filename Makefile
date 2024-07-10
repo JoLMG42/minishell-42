@@ -11,6 +11,7 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/parsing/parsing_block.c \
 			srcs/parsing/parsing_block_utils.c \
 			srcs/utils/ft_split_quotes.c \
+			srcs/utils/builtins_utils.c \
 			srcs/utils/ft_errors_parsing.c \
 			srcs/utils/env_utils.c \
 			srcs/utils/utils.c \
@@ -21,6 +22,7 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/exec/redir.c \
 			srcs/exec/simple_cmd.c \
 			srcs/builtins/ft_pwd.c \
+			srcs/builtins/ft_cd.c \
 			srcs/builtins/ft_exit.c \
 			srcs/builtins/ft_env.c \
 			srcs/builtins/ft_echo.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 18:43:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:19:35 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,4 @@ void	exec_pipe(t_shell *shell)
 	head->path = NULL;
 	head = shell->datas;
 	ft_wait(head);
-	// head = shell->datas;
-	//free_hd_file((&head), 2);
-	// free_hd_file((&head), 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 13:07:37 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 23:45:00 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	modify_value(t_env *env, const char *value)
 	env->value = ft_strdup(value);
 	if (!env->value)
 	{
-		perror("strdup");
+		env->value = NULL;
 		return ;
 	}
 }
@@ -34,7 +34,7 @@ void	handle_env_change(t_shell *shell, char **var, char *args)
 	{
 		if (ft_strncmp(current->name, var[0], ft_strlen(current->name)) == 0)
 		{
-			if (count_args(var) <= 1)
+			if (count_args(var) < 1)
 				break ;
 			modify_value(current, var[1]);
 			break ;
@@ -63,7 +63,7 @@ void	handle_exp_change(t_shell *shell, char **var)
 	{
 		if (ft_strncmp(curr_exp->name, var[0], ft_strlen(curr_exp->name)) == 0)
 		{
-			if (count_args(var) <= 1)
+			if (count_args(var) < 1)
 				break ;
 			modify_value(curr_exp, var[1]);
 			break ;
@@ -81,19 +81,18 @@ void	handle_exp_change(t_shell *shell, char **var)
 	}
 }
 
-void	ft_export(t_data *data, t_shell *shell)
+void	ft_export(t_data *data, t_shell *shell, char **args)
 {
 	int		i;
 	char	**var;
-
 	if (!data)
 		return ;
 	i = 1;
-	if (!data->args[1])
+	if (!args[1])
 		return (ft_print_exp(shell->exp));
-	while (data->args[i])
+	while (args[i])
 	{
-		var = ft_split(data->args[1], '=');
+		var = ft_split(args[i], '=');
 		if (!var || !var[0])
 		{
 			freetab(var);
@@ -102,7 +101,7 @@ void	ft_export(t_data *data, t_shell *shell)
 			i++;
 			continue ;
 		}
-		handle_env_change(shell, var, data->args[i]);
+		handle_env_change(shell, var, args[i]);
 		handle_exp_change(shell, var);
 		freetab(var);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 18:06:21 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:52:01 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	is_built_in(t_data *data)
 	built_in[2] = "export";
 	built_in[3] = "echo";
 	built_in[4] = "exit";
-	// built_in[3] = "cd";
+	built_in[5] = "cd";
 	// built_in[5] = "unset";
 	i = 0;
 	while (i < NUM_OF_BUILT_INS)
@@ -88,19 +88,19 @@ int	check_if_redir(t_data *datas)
 void	exec_built_in(t_data *datas, t_shell *shell)
 {
 	int		index;
-	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_data *, t_shell *);
+	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_data *, t_shell *, char **args);
 
 	built_in_funcs[0] = &ft_pwd;
 	built_in_funcs[1] = &ft_env;
 	built_in_funcs[2] = &ft_export;
 	built_in_funcs[3] = &ft_echo;
 	built_in_funcs[4] = &ft_exit;
-	// built_in_funcs[3] = &ft_cd;
+	built_in_funcs[5] = &ft_cd;
 	// built_in_funcs[5] = &ft_unset;
 	index = is_built_in(datas);
 	if (index == -1)
 		return ;
-	built_in_funcs[index](datas, shell);
+	built_in_funcs[index](datas, shell, datas->args);
 }
 
 void	ft_dup(t_data *data)

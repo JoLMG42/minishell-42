@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 18:21:58 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:49:33 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@
 #include <unistd.h>
 
 /*          BUILTINS        */
-void		ft_pwd(t_data *data, t_shell *shell);
-void		ft_env(t_data *data, t_shell *shell);
-void		ft_export(t_data *data, t_shell *shell);
-void		ft_echo(t_data *data, t_shell *shell);
-void		ft_exit(t_data *data, t_shell *shell);
+void		ft_pwd(t_data *data, t_shell *shell, char **args);
+void		ft_env(t_data *data, t_shell *shell, char **args);
+void		ft_export(t_data *data, t_shell *shell, char **args);
+void		ft_echo(t_data *data, t_shell *shell, char **args);
+void		ft_exit(t_data *data, t_shell *shell, char **args);
+void        ft_cd(t_data *data, t_shell *shell, char **args);
 
 char		*expander(char *str, t_env **env, int i, char *res);
 int			parse_input(char *input, t_shell *shell);
@@ -46,6 +47,9 @@ int			check_if_redir(t_data *datas);
 void		exec_simple_cmd(t_data *data, t_shell *shell);
 void		handle_redir(t_shell *shell, t_data *datas);
 char		*get_cmd_path(t_data *data, t_shell *shell);
+char	    *get_path_value(t_shell *datas, char *key);
+char	    *get_key_value(t_env *env, char *key);
+int	        check_key(t_env *env, char *key);
 
 /*			PARSING / PARSING UTILS			*/
 

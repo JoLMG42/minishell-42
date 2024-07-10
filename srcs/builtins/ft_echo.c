@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 13:07:04 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 22:47:24 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int	check_arg(char *str)
 	return (1);
 }
 
-void	ft_echo(t_data *data, t_shell *shell)
+void	ft_echo(t_data *data, t_shell *shell, char **args)
 {
 	int	i;
 	int	n_option;
 	(void)shell;
+	(void)args;
 	i = 0;
 	n_option = 0;
 	while (data->args[++i] && check_arg(data->args[i]) == 1)

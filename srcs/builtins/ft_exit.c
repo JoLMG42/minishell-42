@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:54:23 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 11:41:05 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 22:48:28 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ int	ft_isdigit_str(char *c)
 	return (0);
 }
 
-void	ft_exit(t_data *data, t_shell *shell)
+void	ft_exit(t_data *data, t_shell *shell, char **args)
 {
+	(void)args;
 	if (count_args(data->args) > 1 && ft_isdigit_str(data->args[1]) == 1)
 	{
 		g_return_satus = 2;
