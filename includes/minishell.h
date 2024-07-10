@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 16:58:46 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:21:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
 void		ft_clear_datas(t_data **datas);
 void		ft_free_env_list(t_env **env);
 void		free_child(t_data *data, t_shell *shell, int exit_status);
-
+void	free_hd_file(t_data **data, int mode);
 extern int	g_return_satus;

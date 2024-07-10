@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 17:18:59 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:41:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,5 @@ int	exec(t_shell *shell)
 	}
 	else
 		exec_simple_cmd(datas, shell);
-	if (datas->tmpfile_hd)
-		free(datas->tmpfile_hd);
 	return (0);
 }

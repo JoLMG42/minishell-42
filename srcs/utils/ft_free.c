@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 14:14:43 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 18:33:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,37 @@ void	ft_free_env_list(t_env **env)
 	}
 }
 
+void	free_hd_file(t_data **data, int mode)
+{
+	t_data	*tmp_data;
+
+	tmp_data = *data;
+	while (tmp_data)
+	{
+		if (mode == 1 && tmp_data->is_hd)
+		{
+			if (tmp_data->tmpfile_hd)
+				free(tmp_data->tmpfile_hd);
+			tmp_data->tmpfile_hd = NULL;
+		}
+		else if (mode == 2 && tmp_data->is_hd)
+			unlink(tmp_data->tmpfile_hd);
+		tmp_data = tmp_data->next;
+	}
+}
+
 void	free_child(t_data *data, t_shell *shell, int exit_status)
 {
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));
 	free(data->path);
-	if (data->tmpfile_hd)
-	{
-		unlink(data->tmpfile_hd);
-		free(data->tmpfile_hd);
-		data->tmpfile_hd = NULL;
-	}
+	// free_hd_file(&data, 2);
+	free_hd_file(&data, 1);
+	// if (data->tmpfile_hd)
+	// {
+	// 	free(data->tmpfile_hd);
+	// data->tmpfile_hd = NULL;
+	// }
 	ft_clear_datas(&(shell->datas));
 	free(shell);
 	exit(exit_status);

@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 17:27:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:43:38 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,18 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 {
 	int	i;
 
-	i = 0;
-	if (data->is_hd)
+	while (data)
 	{
-		if (data->limiter_hd[i])
+		if (data->is_hd)
 		{
-			get_tmp_file(data);
-			heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+			i = 0;
+			while (data->limiter_hd[i])
+			{
+				get_tmp_file(data);
+				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+			}
 		}
+		data = data->next;
 	}
 }
 
@@ -90,7 +94,6 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	char	**env;
 
 	env = NULL;
-	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
@@ -123,6 +126,7 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	}
 	if (data->tmpfile_hd)
 	{
+		unlink(data->tmpfile_hd);
 		free(data->tmpfile_hd);
 		data->tmpfile_hd = NULL;
 	}
@@ -136,7 +140,6 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 
 	env = NULL;
 	pipe(shell->pipes);
-	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
@@ -169,6 +172,7 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	}
 	if (data->tmpfile_hd)
 	{
+		unlink(data->tmpfile_hd);
 		free(data->tmpfile_hd);
 		data->tmpfile_hd = NULL;
 	}
@@ -182,7 +186,6 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	char	**env;
 
 	env = NULL;
-	handle_heredoc(shell, data);
 	data->pid = fork();
 	if (data->pid == 0)
 	{
@@ -213,6 +216,7 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	}
 	if (data->tmpfile_hd)
 	{
+		unlink(data->tmpfile_hd);
 		free(data->tmpfile_hd);
 		data->tmpfile_hd = NULL;
 	}
@@ -256,6 +260,8 @@ void	exec_pipe(t_shell *shell)
 	i = 0;
 	num_cmd = ft_lstsize_cmd(shell->datas);
 	pipe(shell->pipes);
+	handle_heredoc(shell, head);
+	head = shell->datas;
 	if (num_cmd > 1)
 	{
 		head->path = get_cmd_path(head, shell);
@@ -281,4 +287,7 @@ void	exec_pipe(t_shell *shell)
 	head->path = NULL;
 	head = shell->datas;
 	ft_wait(head);
+	// head = shell->datas;
+	//free_hd_file((&head), 2);
+	// free_hd_file((&head), 1);
 }

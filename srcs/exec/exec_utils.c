@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 14:38:44 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/10 18:06:21 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	get_tmp_file(t_data *datas)
 	}
 	filename[i] = '\0';
 	if (datas->tmpfile_hd)
+	{
 		free(datas->tmpfile_hd);
+		datas->tmpfile_hd = NULL;
+	}
 	datas->tmpfile_hd = ft_strdup(filename);
 }
 
