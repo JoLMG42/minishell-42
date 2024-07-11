@@ -6,16 +6,15 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:54:23 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 22:48:28 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 19:50:09 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_exit_message(char *message, char *args, t_data *data)
+void	print_exit_message(char *message, char *args)
 {
-	if (data->print_exit == 0)
-		printf("exit\n");
+	printf("exit\n");
 	ft_putstr_fd("minishell: exit: ", 2);
 	if (args)
 		ft_putstr_fd(args, 2);
@@ -44,18 +43,16 @@ void	ft_exit(t_data *data, t_shell *shell, char **args)
 	if (count_args(data->args) > 1 && ft_isdigit_str(data->args[1]) == 1)
 	{
 		g_return_satus = 2;
-		print_exit_message(": numeric argument required", data->args[1],
-				data);
+		print_exit_message(": numeric argument required", data->args[1]);
 		free_child(data, shell, g_return_satus);
 	}
 	if (count_args(data->args) > 2)
 	{
 		g_return_satus = 1;
-		print_exit_message(": too many arguments", NULL, data);
+		print_exit_message(": too many arguments", NULL);
 		return ;
 	}
 	g_return_satus = 0;
-	if (data->print_exit == 0)
-		printf("exit\n");
+	printf("exit\n");
 	free_child(data, shell, g_return_satus);
 }

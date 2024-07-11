@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 09:35:50 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 19:44:40 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,12 @@ void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
+void	ft_errors_exec(int err, char *msg, t_shell *shell, char *supp, int err_status);
 
 /*			FREE			*/
 
 void		ft_clear_datas(t_data **datas);
 void		ft_free_env_list(t_env **env);
 void		free_child(t_data *data, t_shell *shell, int exit_status);
-void	free_hd_file(t_data **data, int mode);
+void	    free_hd_file(t_data **data, int mode);
 extern int	g_return_satus;

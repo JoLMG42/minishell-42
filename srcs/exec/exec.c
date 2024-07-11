@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 18:41:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:53:10 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	exec(t_shell *shell)
 	t_data	*datas;
 
 	datas = shell->datas;
-	datas->print_exit = 0;
 	if (!datas)
 		return (1);
 	i = 0;
@@ -34,10 +33,7 @@ int	exec(t_shell *shell)
 	if (open_files(&datas))
 		return (free(datas->tmpfile_hd), 0);
 	if (datas->next != NULL)
-	{
-		datas->print_exit = 1;
 		exec_pipe(shell);
-	}
 	else
 		exec_simple_cmd(datas, shell);
 	return (0);
