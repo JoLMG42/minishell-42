@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 09:35:50 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 13:18:24 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int			parse_input(char *input, t_shell *shell);
 void		freetab(char **tab);
 int			exec(t_shell *datas);
 void		get_tmp_file(t_data *datas);
-int			heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
+void			heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
 void		exec_built_in(t_data *datas, t_shell *shell);
 int			is_built_in(t_data *data);
 int			check_if_redir(t_data *datas);
@@ -83,12 +83,15 @@ void		print_env(t_env *list);
 int			get_env_list_size(t_env *list);
 char		*get_content_env(t_env **env, char *find);
 void		ft_print_exp(t_env *exp);
-char	*ft_erase(char *str, int pos, int len);
+char	    *ft_erase(char *str, int pos, int len);
+
+/*			UTILS EXEC			*/
+void	    close_fd(t_data *data);
 
 /*			UTILS	STR/TAB		*/
 
 char		**ft_split_quotes(char *s, char c);
-void	exec_pipe(t_shell *shell);
+void	    exec_pipe(t_shell *shell);
 int			ft_strslen_tab_until(char **tab, int pos);
 char		**ft_erase_in_tab(char **tab, int pos, int pos2);
 int			ft_tablen(char **tab);
@@ -100,11 +103,12 @@ void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
+void	    ft_errors_exec(int err, char *msg, t_shell *shell, char *supp);
 
 /*			FREE			*/
 
 void		ft_clear_datas(t_data **datas);
 void		ft_free_env_list(t_env **env);
 void		free_child(t_data *data, t_shell *shell, int exit_status);
-void	free_hd_file(t_data **data, int mode);
+void	    free_hd_file(t_data **data, int mode);
 extern int	g_return_satus;

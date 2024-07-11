@@ -13,12 +13,14 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/utils/ft_split_quotes.c \
 			srcs/utils/builtins_utils.c \
 			srcs/utils/ft_errors_parsing.c \
+			srcs/utils/ft_errors_exec.c \
 			srcs/utils/env_utils.c \
 			srcs/utils/utils.c \
 			srcs/utils/ft_free.c \
 			srcs/exec/exec.c \
 			srcs/exec/exec_utils.c \
 			srcs/exec/exec_utils2.c \
+			srcs/exec/exec_utils3.c \
 			srcs/exec/redir.c \
 			srcs/exec/simple_cmd.c \
 			srcs/builtins/ft_pwd.c \

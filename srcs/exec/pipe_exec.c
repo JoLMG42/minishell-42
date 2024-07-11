@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 20:19:35 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 13:19:38 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,6 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 			}
 		}
 		data = data->next;
-	}
-}
-
-void	close_fd(t_data *data)
-{
-	if (data->fdin != -1)
-		close(data->fdin);
-	if (data->fdout != -1)
-	{
-		if (data->next && data->next->fdout != data->fdout)
-			return ;
-		close(data->fdout);
 	}
 }
 

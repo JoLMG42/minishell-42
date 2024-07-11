@@ -3,37 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 18:41:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:42:31 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	open_file(t_data *datas, t_shell *shell)
+{
+	int i;
+	t_data *current;
+	
+	i = 0;
+	current = datas;
+	if (current->is_hd && !current->next)
+	{
+		while (current->limiter_hd[i])
+		{
+			if (!current->tmpfile_hd)
+				get_tmp_file(current);
+			heredoc(current, shell, current->limiter_hd[i++], current->tmpfile_hd);
+		}
+	}
+	current = datas;
+	if (check_if_redir(datas) == 0 || datas->is_hd == 1)
+	{
+		while (current)
+		{
+			handle_redir(shell, datas);
+			current = current->next;
+		}
+	}
+	current = datas;
+}
+
 int	exec(t_shell *shell)
 {
-	int		i;
 	t_data	*datas;
 
 	datas = shell->datas;
 	datas->print_exit = 0;
-	if (!datas)
-		return (1);
-	i = 0;
-	if (datas->is_hd && !datas->next)
-	{
-		while (datas->limiter_hd[i])
-		{
-			if (!datas->tmpfile_hd)
-				get_tmp_file(datas);
-			heredoc(datas, shell, datas->limiter_hd[i++], datas->tmpfile_hd);
-		}
-	}
-	if (open_files(&datas))
-		return (free(datas->tmpfile_hd), 0);
-	if (datas->next != NULL)
+	open_file(datas, shell);
+	if (datas->next)
 	{
 		datas->print_exit = 1;
 		exec_pipe(shell);
