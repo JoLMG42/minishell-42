@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 19:44:40 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 21:13:47 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void		ft_exit(t_data *data, t_shell *shell, char **args);
 void        ft_cd(t_data *data, t_shell *shell, char **args);
 void        ft_unset(t_data *data, t_shell *shell, char **args);
 
-char		*expander(char *str, t_env **env, int i, char *res);
-int			parse_input(char *input, t_shell *shell);
-void		freetab(char **tab);
-int			exec(t_shell *datas);
+/*          EXEC / EXEC UTILS       */
+void	    exec_pipe(t_shell *shell);
+void	    ft_wait(t_data *data);
 void		get_tmp_file(t_data *datas);
+int			exec(t_shell *datas);
 int			heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
-void		exec_built_in(t_data *datas, t_shell *shell);
 int			is_built_in(t_data *data);
+void		exec_built_in(t_data *datas, t_shell *shell);
 int			check_if_redir(t_data *datas);
 void		exec_simple_cmd(t_data *data, t_shell *shell);
 void		handle_redir(t_shell *shell, t_data *datas);
@@ -51,9 +51,14 @@ char		*get_cmd_path(t_data *data, t_shell *shell);
 char	    *get_path_value(t_shell *datas, char *key);
 char	    *get_key_value(t_env *env, char *key);
 int	        check_key(t_env *env, char *key);
+void		ft_dup(t_data *datas);
+void	    handle_heredoc(t_shell *shell, t_data *data);
+
 
 /*			PARSING / PARSING UTILS			*/
 
+char		*expander(char *str, t_env **env, int i, char *res);
+int			parse_input(char *input, t_shell *shell);
 int		create_list(char *input, t_data **datas, t_shell *shell);
 t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag);
 char	**erase_split_parse_block(char **split, t_shell *shell, char *s, int *i);
@@ -83,12 +88,11 @@ void		print_env(t_env *list);
 int			get_env_list_size(t_env *list);
 char		*get_content_env(t_env **env, char *find);
 void		ft_print_exp(t_env *exp);
-char	*ft_erase(char *str, int pos, int len);
+char	    *ft_erase(char *str, int pos, int len);
 
 /*			UTILS	STR/TAB		*/
 
 char		**ft_split_quotes(char *s, char c);
-void	exec_pipe(t_shell *shell);
 int			ft_strslen_tab_until(char **tab, int pos);
 char		**ft_erase_in_tab(char **tab, int pos, int pos2);
 int			ft_tablen(char **tab);
@@ -96,11 +100,10 @@ size_t		count_args(char **args);
 void		ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env		*ft_lstnew_env(char *line, char *name, char *value);
 char		*ft_wildcards(char *str);
-void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
-void	ft_errors_exec(int err, char *msg, t_shell *shell, char *supp, int err_status);
+void	    ft_errors_exec(int err, char *msg, t_shell *shell, char *supp, int err_status);
 
 /*			FREE			*/
 
@@ -108,4 +111,5 @@ void		ft_clear_datas(t_data **datas);
 void		ft_free_env_list(t_env **env);
 void		free_child(t_data *data, t_shell *shell, int exit_status);
 void	    free_hd_file(t_data **data, int mode);
+void		freetab(char **tab);
 extern int	g_return_satus;

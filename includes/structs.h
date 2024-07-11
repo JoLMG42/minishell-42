@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 19:53:43 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 21:03:54 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_data
 	char			**nameout;
 	int				nb_out;
 	int				pid;
+	int				status;
 
 	int				is_hd;
 	char			**limiter_hd;

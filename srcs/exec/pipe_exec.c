@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 20:19:35 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 21:19:44 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ int	ft_lstsize_cmd(t_data *lst)
 		i++;
 	}
 	return (i);
-}
-
-void	handle_heredoc(t_shell *shell, t_data *data)
-{
-	int	i;
-
-	while (data)
-	{
-		if (data->is_hd)
-		{
-			i = 0;
-			while (data->limiter_hd[i])
-			{
-				get_tmp_file(data);
-				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
-			}
-		}
-		data = data->next;
-	}
 }
 
 void	close_fd(t_data *data)
@@ -224,32 +205,6 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	close_fd(data);
 }
 
-void	ft_wait(t_data *data)
-{
-	int	status;
-
-	while (data)
-	{
-		if (data->next == NULL)
-		{
-			waitpid(data->pid, &status, 0);
-			if (WIFSIGNALED(status))
-			{
-				status = (WTERMSIG(status) + 128);
-			}
-			else
-				status = WEXITSTATUS(status);
-			break ;
-		}
-		waitpid(data->pid, &status, 0);
-		if (WIFSIGNALED(status) && WIFSIGNALED(status) != 1)
-			status = WTERMSIG(status) + 128;
-		else
-			status = WEXITSTATUS(status);
-		data = data->next;
-	}
-}
-
 void	exec_pipe(t_shell *shell)
 {
 	int		i;
@@ -260,8 +215,6 @@ void	exec_pipe(t_shell *shell)
 	i = 0;
 	num_cmd = ft_lstsize_cmd(shell->datas);
 	pipe(shell->pipes);
-	handle_heredoc(shell, head);
-	head = shell->datas;
 	if (num_cmd > 1)
 	{
 		head->path = get_cmd_path(head, shell);
