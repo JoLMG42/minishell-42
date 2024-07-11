@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 22:49:33 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 09:35:50 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void		ft_export(t_data *data, t_shell *shell, char **args);
 void		ft_echo(t_data *data, t_shell *shell, char **args);
 void		ft_exit(t_data *data, t_shell *shell, char **args);
 void        ft_cd(t_data *data, t_shell *shell, char **args);
+void        ft_unset(t_data *data, t_shell *shell, char **args);
 
 char		*expander(char *str, t_env **env, int i, char *res);
 int			parse_input(char *input, t_shell *shell);

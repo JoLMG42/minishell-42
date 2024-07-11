@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 22:52:01 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 09:35:07 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	is_built_in(t_data *data)
 	built_in[3] = "echo";
 	built_in[4] = "exit";
 	built_in[5] = "cd";
-	// built_in[5] = "unset";
+	built_in[6] = "unset";
 	i = 0;
 	while (i < NUM_OF_BUILT_INS)
 	{
@@ -96,7 +96,7 @@ void	exec_built_in(t_data *datas, t_shell *shell)
 	built_in_funcs[3] = &ft_echo;
 	built_in_funcs[4] = &ft_exit;
 	built_in_funcs[5] = &ft_cd;
-	// built_in_funcs[5] = &ft_unset;
+	built_in_funcs[6] = &ft_unset;
 	index = is_built_in(datas);
 	if (index == -1)
 		return ;
