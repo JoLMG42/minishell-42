@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 21:13:47 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 22:13:58 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void        ft_unset(t_data *data, t_shell *shell, char **args);
 /*          EXEC / EXEC UTILS       */
 void	    exec_pipe(t_shell *shell);
 void	    ft_wait(t_data *data);
-void		get_tmp_file(t_data *datas);
+int		    get_tmp_file(t_data *datas);
 int			exec(t_shell *datas);
-int			heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
+void		heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
 int			is_built_in(t_data *data);
 void		exec_built_in(t_data *datas, t_shell *shell);
 int			check_if_redir(t_data *datas);
@@ -53,6 +53,7 @@ char	    *get_key_value(t_env *env, char *key);
 int	        check_key(t_env *env, char *key);
 void		ft_dup(t_data *datas);
 void	    handle_heredoc(t_shell *shell, t_data *data);
+void	    readline_loop(t_data *data, t_shell *shell, char *eof, int fd);
 
 
 /*			PARSING / PARSING UTILS			*/

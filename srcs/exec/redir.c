@@ -3,63 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 17:06:19 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/11 22:15:52 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
+void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
-	char	*buf;
 	int		tmpfd;
 
 	if (!eof)
-	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `newline'",
-			2);
-		return (0);
-	}
+		return (ft_errors_exec(0, "syntax error near unexpected \
+		token `newline'\n", shell, NULL, 2), free(data->tmpfile_hd));
 	tmpfd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmpfd == -1)
-		return (perror("Error opening output file in heredoc"), free_child(data,
-				shell, 1), 0);
-	while (1)
-	{
-		buf = readline("> ");
-		if (!buf)
-		{
-			ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file ",
-				2);
-			ft_putstr_fd("(", 2);
-			ft_putendl_fd(eof, 2);
-			ft_putstr_fd(")", 2);
-			break ;
-		}
-		if (buf && !ft_strncmp(eof, buf, ft_strlen(eof)))
-		{
-			free(buf);
-			break ;
-		}
-		if (buf)
-		{
-			ft_putendl_fd(buf, tmpfd);
-			free(buf);
-		}
-	}
-	return (tmpfd);
+		return (ft_errors_exec(1, strerror(errno),
+				shell, NULL, errno), free(data->tmpfile_hd));
+	readline_loop(data, shell, eof, tmpfd);
 }
 
 int	redir_in(t_data *data, t_shell *shell, char *file_name)
 {
 	data->fdin = open(file_name, O_RDONLY);
 	if (data->fdin == -1)
-	{
 		free_child(data, shell, 1);
-	}
 	if (dup2(data->fdin, STDIN_FILENO) == -1)
 	{
 		perror("Error redirecting stdin");
@@ -72,9 +43,7 @@ int	redir_out(t_data *data, t_shell *shell, char *file_name)
 {
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fdout == -1)
-	{
 		free_child(data, shell, 1);
-	}
 	if (dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
@@ -88,9 +57,7 @@ int	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 {
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->fdout == -1)
-	{
 		free_child(data, shell, 1);
-	}
 	if (dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
