@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 12:42:31 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 19:19:31 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,9 @@ int	exec(t_shell *shell)
 	t_data	*datas;
 
 	datas = shell->datas;
-	datas->print_exit = 0;
 	open_file(datas, shell);
 	if (datas->next)
-	{
-		datas->print_exit = 1;
 		exec_pipe(shell);
-	}
 	else
 		exec_simple_cmd(datas, shell);
 	return (0);

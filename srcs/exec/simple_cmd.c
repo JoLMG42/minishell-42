@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 13:20:22 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 15:21:22 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		return (exec_built_in(data, shell));
 	data->path = get_cmd_path(current, shell);
 	if (!data->path && data->cmd)
-		return (ft_errors_exec(1, "command not found", shell, data->cmd));
+		return (ft_errors_exec(1, "command not found", shell, data->cmd, 127));
 	data->pid = fork();
 	if (data->pid < 0)
 		perror("fork");

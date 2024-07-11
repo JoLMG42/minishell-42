@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 12:36:52 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 19:29:35 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
 	char	*buf;
-	int		tmpfd;
 
 	if (!eof)
 	{
@@ -23,8 +22,8 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 			2);
 		return ;
 	}
-	tmpfd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (tmpfd == -1)
+	data->fdin = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->fdin == -1)
 		return (perror("Error opening output file in heredoc"), free_child(data,
 				shell, 1));
 	while (1)
@@ -46,7 +45,7 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 		}
 		if (buf)
 		{
-			ft_putendl_fd(buf, tmpfd);
+			ft_putendl_fd(buf, data->fdin);
 			free(buf);
 		}
 	}

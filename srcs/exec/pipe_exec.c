@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 13:19:38 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 18:51:55 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ int	ft_lstsize_cmd(t_data *lst)
 		i++;
 	}
 	return (i);
-}
-
-void	handle_heredoc(t_shell *shell, t_data *data)
-{
-	int	i;
-
-	while (data)
-	{
-		if (data->is_hd)
-		{
-			i = 0;
-			while (data->limiter_hd[i])
-			{
-				get_tmp_file(data);
-				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
-			}
-		}
-		data = data->next;
-	}
 }
 
 void	exit_first_child(t_data *data, t_shell *shell)
@@ -86,7 +67,6 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		close(shell->pipes[0]);
-		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -132,7 +112,6 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	if (data->pid == 0)
 	{
 		manager_mid(data, shell, fd_tmp);
-		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -178,7 +157,6 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	if (data->pid == 0)
 	{
 		data->fdin = shell->pipes[0];
-		handle_redir(shell, data);
 		if (data->fdin != -1)
 		{
 			dup2(data->fdin, STDIN_FILENO);
@@ -248,7 +226,6 @@ void	exec_pipe(t_shell *shell)
 	i = 0;
 	num_cmd = ft_lstsize_cmd(shell->datas);
 	pipe(shell->pipes);
-	handle_heredoc(shell, head);
 	head = shell->datas;
 	if (num_cmd > 1)
 	{

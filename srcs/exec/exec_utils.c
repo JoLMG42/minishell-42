@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 12:54:31 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 18:29:47 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	check_if_redir(t_data *datas)
 			return (0);
 		current = current->next;
 	}
+	current = datas;
 	return (1);
 }
 
@@ -89,7 +90,7 @@ void	exec_built_in(t_data *datas, t_shell *shell)
 {
 	int		index;
 	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_data *, t_shell *, char **args);
-	printf("executing builtins");
+
 	built_in_funcs[0] = &ft_pwd;
 	built_in_funcs[1] = &ft_env;
 	built_in_funcs[2] = &ft_export;

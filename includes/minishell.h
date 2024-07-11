@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 13:18:24 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/11 15:19:39 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void		ft_dup(t_data *datas);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
-void	    ft_errors_exec(int err, char *msg, t_shell *shell, char *supp);
+void	    ft_errors_exec(int err, char *msg, t_shell *shell, char *supp, int err_status);
 
 /*			FREE			*/
 
