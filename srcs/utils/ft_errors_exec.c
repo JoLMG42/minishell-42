@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_errors_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:43:07 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/11 21:46:52 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:15:27 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	minishell_error(int err_status, char *msg, char *supp)
 	g_return_satus = err_status;
 }
 
-void	ft_errors_exec(int err, char *msg, t_shell *shell, char *supp, int err_status)
+void	ft_errors_exec(int err, char *msg, t_shell *shell, char *supp,
+		int err_status)
 {
 	(void)shell;
 	if (err == 0)

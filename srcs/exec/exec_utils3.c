@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/11 21:40:45 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:03:26 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	ft_wait(t_data *data)
 		{
 			waitpid(data->pid, &data->status, 0);
 			if (WIFSIGNALED(data->status))
-			{
 				data->status = (WTERMSIG(data->status) + 128);
-			}
 			else
 				data->status = WEXITSTATUS(data->status);
 			break ;

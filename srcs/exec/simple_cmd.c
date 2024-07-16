@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 22:42:52 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:10:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,12 @@ void	exec_child_process(t_shell *shell, char *path)
 	current = datas;
 	check_and_redir(datas, current, shell);
 	env = create_char_env(shell->envp, get_env_list_size(shell->envp));
-	// if (!env)
-	// {
-	// 	free_minishell(data, list);
-	// 	exit(EXIT_FAILURE);
-	// }
 	ft_dup(datas);
 	if (path == NULL || execve(path, datas->args, env) == -1)
 		perror("execve");
-	// free_child(datas, shell, 0);
 	close(datas->fdin);
 	close(datas->fdout);
-	// free_minishell(data, list);
+	free_child(datas, shell, 0);
 	free(path);
 	exit(0);
 }
@@ -62,7 +56,8 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	}
 	data->path = get_cmd_path(current, shell);
 	if (!data->path && data->cmd)
-		return ft_errors_exec(1, "command not found\n", shell, data->cmd, 127);
+		return (ft_errors_exec(1, "command not found", shell, data->cmd, 127),
+			free(data->path));
 	if (!data->cmd)
 		return ;
 	data->pid = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:20 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/02 17:44:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:15:35 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 typedef struct s_syntax
 {
-	int	sq_opened;
-	int	dq_opened;
-}	t_s;
+	int		sq_opened;
+	int		dq_opened;
+}			t_s;
 
 void	init_syntax_struct(t_s *s)
 {

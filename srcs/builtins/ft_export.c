@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 23:45:00 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:13:49 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 {
 	int		i;
 	char	**var;
+
 	if (!data)
 		return ;
 	i = 1;

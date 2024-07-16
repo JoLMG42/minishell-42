@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 21:19:44 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/16 10:08:36 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,21 @@ void	exec_pipe(t_shell *shell)
 	if (num_cmd > 1)
 	{
 		head->path = get_cmd_path(head, shell);
-		first_exec(shell, head, head->path);
+		if (!head->path && head->cmd)
+		{
+			close(shell->pipes[0]);
+			close(shell->pipes[1]);
+			if (head->tmpfile_hd)
+			{
+				unlink(head->tmpfile_hd);
+				free(head->tmpfile_hd);
+				head->tmpfile_hd = NULL;
+			}
+			close_fd(head);
+			ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+		}
+		else
+			first_exec(shell, head, head->path);
 		free(head->path);
 		head->path = NULL;
 	}
@@ -228,14 +242,20 @@ void	exec_pipe(t_shell *shell)
 	while (i < (num_cmd - 2))
 	{
 		head->path = get_cmd_path(head, shell);
-		middle_exec(shell, head, head->path, shell->pipes[0]);
+		if (!head->path && head->cmd)
+			ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+		else
+			middle_exec(shell, head, head->path, shell->pipes[0]);
 		free(head->path);
 		head->path = NULL;
 		head = head->next;
 		i++;
 	}
 	head->path = get_cmd_path(head, shell);
-	last_exec(shell, head, head->path);
+	if (!head->path && head->cmd)
+		ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+	else
+		last_exec(shell, head, head->path);
 	free(head->path);
 	head->path = NULL;
 	head = shell->datas;
