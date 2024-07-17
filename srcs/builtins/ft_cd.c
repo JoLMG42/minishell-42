@@ -6,11 +6,16 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:21:58 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 15:00:12 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:49:44 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	cd_errors(void)
+{
+	ft_errors_exec(1, strerror(errno), "malloc", errno);
+}
 
 void	update_pwd(t_shell *shell, t_data *data, char cwd[])
 {
@@ -20,25 +25,21 @@ void	update_pwd(t_shell *shell, t_data *data, char cwd[])
 
 	new_tab = malloc(sizeof(char *) * 4);
 	if (!new_tab)
-		return (ft_errors_exec(1, strerror(errno), "malloc", errno));
+		return (cd_errors());
 	new_tab[0] = ft_strdup("export");
 	if (!new_tab[0])
-		return (ft_errors_exec(1, strerror(errno), "malloc", errno),
-			freetab(new_tab));
+		return (cd_errors(), freetab(new_tab));
 	tmp = ft_strdup(get_key_value(shell->envp, "PWD"));
 	if (!tmp)
-		return (ft_errors_exec(1, strerror(errno), "malloc", errno),
-			freetab(new_tab));
+		return (cd_errors(), freetab(new_tab));
 	tmp_str = ft_strjoin("OLDPWD=", tmp);
 	free(tmp);
 	if (!tmp_str)
-		return (ft_errors_exec(1, strerror(errno), "malloc", errno),
-			freetab(new_tab));
+		return (cd_errors(), freetab(new_tab));
 	new_tab[1] = tmp_str;
 	tmp_str = ft_strjoin("PWD=", getcwd(cwd, PATH_MAX));
 	if (!tmp_str)
-		return (ft_errors_exec(1, strerror(errno), "malloc", errno),
-			freetab(new_tab));
+		return (cd_errors(), freetab(new_tab));
 	new_tab[2] = tmp_str;
 	new_tab[3] = NULL;
 	ft_export(data, shell, new_tab);

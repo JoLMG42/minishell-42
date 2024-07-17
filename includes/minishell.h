@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 16:10:29 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:50:45 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,13 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-#ifndef DEBUG
-	#define DEBUG 0
-#endif
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 /*			DEBUG			*/
 
 void		debug_print_block(t_data **list);
-
 
 /*          BUILTINS        */
 void		ft_pwd(t_data *data, t_shell *shell, char **args);
