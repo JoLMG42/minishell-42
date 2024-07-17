@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 14:51:10 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:50:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,27 @@
 
 void	ft_wait(t_data *data)
 {
-	int	f;
-
-	f = 0;
 	while (data)
 	{
-		printf("VFVFVFD = %s\n", data->path);
 		if (data && (data->path || is_built_in(data) != -1))
 		{
+			printf("data path%s\n", data->path);
 			waitpid(data->pid, &data->status, 0);
 			if (WIFSIGNALED(data->status))
 				data->status = WTERMSIG(data->status) + 128;
 			else
 				data->status = WEXITSTATUS(data->status);
-			g_return_satus = data->status;
-			if (g_return_satus == 130)
-			{
-				f = 1;
-			}
+			if (g_return_satus != 127)
+				g_return_satus = data->status;
 		}
 		else
+		{
+			printf("data path null%s\n", data->path);
 			wait(NULL);
+		}
 		data = data->next;
 	}
-	if (g_return_satus == 130 || f == 1)
+	if (g_return_satus == 130)
 		printf("\n");
 	if (g_return_satus == 131)
 		printf("Quit (core dumped)\n");
