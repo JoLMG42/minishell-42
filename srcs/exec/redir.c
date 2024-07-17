@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 22:15:52 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 14:58:56 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 
 	if (!eof)
 		return (ft_errors_exec(0, "syntax error near unexpected \
-		token `newline'\n", shell, NULL, 2), free(data->tmpfile_hd));
+		token `newline'\n", NULL, 2), free(data->tmpfile_hd));
 	tmpfd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (tmpfd == -1)
 		return (ft_errors_exec(1, strerror(errno),
-				shell, NULL, errno), free(data->tmpfile_hd));
+				NULL, errno), free(data->tmpfile_hd));
 	readline_loop(data, shell, eof, tmpfd);
 }
 

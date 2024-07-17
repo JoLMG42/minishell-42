@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 22:12:43 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/11 22:13:38 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 14:58:08 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ void	readline_loop(t_data *data, t_shell *shell, char *eof, int fd)
 {
 	char	*buf;
 
+	(void)shell;
 	while (1)
 	{
 		buf = readline("> ");
 		if (!buf)
 		{
-			ft_errors_exec(1, strerror(errno), shell, NULL, errno);
+			ft_errors_exec(1, strerror(errno), NULL, errno);
 			free(data->tmpfile_hd);
 			break ;
 		}

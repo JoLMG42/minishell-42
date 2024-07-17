@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:21:58 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 14:50:16 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:00:12 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	update_pwd(t_shell *shell, t_data *data, char cwd[])
 
 	new_tab = malloc(sizeof(char *) * 4);
 	if (!new_tab)
-		return (ft_errors_exec(1, strerror(errno), shell, "malloc", errno));
+		return (ft_errors_exec(1, strerror(errno), "malloc", errno));
 	new_tab[0] = ft_strdup("export");
 	if (!new_tab[0])
 		return (ft_errors_exec(1, strerror(errno), "malloc", errno),

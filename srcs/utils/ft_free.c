@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 14:55:22 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:01:22 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,4 @@ void	freetab(char **tab)
 		i++;
 	}
 	free(tab);
-}
-
-void	free_child(t_data *data, t_shell *shell, int exit_status)
-{
-	ft_free_env_list(&(shell->envp));
-	ft_free_env_list(&(shell->exp));
-	free(data->path);
-	data->path = NULL;
-	free_hd_file(&data, 1);
-	ft_clear_datas(&(shell->datas));
-	free(shell);
-	exit(exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:02:40 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 12:02:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:01:24 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	free_child(t_data *data, t_shell *shell, int exit_status)
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));
 	free(data->path);
+	data->path = NULL;
 	free_hd_file(&data, 1);
 	ft_clear_datas(&(shell->datas));
 	free(shell);
