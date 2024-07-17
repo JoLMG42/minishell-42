@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:57:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 16:55:57 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:36:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,14 @@ int	block_add_back(t_data **alst, t_data *new)
 	return (0);
 }
 
-void	init_redir_arrays(t_data *datas, char *tmp_str)
+int	init_redir_arrays(t_data *datas, char *tmp_str)
 {
 	int	nb_redir_in;
 	int	nb_redir_out;
 	int	nb_hd;
 
+	if (!tmp_str)
+		return (0);
 	nb_redir_in = count_redir_operator(tmp_str, 1);
 	nb_redir_out = count_redir_operator(tmp_str, 0);
 	nb_hd = count_hd_operator(tmp_str);
@@ -92,4 +94,5 @@ void	init_redir_arrays(t_data *datas, char *tmp_str)
 		datas->namein = malloc(sizeof(char *) * (nb_redir_in + 1));
 	if (nb_redir_out)
 		datas->nameout = malloc(sizeof(char *) * (nb_redir_out + 1));
+	return (1);
 }

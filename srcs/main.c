@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:14:32 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 17:56:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:14:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,29 +95,12 @@ void	ft_lstadd_back_env(t_env **alst, t_env *new)
 	}
 }
 
-void	freetab(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return ;
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
 int	env_init(t_env **env, char **envp)
 {
 	int		i;
 	char	**split;
 
 	*env = NULL;
-	//*env = ft_lstnew_env(NULL, NULL, NULL);
 	i = 0;
 	if (!envp[i])
 	{
@@ -155,11 +138,6 @@ int	main(int ac, char **av, char **envp)
 	env_init(&env, envp);
 	env_init(&exp, envp);
 	init_shell(shell, env, exp);
-	// while (env->next)
-	// {
-	// 	printf("%s\n", env->line);
-	// 	env = env->next;
-	// }
 	loop_shell(shell);
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));

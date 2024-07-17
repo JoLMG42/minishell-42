@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:28:46 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/16 10:14:11 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:18:02 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	ft_unset_1(t_env *env, char **args)
 					prev->next = current->next;
 				free(current->value);
 				free(current->name);
+				free(current->line);
 				prev = current;
+				free(prev);
 				break ;
 			}
 			prev = current;

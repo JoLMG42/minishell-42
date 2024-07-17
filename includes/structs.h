@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 21:03:54 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 12:10:23 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 #define HD 4     // '<<'
 
 #define NUM_OF_BUILT_INS 7
+
+typedef struct s_syntax
+{
+	int		sq_opened;
+	int		dq_opened;
+}			t_s;
 
 typedef struct s_env
 {

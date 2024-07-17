@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:56:03 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 16:37:35 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:35:17 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag)
 
 	tmp_str = NULL;
 	split = ft_split_quotes(str, ' ');
-
 	tmp_str = ft_recreate_input(str, split, tmp_str, shell);
-	if (!tmp_str)
+	if (!init_redir_arrays(datas, tmp_str))
 		return (NULL);
-	init_redir_arrays(datas, tmp_str);
 	i = -1;
 	while (split[++i])
 	{
@@ -35,7 +33,7 @@ t_data	*parse_block(char *str, t_data *datas, t_shell *shell, int flag)
 		{
 			split = erase_split_parse_block(split, shell, tmp_str, &i);
 			if (!split)
-				return (freetab(datas->limiter_hd),freetab(datas->namein),
+				return (freetab(datas->limiter_hd), freetab(datas->namein),
 					freetab(datas->nameout), NULL);
 			continue ;
 		}

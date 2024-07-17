@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/16 10:19:21 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:12:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,32 +74,18 @@ void	ft_free_env_list(t_env **env)
 	}
 }
 
-void	free_hd_file(t_data **data, int mode)
+void	freetab(char **tab)
 {
-	t_data	*tmp_data;
+	int	i;
 
-	tmp_data = *data;
-	while (tmp_data)
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
 	{
-		if (mode == 1 && tmp_data->is_hd)
-		{
-			if (tmp_data->tmpfile_hd)
-				free(tmp_data->tmpfile_hd);
-			tmp_data->tmpfile_hd = NULL;
-		}
-		else if (mode == 2 && tmp_data->is_hd)
-			unlink(tmp_data->tmpfile_hd);
-		tmp_data = tmp_data->next;
+		if (tab[i])
+			free(tab[i]);
+		i++;
 	}
-}
-
-void	free_child(t_data *data, t_shell *shell, int exit_status)
-{
-	ft_free_env_list(&(shell->envp));
-	ft_free_env_list(&(shell->exp));
-	free(data->path);
-	free_hd_file(&data, 1);
-	ft_clear_datas(&(shell->datas));
-	free(shell);
-	exit(exit_status);
+	free(tab);
 }
