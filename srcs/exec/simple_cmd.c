@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 10:12:07 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:51:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	exec_child_process(t_shell *shell, char *path)
 	t_data	*current;
 	char	**env;
 
+	signal(SIGINT, handler_sig_cmd);
+	signal(SIGQUIT, handler_sig_cmd);
 	datas = shell->datas;
 	current = datas;
 	check_and_redir(datas, current, shell);
@@ -67,6 +69,4 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		exec_child_process(shell, data->path);
 	else
 		ft_wait(data);
-	if (data->path)
-		free(data->path);
 }

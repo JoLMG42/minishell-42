@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 10:39:41 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:51:10 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,33 @@
 
 void	ft_wait(t_data *data)
 {
-	if (data->pid == 0)
-		return ;
+	int	f;
+
+	f = 0;
 	while (data)
 	{
-		if (data->next == NULL)
+		printf("VFVFVFD = %s\n", data->path);
+		if (data && (data->path || is_built_in(data) != -1))
 		{
 			waitpid(data->pid, &data->status, 0);
 			if (WIFSIGNALED(data->status))
-				data->status = (WTERMSIG(data->status) + 128);
+				data->status = WTERMSIG(data->status) + 128;
 			else
 				data->status = WEXITSTATUS(data->status);
-			break ;
+			g_return_satus = data->status;
+			if (g_return_satus == 130)
+			{
+				f = 1;
+			}
 		}
-		waitpid(data->pid, &data->status, 0);
-		if (WIFSIGNALED(data->status) && WIFSIGNALED(data->status) != 1)
-			data->status = WTERMSIG(data->status) + 128;
 		else
-			data->status = WEXITSTATUS(data->status);
+			wait(NULL);
 		data = data->next;
 	}
+	if (g_return_satus == 130 || f == 1)
+		printf("\n");
+	if (g_return_satus == 131)
+		printf("Quit (core dumped)\n");
 }
 
 char	**retrive_paths(t_shell *shell)
@@ -45,8 +52,8 @@ char	**retrive_paths(t_shell *shell)
 	if (!path_value)
 		return (NULL);
 	paths = ft_split(path_value, ':');
-	if (!path_value)
-		return (NULL);
+	if (!paths)
+		return (freetab(paths), NULL);
 	return (paths);
 }
 
@@ -93,7 +100,8 @@ char	*get_cmd_path(t_data *data, t_shell *shell)
 	if (cmd_path)
 		return (cmd_path);
 	if (access(data->cmd, X_OK) == 0)
-		return (ft_strdup(data->cmd));
+		return (freetab(paths), ft_strdup(data->cmd));
+	freetab(paths);
 	return (NULL);
 }
 

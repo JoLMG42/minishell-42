@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 10:41:35 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:50:33 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	first_exec(t_shell *shell, t_data *data, char *path)
 	data->pid = fork();
 	if (data->pid == 0)
 	{
+		signal(SIGINT, handler_sig_cmd);
+		signal(SIGQUIT, handler_sig_cmd);
 		close(shell->pipes[0]);
 		handle_redir(shell, data);
 		if (data->fdin != -1)
@@ -78,6 +80,8 @@ void	middle_exec(t_shell *shell, t_data *data, char *path, int fd_tmp)
 	data->pid = fork();
 	if (data->pid == 0)
 	{
+		signal(SIGINT, handler_sig_cmd);
+		signal(SIGQUIT, handler_sig_cmd);
 		manager_mid(data, shell, fd_tmp);
 		handle_redir(shell, data);
 		if (data->fdin != -1)
@@ -124,6 +128,8 @@ void	last_exec(t_shell *shell, t_data *data, char *path)
 	data->pid = fork();
 	if (data->pid == 0)
 	{
+		signal(SIGINT, handler_sig_cmd);
+		signal(SIGQUIT, handler_sig_cmd);
 		data->fdin = shell->pipes[0];
 		handle_redir(shell, data);
 		if (data->fdin != -1)
@@ -184,12 +190,12 @@ void	exec_pipe(t_shell *shell)
 				head->tmpfile_hd = NULL;
 			}
 			close_fd(head);
-			ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+			ft_errors_exec(1, "command not found", head->cmd, 127);
 		}
 		else
 			first_exec(shell, head, head->path);
-		free(head->path);
-		head->path = NULL;
+		// free(head->path);
+		// head->path = NULL;
 	}
 	else
 		close(shell->pipes[1]);
@@ -198,21 +204,41 @@ void	exec_pipe(t_shell *shell)
 	{
 		head->path = get_cmd_path(head, shell);
 		if (!head->path && head->cmd)
-			ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+		{
+			ft_errors_exec(1, "command not found", head->cmd, 127);
+			if (head->tmpfile_hd)
+			{
+				unlink(head->tmpfile_hd);
+				free(head->tmpfile_hd);
+				head->tmpfile_hd = NULL;
+			}
+			close(shell->pipes[1]);
+			close_fd(head);
+		}
 		else
 			middle_exec(shell, head, head->path, shell->pipes[0]);
-		free(head->path);
-		head->path = NULL;
+		// free(head->path);
+		// head->path = NULL;
 		head = head->next;
 		i++;
 	}
 	head->path = get_cmd_path(head, shell);
 	if (!head->path && head->cmd)
-		ft_errors_exec(1, "command not found", shell, head->cmd, 127);
+	{
+		ft_errors_exec(1, "command not found", head->cmd, 127);
+		if (head->tmpfile_hd)
+		{
+			unlink(head->tmpfile_hd);
+			free(head->tmpfile_hd);
+			head->tmpfile_hd = NULL;
+		}
+		close(shell->pipes[0]);
+		close_fd(head);
+	}
 	else
 		last_exec(shell, head, head->path);
-	free(head->path);
-	head->path = NULL;
+	// free(head->path);
+	// head->path = NULL;
 	head = shell->datas;
 	ft_wait(head);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/16 10:19:21 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:41:00 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_clear_one_block(t_data *datas)
 		return ;
 	if (datas->cmd)
 		free(datas->cmd);
+	if (datas->path)
+		free(datas->path);
 	if (datas->args)
 		freetab(datas->args);
 	if (datas->namein)
@@ -98,6 +100,7 @@ void	free_child(t_data *data, t_shell *shell, int exit_status)
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));
 	free(data->path);
+	data->path = NULL;
 	free_hd_file(&data, 1);
 	ft_clear_datas(&(shell->datas));
 	free(shell);

@@ -33,7 +33,6 @@ SRCS	=	srcs/parsing/expander.c \
 			srcs/builtins/ft_unset.c \
 			srcs/exec/pipe_exec.c \
 			srcs/exec/pipe_utils.c \
-			srcs/exec/signals.c \
 			srcs/main.c \
 
 RM		:= rm -f

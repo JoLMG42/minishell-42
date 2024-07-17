@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:17:27 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 10:09:15 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 11:09:50 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_data	*pre_init_block(void)
 	tmp->limiter_hd = NULL;
 	tmp->tmpfile_hd = NULL;
 	tmp->nb_hd = 0;
+	tmp->pid = -42;
 	tmp->next = NULL;
 	return (tmp);
 }

@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/11 21:03:54 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 14:47:02 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define APPEND 1 // '>>'
-#define OUT 2    // '>'
-#define IN 3     // '<'
-#define HD 4     // '<<'
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
-#define NUM_OF_BUILT_INS 7
+# define APPEND 1 // '>>'
+# define OUT 2    // '>'
+# define IN 3     // '<'
+# define HD 4     // '<<'
+
+# define NUM_OF_BUILT_INS 7
 
 typedef struct s_env
 {
@@ -57,3 +60,5 @@ typedef struct s_shell
 	t_data			*datas;
 	int				pipes[2];
 }					t_shell;
+
+#endif

@@ -6,26 +6,29 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 10:42:54 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:49:23 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
-#include "structs.h"
-#include <dirent.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <linux/random.h>
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "../libft/libft.h"
+# include "structs.h"
+# include <dirent.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <linux/random.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 /*          BUILTINS        */
 void		ft_pwd(t_data *data, t_shell *shell, char **args);
@@ -57,6 +60,7 @@ void		readline_loop(t_data *data, t_shell *shell, char *eof, int fd);
 void		manager_mid(t_data *data, t_shell *shell, int fd_tmp);
 void		exit_other_child(t_data *data, t_shell *shell);
 void		exit_first_child(t_data *data, t_shell *shell);
+void		handler_sig_cmd(int sig);
 
 /*			PARSING / PARSING UTILS			*/
 
@@ -113,8 +117,7 @@ int			ft_lstsize_cmd(t_data *lst);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);
-void		ft_errors_exec(int err, char *msg, t_shell *shell, char *supp,
-				int err_status);
+void		ft_errors_exec(int err, char *msg, char *supp, int err_status);
 
 /*			FREE			*/
 
@@ -124,3 +127,5 @@ void		free_child(t_data *data, t_shell *shell, int exit_status);
 void		free_hd_file(t_data **data, int mode);
 void		freetab(char **tab);
 extern int	g_return_satus;
+
+#endif
