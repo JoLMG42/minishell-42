@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:28:46 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 11:07:22 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:52:50 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_unset_1(t_env *env, char **args)
 				free(current->name);
 				free(current->line);
 				prev = current;
+				free(prev);
 				break ;
 			}
 			prev = current;

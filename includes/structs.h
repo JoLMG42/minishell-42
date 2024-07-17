@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:20:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 14:47:02 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:52:45 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # define HD 4     // '<<'
 
 # define NUM_OF_BUILT_INS 7
+
+typedef struct s_syntax
+{
+	int		sq_opened;
+	int		dq_opened;
+}			t_s;
 
 typedef struct s_env
 {

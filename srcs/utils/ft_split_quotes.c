@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 13:41:20 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/16 10:15:35 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 12:10:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_syntax
-{
-	int		sq_opened;
-	int		dq_opened;
-}			t_s;
-
-void	init_syntax_struct(t_s *s)
-{
-	s->dq_opened = 0;
-	s->sq_opened = 0;
-}
-
-void	check_sq_dq(t_s *s_s, char c)
-{
-	if (c == '\'' && s_s->dq_opened == 0)
-	{
-		if (s_s->sq_opened == 0)
-			s_s->sq_opened = 1;
-		else
-			s_s->sq_opened = 0;
-	}
-	if (c == '"' && s_s->sq_opened == 0)
-	{
-		if (s_s->dq_opened == 0)
-			s_s->dq_opened = 1;
-		else
-			s_s->dq_opened = 0;
-	}
-}
 
 static int	ft_check_charset(const char str, char c, t_s *s_s)
 {

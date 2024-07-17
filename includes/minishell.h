@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 14:49:23 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:52:36 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+#ifndef DEBUG
+	#define DEBUG 0
+#endif
+
+/*			DEBUG			*/
+
+void		debug_print_block(t_data **list);
+
 
 /*          BUILTINS        */
 void		ft_pwd(t_data *data, t_shell *shell, char **args);
@@ -74,7 +83,7 @@ t_data		*pre_init_block(void);
 t_data		*ft_lstlast_block(t_data *lst);
 int			block_add_back(t_data **alst, t_data *new);
 char		*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell);
-void		init_redir_arrays(t_data *datas, char *tmp_str);
+int			init_redir_arrays(t_data *datas, char *tmp_str);
 t_data		*end_init_one_block(t_data *datas, char **tab, char *s,
 				t_shell *shell);
 int			cut_parse_block_loop_1(char **split, int i, t_data *datas,
@@ -94,7 +103,11 @@ char		*delete_extra_quotes(char *str, int i, int dq, int sq);
 int			count_redir_operator(char *str, int mode);
 int			count_hd_operator(char *str);
 int			open_files(t_data **datas);
-
+char		*get_content_env(t_env **env, char *find);
+int			valid_name(char c);
+char		*reallocator(char *res, char c, int i);
+char		*recup_dq_sq_expander(char *str, int i, int *sq, int *dq);
+char		*add_space(char *input);
 /*			UTILS ENV			*/
 char		**create_char_env(t_env *env, int env_size);
 void		print_env(t_env *list);
@@ -114,6 +127,8 @@ void		ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env		*ft_lstnew_env(char *line, char *name, char *value);
 char		*ft_wildcards(char *str);
 int			ft_lstsize_cmd(t_data *lst);
+void		init_syntax_struct(t_s *s);
+void		check_sq_dq(t_s *s_s, char c);
 
 /*			ERRORS			*/
 void		ft_errors_parsing(int err, char *msg, t_shell *shell, char *supp);

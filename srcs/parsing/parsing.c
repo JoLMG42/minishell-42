@@ -6,55 +6,11 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 17:14:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:46:55 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	DEBUG_print_block(t_data **list)
-{
-	t_data *datas = *list;
-	int i = 0;
-	while (datas)
-	{
-		printf("CMD %d\n", i);
-		printf("\tcmd = %s\n", datas->cmd);
-		int j = 0;
-		printf("\targs:\n");
-		while (datas->args[j])
-		{
-			printf("\t\targs[%d] = %s\n", j, datas->args[j]);
-			j++;
-		}
-		printf("\tredir_type_in = %d\n", datas->redir_type_in);
-		printf("\tredir_type_out = %d\n", datas->redir_type_out);
-		j = 0;
-		printf("\tnamein:\n");
-		while (datas->namein && datas->namein[j])
-		{
-			printf("\t\tnamein[%d] = %s\n", j, datas->namein[j]);
-			j++;
-		}
-		j = 0;
-		printf("\tnameout:\n");
-		while (datas->nameout && datas->nameout[j])
-		{
-			printf("\t\tnameout[%d] = %s\n", j, datas->nameout[j]);
-			j++;
-		}
-		printf("\tis_hd = %d\n", datas->is_hd);
-		j = 0;
-		printf("\tlimiters:\n");
-		while (datas->limiter_hd && datas->limiter_hd[j])
-		{
-			printf("\t\tlimiters[%d] = %s\n", j, datas->limiter_hd[j]);
-			j++;
-		}
-		datas = datas->next;
-		i++;
-	}
-}
 
 char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell)
 {
@@ -77,50 +33,6 @@ char	*ft_recreate_input(char *str, char **tab, char *s, t_shell *shell)
 		return (free(s), freetab(tab),
 			ft_errors_parsing(0, "syntax error\n", shell, NULL), NULL);
 	return (s);
-}
-
-char	*add_space_loop(char *res, char *input, int i, int j)
-{
-	while (input[i])
-	{
-		if ((input[i] == '<' && input[i + 1] == '<')
-			|| (input[i] == '>' && input[i + 1] == '>'))
-		{
-			res[j++] = ' ';
-			res[j++] = input[i++];
-			res[j++] = input[i];
-			res[j] = ' ';
-		}
-		else if (input[i] == '|' || input[i] == '<' || input[i] == '>')
-		{
-			res[j++] = ' ';
-			res[j++] = input[i];
-			res[j] = ' ';
-		}
-		else
-			res[j] = input[i];
-		j++;
-		i++;
-	}
-	res[j] = 0;
-	return (res);
-}
-
-char	*add_space(char *input)
-{
-	char	*res;
-	int		count;
-
-	count = count_operators(input);
-	if (count == 0)
-		return (input);
-	res = malloc(sizeof(char) * (ft_strlen(input) + (count * 2) + 1));
-	if (!res)
-		return (NULL);
-	ft_bzero(res, count + 1);
-	res = add_space_loop(res, input, 0, 0);
-	free(input);
-	return (res);
 }
 
 int	create_list(char *input, t_data **datas, t_shell *shell)
@@ -182,7 +94,8 @@ int	parse_input(char *input, t_shell *shell)
 		return (1);
 	if (create_list(input, &(shell->datas), shell))
 		return (ft_clear_datas(&(shell->datas)), free(input), 3);
-	DEBUG_print_block(&(shell->datas));
+	if (DEBUG)
+		debug_print_block(&(shell->datas));
 	free(input);
 	return (0);
 }

@@ -6,125 +6,69 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:44:22 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/10 16:37:06 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:20:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_content_env(t_env **env, char *find)
+char	*cut_expander_loop_1(char *recup, char *res, t_env **env, int *f)
 {
-	t_env	*tmp;
+	char	*tmp_content;
+	char	*tmp_res;
 
-	if (ft_strncmp(find, "?", ft_strlen(find)) == 0)
-		return ((ft_itoa(g_return_satus)));
-	tmp = *env;
-	while (tmp)
-	{
-		if (ft_strncmp(find, tmp->name, ft_strlen(find)) == 0)
-			return (ft_strdup(tmp->value));
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-int	valid_name(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_' || c == '?')
-		return (1);
-	return (0);
-}
-
-char	*reallocator(char *res, char c, int i)
-{
-	char	*cpy;
-
-	cpy = NULL;
+	tmp_content = NULL;
+	tmp_res = NULL;
 	if (!res)
 	{
-		res = malloc(2);
-		res[0] = c;
-		res[1] = 0;
-		return (res);
+		res = malloc(1);
+		res[0] = 0;
 	}
-	if (res)
-	{
-		cpy = ft_strdup(res);
-		free(res);
-	}
-	res = malloc(sizeof(char) * (ft_strlen(cpy) + 2));
-	while (cpy && cpy[i])
-	{
-		res[i] = cpy[i];
-		i++;
-	}
-	res[i] = c;
-	res[i + 1] = 0;
-	free(cpy);
+	tmp_content = get_content_env(env, recup);
+	tmp_res = ft_strjoin(res, tmp_content);
+	free(tmp_content);
+	free(res);
+	res = ft_strdup(tmp_res);
+	free(tmp_res);
+	free(recup);
+	recup = NULL;
+	*f = 1;
 	return (res);
 }
 
-void	recup_dq_sq_expander(char *str, int i, int *sq, int *dq)
+static	char	*expander_loop_init(int *f, int *i)
 {
-	if (str[i] == '\'' && *sq == 0 && *dq == 1)
-		;
-	else if (str[i] == '\'' && *sq == 0 && *dq == 0)
-		*sq = 1;
-	else if (str[i] == '\'' && *sq == 1)
-		*sq = 0;
-	else if (str[i] == '\"' && *dq == 0 && *sq == 1)
-		;
-	else if (str[i] == '\"' && *dq == 0 && *sq == 0)
-		*dq = 1;
-	else if (str[i] == '\"' && *dq == 1)
-		*dq = 0;
+	*i = -1;
+	*f = 0;
+	return (NULL);
 }
 
-char	*expander(char *str, t_env **env, int i, char *res)
+char	*cut_expander_in_loop(char *str, int *i, char *recup)
 {
-	int	sq;
-	int	dq;
-	int	f;
+	while (str && str[*i] && str[*i] != ' '
+		&& valid_name(str[*i]) && str[*i] != '$')
+		recup = reallocator(recup, str[(*i)++], 0);
+	if (str[*i] == '$' || str[*i] == ' ' || !valid_name(str[*i]))
+		(*i)--;
+	return (recup);
+}
+
+char	*cut_expander_while_loop(char *str, t_env **env, int dq, int sq)
+{
+	int		f;
+	int		i;
 	char	*recup;
-	char	*tmp_res;
+	char	*res;
 
-	sq = 0;
-	dq = 0;
-	f = 0;
-	if (!str || !str[i])
-		return (str);
-	while (str && str[i])
+	res = expander_loop_init(&f, &i);
+	while (str && str[++i])
 	{
-		recup = NULL;
-		recup_dq_sq_expander(str, i, &sq, &dq);
-		if (str[i] == '$' && sq == 0)
+		recup = recup_dq_sq_expander(str, i, &sq, &dq);
+		if (str[i] == '$' && sq == 0 && ++i)
 		{
-			i++;
-			while (str && str[i] && str[i] != ' ' && valid_name(str[i]) && str[i] != '$')
-			{
-				recup = reallocator(recup, str[i], 0);
-				i++;
-			}
-			if (str[i] == '$' || str[i] == ' ' || !valid_name(str[i]))
-				i--;
+			recup = cut_expander_in_loop(str, &i, recup);
 			if (recup)
-			{
-
-				if (!res)
-				{
-					res = malloc(1);
-					res[0] = 0;
-				}
-				char *toto = get_content_env(env, recup);
-				tmp_res = ft_strjoin(res, toto);
-				free(toto);
-				free(res);
-				res = ft_strdup(tmp_res);
-				free(tmp_res);
-				free(recup);
-				recup = NULL;
-				f = 1;
-			}
+				res = cut_expander_loop_1(recup, res, env, &f);
 		}
 		else
 		{
@@ -133,11 +77,19 @@ char	*expander(char *str, t_env **env, int i, char *res)
 		}
 		if (!recup && f == 0)
 			res = reallocator(res, str[i], 0);
-		i++;
 		f = 0;
 	}
+	return (res);
+}
+
+char	*expander(char *str, t_env **env, int i, char *res)
+{
+	(void)i;
+	(void)res;
+	if (!str || !str[0])
+		return (str);
+	res = cut_expander_while_loop(str, env, 0, 0);
 	free(str);
-	free(recup);
 	if (res == NULL)
 	{
 		free(res);
