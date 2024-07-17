@@ -43,7 +43,6 @@ SRCS	=		srcs/parsing/expander.c \
 			srcs/exec/pipe_utils2.c \
 			srcs/exec/mid_exec.c \
 			srcs/exec/first_exec.c \
-			srcs/exec/last_exec.c \
 			srcs/exec/signals.c \
 			srcs/main.c \
 

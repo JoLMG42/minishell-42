@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 16:36:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:12:28 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,18 @@ void	ft_wait(t_data *data)
 	{
 		if (data && (data->path || is_built_in(data) != -1))
 		{
-			printf("data path%s\n", data->path);
-			waitpid(data->pid, &data->status, 0);
-			if (WIFSIGNALED(data->status))
-				data->status = WTERMSIG(data->status) + 128;
-			else
-				data->status = WEXITSTATUS(data->status);
-			if (g_return_satus != 127)
-				g_return_satus = data->status;
+			if (data->status != 127)
+			{
+				waitpid(data->pid, &data->status, 0);
+				if (WIFSIGNALED(data->status) && WIFSIGNALED(data->status) != 1)
+					data->status = WTERMSIG(data->status) + 128;
+				else
+					data->status = WEXITSTATUS(data->status);
+			}
 		}
 		else
-		{
-			printf("data path null%s\n", data->path);
 			wait(NULL);
-		}
+		g_return_satus = data->status;
 		data = data->next;
 	}
 	if (g_return_satus == 130)

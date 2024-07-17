@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 16:50:45 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 18:19:49 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,15 @@ void		ft_cd(t_data *data, t_shell *shell, char **args);
 void		ft_unset(t_data *data, t_shell *shell, char **args);
 
 /*          EXEC / EXEC UTILS       */
-void		exec_pipe(t_shell *shell);
+void		exec_pipe(t_shell *shell, int num_cmd);
+void		manage_no_path(t_data *head, t_shell *shell, int mod);
+void		last_exec(t_shell *shell, t_data *data);
+void		middle_exec(t_shell *shell, t_data *data, int fd_tmp);
+void		first_exec(t_shell *shell, t_data *data, char *path);
 void		ft_wait(t_data *data);
 int			get_tmp_file(t_data *datas);
+void		manage_sig(void);
+void		execve_fail(void);
 int			exec(t_shell *datas);
 void		heredoc(t_data *data, t_shell *shell, char *eof, char *file_name);
 int			is_built_in(t_data *data);
@@ -69,6 +75,7 @@ void		manager_mid(t_data *data, t_shell *shell, int fd_tmp);
 void		exit_other_child(t_data *data, t_shell *shell);
 void		exit_first_child(t_data *data, t_shell *shell);
 void		handler_sig_cmd(int sig);
+void		close_fd(t_data *data);
 
 /*			PARSING / PARSING UTILS			*/
 

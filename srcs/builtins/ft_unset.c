@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:28:46 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 17:10:44 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:19:57 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,19 @@ void	free_unset(char *value, char *name, char *line)
 	free(line);
 }
 
-int	hatenorm(char *name, char *args)
-{
-	if (ft_strncmp(name, args, ft_strlen(name)) == 0)
-		return (0);
-	else
-		return (1);
-}
-
 void	ft_unset_1(t_env *env, char **args, int i)
 {
 	t_env	*current;
 	t_env	*prev;
 
-	while (args[i])
+	while (args[++i])
 	{
 		current = env;
 		prev = NULL;
 		while (current)
 		{
-			if (hatenorm(current->name, args[i]) == 0)
+			if (ft_strncmp(current->name, args[i],
+					ft_strlen(current->name)) == 0)
 			{
 				if (prev == NULL)
 					env = current->next;
@@ -52,16 +45,12 @@ void	ft_unset_1(t_env *env, char **args, int i)
 			prev = current;
 			current = current->next;
 		}
-		i++;
 	}
 }
 
 void	ft_unset(t_data *data, t_shell *shell, char **args)
 {
-	int	i;
-
 	(void)data;
-	i = 0;
-	ft_unset_1(shell->envp, args, i);
-	ft_unset_1(shell->exp, args, i);
+	ft_unset_1(shell->envp, args, -1);
+	ft_unset_1(shell->exp, args, -1);
 }

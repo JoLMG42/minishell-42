@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 14:58:56 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 18:29:37 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 	if (tmpfd == -1)
 		return (ft_errors_exec(1, strerror(errno),
 				NULL, errno), free(data->tmpfile_hd));
+	manage_sig();
 	readline_loop(data, shell, eof, tmpfd);
 }
 
