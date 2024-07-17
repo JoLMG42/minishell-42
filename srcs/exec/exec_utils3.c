@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/16 10:03:26 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:39:41 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_wait(t_data *data)
 {
+	if (data->pid == 0)
+		return ;
 	while (data)
 	{
 		if (data->next == NULL)
@@ -34,57 +36,34 @@ void	ft_wait(t_data *data)
 	}
 }
 
-void	handle_heredoc(t_shell *shell, t_data *data)
+char	**retrive_paths(t_shell *shell)
 {
-	int	i;
+	char	*path_value;
+	char	**paths;
 
-	while (data)
-	{
-		if (data->is_hd)
-		{
-			i = 0;
-			while (data->limiter_hd[i])
-			{
-				get_tmp_file(data);
-				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
-			}
-		}
-		data = data->next;
-	}
-}
-
-char	*get_cmd_path(t_data *data, t_shell *shell)
-{
-	char		*path_value;
-	char		**paths;
-	int			i;
-	struct stat	statbuf;
-	char		*path;
-	char		*cmd_path;
-
-	if (!data || !shell || !data->cmd || !data->cmd[0])
-		return (NULL);
 	path_value = get_path_value(shell, "PATH");
 	if (!path_value)
-	{
-		if (access(data->cmd, X_OK) == 0)
-			return (data->cmd);
 		return (NULL);
-	}
 	paths = ft_split(path_value, ':');
-	if (!paths)
-	{
-		if (access(data->cmd, X_OK) == 0)
-			return (data->cmd);
+	if (!path_value)
 		return (NULL);
-	}
+	return (paths);
+}
+
+char	*retrive_path(char **paths, const char *cmd)
+{
+	int			i;
+	struct stat	statbuf;
+	char		*cmd_path;
+	char		*path;
+
 	i = 0;
 	while (paths[i])
 	{
 		cmd_path = ft_strjoin(paths[i], "/");
 		if (!cmd_path)
 			return (freetab(paths), NULL);
-		path = ft_strjoin(cmd_path, data->cmd);
+		path = ft_strjoin(cmd_path, cmd);
 		free(cmd_path);
 		if (!path)
 			return (freetab(paths), NULL);
@@ -93,7 +72,40 @@ char	*get_cmd_path(t_data *data, t_shell *shell)
 		free(path);
 		i++;
 	}
+	return (NULL);
+}
+
+char	*get_cmd_path(t_data *data, t_shell *shell)
+{
+	char	**paths;
+	char	*cmd_path;
+
+	if (!data || !shell || !data->cmd || !data->cmd[0])
+		return (NULL);
+	paths = retrive_paths(shell);
+	if (!paths)
+	{
+		if (access(data->cmd, X_OK) == 0)
+			return (data->cmd);
+		return (NULL);
+	}
+	cmd_path = retrive_path(paths, data->cmd);
+	if (cmd_path)
+		return (cmd_path);
 	if (access(data->cmd, X_OK) == 0)
-		return (freetab(paths), ft_strdup(data->cmd));
-	return (freetab(paths), NULL);
+		return (ft_strdup(data->cmd));
+	return (NULL);
+}
+
+int	ft_lstsize_cmd(t_data *lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }

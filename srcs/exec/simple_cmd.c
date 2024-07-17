@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/16 10:10:31 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:12:07 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,6 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		exec_child_process(shell, data->path);
 	else
 		ft_wait(data);
+	if (data->path)
+		free(data->path);
 }

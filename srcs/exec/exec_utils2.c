@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/11 21:40:39 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 10:19:12 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_key(t_env *env, char *key)
 {
-	int		index;
+	int	index;
 
 	index = 0;
 	while (env)
@@ -76,7 +76,7 @@ char	**create_char_env(t_env *env, int env_size)
 
 int	get_env_list_size(t_env *list)
 {
-	int		count;
+	int	count;
 
 	count = 0;
 	if (!list)
@@ -87,4 +87,23 @@ int	get_env_list_size(t_env *list)
 		list = list->next;
 	}
 	return (count);
+}
+
+void	handle_heredoc(t_shell *shell, t_data *data)
+{
+	int	i;
+
+	while (data)
+	{
+		if (data->is_hd)
+		{
+			i = 0;
+			while (data->limiter_hd[i])
+			{
+				get_tmp_file(data);
+				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+			}
+		}
+		data = data->next;
+	}
 }

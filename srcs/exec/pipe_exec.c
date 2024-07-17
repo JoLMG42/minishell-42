@@ -6,24 +6,11 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/16 10:08:36 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 10:41:35 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_lstsize_cmd(t_data *lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
 
 void	close_fd(t_data *data)
 {
@@ -35,39 +22,6 @@ void	close_fd(t_data *data)
 			return ;
 		close(data->fdout);
 	}
-}
-
-void	exit_first_child(t_data *data, t_shell *shell)
-{
-	if (!data->cmd)
-	{
-		close(shell->pipes[1]);
-		free_child(data, shell, 0);
-		exit(0);
-	}
-	close(shell->pipes[1]);
-	free_child(data, shell, 0);
-	exit(127);
-}
-
-void	exit_other_child(t_data *data, t_shell *shell)
-{
-	if (!data->cmd)
-	{
-		free_child(data, shell, 0);
-		exit(1);
-	}
-	free_child(data, shell, 0);
-	if (errno == 13)
-		exit(126);
-	exit(127);
-}
-
-void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
-{
-	data->fdin = fd_tmp;
-	close(shell->pipes[0]);
-	data->fdout = shell->pipes[1];
 }
 
 void	first_exec(t_shell *shell, t_data *data, char *path)
@@ -212,6 +166,7 @@ void	exec_pipe(t_shell *shell)
 	t_data	*head;
 
 	head = shell->datas;
+	head->pid = 0;
 	i = 0;
 	num_cmd = ft_lstsize_cmd(shell->datas);
 	pipe(shell->pipes);
