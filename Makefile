@@ -6,6 +6,7 @@ LIBS =	-lreadline libft/libft.a
 SRCS	=		srcs/parsing/expander.c \
 			srcs/parsing/expander_utils.c \
 			srcs/parsing/parsing.c \
+			srcs/parsing/env_init.c \
 			srcs/parsing/debug_function.c \
 			srcs/parsing/parsing_add_spaces.c \
 			srcs/parsing/parsing_block_redir.c \

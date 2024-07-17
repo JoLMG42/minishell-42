@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 14:59:40 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:31:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		check_and_redir(data, current, shell);
 		return (exec_built_in(data, shell));
 	}
+	if (open(data->cmd, O_DIRECTORY) > 0)
+		return (ft_errors_exec(1, "Is a directory", data->cmd, 126),
+			free(data->path));
 	data->path = get_cmd_path(current, shell);
 	if (!data->path && data->cmd)
 		return (ft_errors_exec(1, "command not found", data->cmd, 127),

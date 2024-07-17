@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:57:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 11:36:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:34:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_data	*pre_init_block(void)
 	t_data	*tmp;
 
 	tmp = malloc(sizeof(struct s_data));
+	if (!tmp)
+		return (NULL);
 	tmp->cmd = NULL;
 	tmp->path = NULL;
 	tmp->args = NULL;
@@ -44,6 +46,7 @@ t_data	*pre_init_block(void)
 	tmp->nb_hd = 0;
 	tmp->nb_in = 0;
 	tmp->nb_out = 0;
+	tmp->status = 0;
 	tmp->next = NULL;
 	return (tmp);
 }

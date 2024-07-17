@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 14:51:10 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 15:16:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_wait(t_data *data)
 	f = 0;
 	while (data)
 	{
-		printf("VFVFVFD = %s\n", data->path);
 		if (data && (data->path || is_built_in(data) != -1))
 		{
 			waitpid(data->pid, &data->status, 0);
@@ -27,11 +26,10 @@ void	ft_wait(t_data *data)
 				data->status = WTERMSIG(data->status) + 128;
 			else
 				data->status = WEXITSTATUS(data->status);
-			g_return_satus = data->status;
+			if (g_return_satus != 127)
+				g_return_satus = data->status;
 			if (g_return_satus == 130)
-			{
 				f = 1;
-			}
 		}
 		else
 			wait(NULL);

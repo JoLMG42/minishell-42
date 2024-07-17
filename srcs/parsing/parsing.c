@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 11:46:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:17:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	while (split[i])
 	{
 		tmp_data = pre_init_block();
+		if (!tmp_data)
+		{
+			printf("%s\n", strerror(errno));
+			return (free(tmp_data), freetab(split), 1);
+		}
 		if (block_add_back(datas, parse_block(ft_strdup(split[i]),
 					tmp_data, shell, 0)))
 			return (free(tmp_data), freetab(split), 1);
@@ -89,6 +94,9 @@ int	parse_input(char *input, t_shell *shell)
 	input = clear_first_space(input);
 	if (!input)
 		return (4);
+	if (check_valid_quotes(input))
+		return (ft_errors_parsing(0, "syntax error near unexpected token\n",
+				shell, NULL), free(input), 4);
 	input = add_space(input);
 	if (!input)
 		return (1);

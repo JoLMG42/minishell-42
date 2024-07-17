@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/08 19:26:55 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/17 15:23:27 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	sort_ascii(t_env *env)
 	while (swapped)
 	{
 		swapped = 0;
-		printf("exp: %s\n", exp->next->next->line);
 		while (exp)
 		{
 			swapped = ft_swap(exp);

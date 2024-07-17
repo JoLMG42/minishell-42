@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 14:52:36 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/17 16:10:29 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ int			valid_name(char c);
 char		*reallocator(char *res, char c, int i);
 char		*recup_dq_sq_expander(char *str, int i, int *sq, int *dq);
 char		*add_space(char *input);
+int			check_valid_quotes(char *str);
+
 /*			UTILS ENV			*/
+int			env_init(t_env **env, char **envp);
 char		**create_char_env(t_env *env, int env_size);
 void		print_env(t_env *list);
 int			get_env_list_size(t_env *list);
