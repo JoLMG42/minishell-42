@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 10:41:13 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 18:10:47 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:20:50 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exit_first_child(t_data *data, t_shell *shell)
 
 void	exit_other_child(t_data *data, t_shell *shell)
 {
+	fprintf(stderr,"22222 = %s\n", data->cmd);
 	if (!data->cmd)
 	{
 		free_child(data, shell, 0);
@@ -47,9 +48,9 @@ void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 
 void	close_fd(t_data *data)
 {
-	if (data->fdin != -1)
+	if (data->fdin != -1 && data->fdin != 0)
 		close(data->fdin);
-	if (data->fdout != -1)
+	if (data->fdout != -1 && data->fdout != 1)
 	{
 		if (data->next && data->next->fdout != data->fdout)
 			return ;

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 10:05:27 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 16:31:54 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	exec_child_process(t_shell *shell, char *path)
 int	dir_error(char *cmd)
 {
 	int	tmp;
+
 	if (!cmd)
 		return (0);
 	tmp = open(cmd, O_DIRECTORY);

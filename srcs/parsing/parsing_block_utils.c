@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:57:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/18 11:29:35 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 15:39:53 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_data	*pre_init_block(void)
 	tmp->args = NULL;
 	tmp->redir_type_in = 0;
 	tmp->redir_type_out = 0;
-	tmp->fdin = -1;
-	tmp->fdout = -1;
+	tmp->fdin = 0;
+	tmp->fdout = 1;
 	tmp->namein = NULL;
 	tmp->tmpfile_hd = NULL;
 	tmp->nameout = NULL;

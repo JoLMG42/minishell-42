@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 10:46:17 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/10 22:47:58 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/18 14:34:30 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	ft_env(t_data *data, t_shell *shell, char **args)
 {
-	(void)data;
 	(void)args;
 	if (!shell->envp)
 		return ;
-	print_env(shell->envp);
+	print_env(shell->envp, data);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:02:40 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 15:01:24 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:02:24 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	free_hd_file(t_data **data, int mode)
 
 void	free_child(t_data *data, t_shell *shell, int exit_status)
 {
+	fprintf(stderr, "AAAADVSFVFVFDF\n");
 	ft_free_env_list(&(shell->envp));
 	ft_free_env_list(&(shell->exp));
 	free(data->path);
@@ -41,4 +42,18 @@ void	free_child(t_data *data, t_shell *shell, int exit_status)
 	ft_clear_datas(&(shell->datas));
 	free(shell);
 	exit(exit_status);
+}
+void	ft_recup(t_shell *shell)
+{
+	static t_shell *tmp_shell;
+
+	if (shell)
+		tmp_shell = shell;
+	else
+	{
+		ft_free_env_list(&(tmp_shell->envp));
+		ft_free_env_list(&(tmp_shell->exp));
+		ft_clear_datas(&(tmp_shell->datas));
+		free(tmp_shell);
+	}
 }

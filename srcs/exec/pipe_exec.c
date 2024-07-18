@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 18:16:37 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 16:19:27 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	exec_pipe(t_shell *shell, int num_cmd)
 		mid(head, shell);
 		head = head->next;
 	}
-	head->path = get_cmd_path(head, shell);
 	last(head, shell);
 	head = shell->datas;
 	ft_wait(head);

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 10:19:12 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 16:46:31 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	get_env_list_size(t_env *list)
 void	handle_heredoc(t_shell *shell, t_data *data)
 {
 	int	i;
-
+	ft_recup(shell);
 	while (data)
 	{
 		if (data->is_hd)

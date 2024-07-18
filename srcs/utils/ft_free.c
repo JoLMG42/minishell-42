@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 15:01:22 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 16:52:42 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	ft_clear_one_block(t_data *datas)
 		freetab(datas->nameout);
 	if (datas->limiter_hd)
 		freetab(datas->limiter_hd);
+	if (datas->tmpfile_hd)
+	{
+		if (datas->fdin != -1 && datas->fdin != 0)
+			close(datas->fdin);
+		free(datas->tmpfile_hd);
+		datas->tmpfile_hd = NULL;
+	}
 	if (datas)
 		free(datas);
 	datas = NULL;

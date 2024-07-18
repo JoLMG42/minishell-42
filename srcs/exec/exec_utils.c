@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 09:55:34 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:19:47 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void	exec_built_in(t_data *datas, t_shell *shell)
 	void	(*built_in_funcs[NUM_OF_BUILT_INS])(t_data *, t_shell *,
 			char **args);
 
+	if (ft_lstsize_cmd(shell->datas) > 1 && datas->fdout != shell->pipes[0]
+			&& datas->fdout != shell->pipes[1])
+		datas->fdout = 1;
 	built_in_funcs[0] = &ft_pwd;
 	built_in_funcs[1] = &ft_env;
 	built_in_funcs[2] = &ft_export;

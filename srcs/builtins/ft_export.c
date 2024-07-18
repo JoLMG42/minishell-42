@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/16 10:13:49 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 14:34:13 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 		return ;
 	i = 1;
 	if (!args[1])
-		return (ft_print_exp(shell->exp));
+		return (ft_print_exp(shell->exp, data));
 	while (args[i])
 	{
 		var = ft_split(args[i], '=');

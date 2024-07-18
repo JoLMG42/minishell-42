@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 14:29:43 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 14:29:55 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:23:33 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	handler_sig_cmd(int sig)
 {
 	if (sig == 2)
+	{
+		ft_recup(NULL);
 		exit(2);
+	}
 	if (sig == 3)
 		exit(3);
 }

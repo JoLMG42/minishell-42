@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 17:45:52 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 18:13:38 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 18:43:26 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	mid_child(t_shell *shell, t_data *data, char **env, int fd_tmp)
 	manage_sig();
 	manager_mid(data, shell, fd_tmp);
 	handle_redir(shell, data);
-	if (data->fdin != -1)
+	if (data->fdin != -1 && data->fdin != 0)
 	{
 		dup2(data->fdin, STDIN_FILENO);
 		close(data->fdin);
 	}
-	if (data->fdout != -1)
+	if (data->fdout != -1 && data->fdout != 1)
 	{
 		dup2(data->fdout, STDOUT_FILENO);
 		close(data->fdout);
@@ -49,12 +49,6 @@ void	middle_exec(t_shell *shell, t_data *data, int fd_tmp)
 	data->pid = fork();
 	if (data->pid == 0)
 		mid_child(shell, data, env, fd_tmp);
-	if (data->tmpfile_hd)
-	{
-		unlink(data->tmpfile_hd);
-		free(data->tmpfile_hd);
-		data->tmpfile_hd = NULL;
-	}
 	close(shell->pipes[1]);
 	close(fd_tmp);
 	close_fd(data);

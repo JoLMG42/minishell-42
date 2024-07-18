@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:13:55 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 18:19:34 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 19:01:29 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ void	last_child(t_shell *shell, t_data *data, char **env)
 	manage_sig();
 	data->fdin = shell->pipes[0];
 	handle_redir(shell, data);
-	if (data->fdin != -1)
+	if (data->fdin != -1 && data->fdin != 0)
 	{
-		dup2(data->fdin, STDIN_FILENO);
+		if (dup2(data->fdin, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			fprintf(stderr, "vfvfdvdfvdfvfdvfdvvdf fdin = %d\n", data->fdin);
+		}
 		close(data->fdin);
 	}
-	if (data->fdout != -1)
+	if (data->fdout != -1 && data->fdout != 1)
 	{
 		dup2(data->fdout, STDOUT_FILENO);
 		close(data->fdout);
@@ -49,12 +53,6 @@ void	last_exec(t_shell *shell, t_data *data)
 	data->pid = fork();
 	if (data->pid == 0)
 		last_child(shell, data, env);
-	if (data->tmpfile_hd)
-	{
-		unlink(data->tmpfile_hd);
-		free(data->tmpfile_hd);
-		data->tmpfile_hd = NULL;
-	}
 	close(shell->pipes[0]);
 	close_fd(data);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/16 10:13:05 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 17:46:02 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	ft_echo(t_data *data, t_shell *shell, char **args)
 	}
 	while (args[i])
 	{
-		ft_putstr_fd(args[i], 1);
+		ft_putstr_fd(args[i], data->fdout);
 		if (args[i + 1])
-			write(1, " ", 1);
+			write(data->fdout, " ", 1);
 		i++;
 	}
 	if (!n_option)
-		write(1, "\n", 1);
+		write(data->fdout, "\n", 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 15:23:27 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:38:33 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,24 @@ void	sort_ascii(t_env *env)
 	}
 }
 
-void	print_env(t_env *env)
+void	print_env(t_env *env, t_data *data)
 {
 	if (!env)
 		return ;
 	while (env)
 	{
-		printf("%s=%s\n", env->name, env->value);
+		write(data->fdout, env->name, ft_strlen(env->name));
+		write(data->fdout, "=", 1);
+		write(data->fdout, env->value, ft_strlen(env->value));
+		write(data->fdout, "\n", 1);
 		env = env->next;
 	}
 }
 
-void	ft_print_exp(t_env *exp)
+void	ft_print_exp(t_env *exp, t_data *data)
 {
 	if (exp == NULL)
 		return ;
 	sort_ascii(exp);
-	print_env(exp);
+	print_env(exp, data);
 }

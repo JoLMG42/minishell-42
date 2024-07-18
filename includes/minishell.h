@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 18:19:49 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 16:45:00 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void		exit_other_child(t_data *data, t_shell *shell);
 void		exit_first_child(t_data *data, t_shell *shell);
 void		handler_sig_cmd(int sig);
 void		close_fd(t_data *data);
+void		ft_recup(t_shell *shell);
 
 /*			PARSING / PARSING UTILS			*/
 
@@ -119,10 +120,10 @@ int			check_valid_quotes(char *str);
 /*			UTILS ENV			*/
 int			env_init(t_env **env, char **envp);
 char		**create_char_env(t_env *env, int env_size);
-void		print_env(t_env *list);
+void		print_env(t_env *list, t_data *data);
 int			get_env_list_size(t_env *list);
 char		*get_content_env(t_env **env, char *find);
-void		ft_print_exp(t_env *exp);
+void		ft_print_exp(t_env *exp, t_data *data);
 char		*ft_erase(char *str, int pos, int len);
 
 /*			UTILS	STR/TAB		*/
