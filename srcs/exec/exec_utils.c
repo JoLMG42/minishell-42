@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:19:26 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 13:39:33 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 09:55:34 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	get_tmp_file(t_data *datas)
 		datas->tmpfile_hd = NULL;
 	}
 	datas->tmpfile_hd = ft_strdup(filename);
+	close(tmp);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 22:12:43 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 18:35:39 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/18 10:51:25 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@ void	readline_loop(t_data *data, t_shell *shell, char *eof, int fd)
 {
 	char	*buf;
 
-	(void)data;
-	(void)shell;
 	while (1)
 	{
 		buf = readline("> ");
 		if (!buf)
 		{
+			free_child(data, shell, 155);
 			ft_errors_exec(1, strerror(errno), NULL, errno);
 			break ;
 		}

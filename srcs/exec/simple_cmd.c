@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/17 16:31:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:05:27 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ void	exec_child_process(t_shell *shell, char *path)
 	exit(0);
 }
 
+int	dir_error(char *cmd)
+{
+	int	tmp;
+	if (!cmd)
+		return (0);
+	tmp = open(cmd, O_DIRECTORY);
+	if (tmp > 0)
+	{
+		ft_errors_exec(1, "Is a directory", cmd, 126);
+		close(tmp);
+		return (1);
+	}
+	close(tmp);
+	return (0);
+}
+
 void	exec_simple_cmd(t_data *data, t_shell *shell)
 {
 	t_data	*current;
@@ -56,9 +72,8 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 		check_and_redir(data, current, shell);
 		return (exec_built_in(data, shell));
 	}
-	if (open(data->cmd, O_DIRECTORY) > 0)
-		return (ft_errors_exec(1, "Is a directory", data->cmd, 126),
-			free(data->path));
+	if (dir_error(data->cmd))
+		return (free(data->path));
 	data->path = get_cmd_path(current, shell);
 	if (!data->path && data->cmd)
 		return (ft_errors_exec(1, "command not found", data->cmd, 127),
