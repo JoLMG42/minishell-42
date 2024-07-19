@@ -78,9 +78,10 @@ char	*ft_erase(char *str, int pos, int len)
 	int		i;
 	int		j;
 
-	res = malloc(sizeof(char) * ((ft_strlen(str) - len) + 2));
+	res = malloc(sizeof(char) * ((ft_strlen(str) - len) + 20));
 	if (!res)
 		free(NULL);
+	ft_bzero(res, ft_strlen(str) - len + 20);
 	i = -1;
 	j = 0;
 	while (str[++i])

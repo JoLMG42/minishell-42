@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/19 15:15:33 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:09:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 	}
 	else
 		wait(NULL);
-	if (ft_lstsize_cmd(shell->data) == 1)
+	if (ft_lstsize_cmd(shell->datas) == 1)
 		close(data->fdin);
 }
 

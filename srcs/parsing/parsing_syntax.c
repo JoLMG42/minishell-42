@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:08:36 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 11:26:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:45:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ char	*delete_extra_quotes(char *str, int i, int dq, int sq)
 	int	pos1;
 	int	pos2;
 
-	pos1 = 0;
-	pos2 = -1;
-	while (str[i])
+	while (str && str[i])
 	{
+		pos1 = 0;
+		pos2 = -1;
 		pos1 = cut_delete_quote_loop(str, i, &dq, &sq);
 		if (dq == 1 && sq == 0)
 			pos2 = recup_second_quote(str, i + 1, 1);

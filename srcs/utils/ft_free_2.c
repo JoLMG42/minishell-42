@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:02:40 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/19 12:52:56 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:06:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_child(t_data *data, t_shell *shell, int exit_status)
 	free(shell);
 	exit(exit_status);
 }
+
 void	ft_recup(t_shell *shell)
 {
 	static t_shell *tmp_shell;
