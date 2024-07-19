@@ -45,6 +45,7 @@ SRCS	=		srcs/parsing/expander.c \
 			srcs/exec/first_exec.c \
 			srcs/exec/last_exec.c \
 			srcs/exec/signals.c \
+			srcs/exec/redir_builtins.c \
 			srcs/main.c \
 
 RM		:= rm -f

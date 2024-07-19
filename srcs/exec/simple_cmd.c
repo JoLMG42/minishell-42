@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 16:31:54 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 17:53:51 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ void	check_and_redir(t_data *datas, t_data *current, t_shell *shell)
 			current = current->next;
 		}
 	}
+}
+
+int	check_and_redir_builtins(t_shell *shell, t_data *datas, t_data *current)
+{
+	if (check_if_redir(datas) == 0 || datas->is_hd == 1)
+	{
+		while (current)
+		{
+			if (handle_redir_builtins(datas, shell))
+				return (1);
+			current = current->next;
+		}
+	}
+	return 0;
 }
 
 void	exec_child_process(t_shell *shell, char *path)
@@ -70,8 +84,10 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	current = data;
 	if (is_built_in(data) != -1)
 	{
-		check_and_redir(data, current, shell);
-		return (exec_built_in(data, shell));
+		if (!check_and_redir_builtins(shell, data, current))
+			exec_built_in(data, shell);
+		else
+			return ;
 	}
 	if (dir_error(data->cmd))
 		return (free(data->path));
