@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:14:37 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/19 17:55:28 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:10:46 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	heredoc_builtins(t_data *data, t_shell *shell, char *eof, char *file_name)
 	return (0);
 }
 
-int	redir_in_builtins(t_data *data, t_shell *shell, char *file_name)
+int	redir_in_builtins(t_data *data, char *file_name)
 {
 	data->fdin = open(file_name, O_RDONLY, 0644);
 	if (data->fdin == -1)
-		free_child(data, shell, 1);
+		return (1);
 	if (is_built_in(data) == -1 && dup2(data->fdin, STDIN_FILENO) == -1)
 	{
 		perror("Error redirecting stdin");
@@ -76,20 +76,19 @@ int	appen_redir_out_builtins(t_data *data, t_shell *shell, char *file_name)
 	return (0);
 }
 
-int	handle_redir_builtins(t_data *data, t_shell *shell)
+int	handle_redir_builtins(t_data *data, t_shell *shell, int i)
 {
-	int	i;
 	int	status;
 
 	i = 0;
 	if (data->redir_type_in == HD)
-		status = redir_in_builtins(data, shell, data->tmpfile_hd);
+		status = redir_in_builtins(data, data->tmpfile_hd);
 	while (data->namein && data->namein[i])
 	{
 		if (data->fdin != 0 && data->fdin != -1)
 			close(data->fdin);
 		if (data->redir_type_in == IN)
-			status = redir_in_builtins(data, shell, data->namein[i]);
+			status = redir_in_builtins(data, data->namein[i]);
 		i++;
 	}
 	i = 0;

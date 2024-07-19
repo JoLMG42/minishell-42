@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:13:55 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/19 12:53:15 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 22:20:43 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	last_child(t_shell *shell, t_data *data, char **env)
 	{
 		env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 		if (execve(data->path, data->args, env) == -1)
-		{
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
+			execve_fail();
 	}
 	if (is_built_in(data) != -1)
 		exec_built_in(data, shell);

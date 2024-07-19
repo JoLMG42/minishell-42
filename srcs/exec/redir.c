@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/19 17:20:08 by jsarda           ###   ########.fr       */
-=======
-/*   Updated: 2024/07/19 16:09:39 by jtaravel         ###   ########.fr       */
->>>>>>> afe0d436202726e0b3c753c84c547cabc99b3771
+/*   Updated: 2024/07/19 22:18:58 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +52,9 @@ void	redir_out(t_data *data, t_shell *shell, char *file_name)
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (data->fdout == -1)
 		free_child(data, shell, 1);
-	if ((ft_lstsize_cmd(shell->datas) > 1 || is_built_in(data) == -1) && dup2(data->fdout, STDOUT_FILENO) == -1)
+	if ((ft_lstsize_cmd(shell->datas) > 1
+			|| is_built_in(data) == -1)
+		&& dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
 		close(data->fdout);
@@ -69,7 +67,9 @@ void	appen_redir_out(t_data *data, t_shell *shell, char *file_name)
 	data->fdout = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (data->fdout == -1)
 		free_child(data, shell, 1);
-	if ((ft_lstsize_cmd(shell->datas) > 1 || is_built_in(data) == -1) && dup2(data->fdout, STDOUT_FILENO) == -1)
+	if ((ft_lstsize_cmd(shell->datas) > 1
+			|| is_built_in(data) == -1)
+		&& dup2(data->fdout, STDOUT_FILENO) == -1)
 	{
 		perror("Error redirecting stdout");
 		free_child(data, shell, 1);

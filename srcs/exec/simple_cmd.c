@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/19 17:53:51 by jsarda           ###   ########.fr       */
-=======
-/*   Updated: 2024/07/19 16:10:07 by jtaravel         ###   ########.fr       */
->>>>>>> afe0d436202726e0b3c753c84c547cabc99b3771
+/*   Updated: 2024/07/19 22:10:57 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +30,12 @@ int	check_and_redir_builtins(t_shell *shell, t_data *datas, t_data *current)
 	{
 		while (current)
 		{
-			if (handle_redir_builtins(datas, shell))
+			if (handle_redir_builtins(datas, shell, 0))
 				return (1);
 			current = current->next;
 		}
 	}
-	return 0;
+	return (0);
 }
 
 void	exec_child_process(t_shell *shell, char *path)
@@ -57,8 +53,7 @@ void	exec_child_process(t_shell *shell, char *path)
 	ft_dup(datas);
 	if (path == NULL || execve(path, datas->args, env) == -1)
 		perror("execve");
-	close(datas->fdin);
-	close(datas->fdout);
+	close_fd(datas);
 	free_child(datas, shell, 0);
 	free(path);
 	exit(0);
@@ -77,7 +72,8 @@ int	dir_error(char *cmd)
 		close(tmp);
 		return (1);
 	}
-	close(tmp);
+	if (tmp != -1)
+		close(tmp);
 	return (0);
 }
 
@@ -90,8 +86,7 @@ void	exec_simple_cmd(t_data *data, t_shell *shell)
 	{
 		if (!check_and_redir_builtins(shell, data, current))
 			exec_built_in(data, shell);
-		else
-			return ;
+		return ;
 	}
 	if (dir_error(data->cmd))
 		return (free(data->path));
