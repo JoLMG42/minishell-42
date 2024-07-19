@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 10:41:13 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 18:20:50 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:52:52 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	exit_first_child(t_data *data, t_shell *shell)
 
 void	exit_other_child(t_data *data, t_shell *shell)
 {
-	fprintf(stderr,"22222 = %s\n", data->cmd);
 	if (!data->cmd)
 	{
 		free_child(data, shell, 0);

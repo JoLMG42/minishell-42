@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 18:37:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/19 15:15:33 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,30 @@
 
 void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 {
-	int		tmpfd;
-
 	if (!eof)
 		return (ft_errors_exec(0, "syntax error near unexpected \
 		token `newline'\n", NULL, 2), free(data->tmpfile_hd));
-	tmpfd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	data->fdin = tmpfd;
-	if (tmpfd == -1)
+	data->fdin = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (data->fdin == -1)
 		return (ft_errors_exec(1, strerror(errno),
 				NULL, errno), free(data->tmpfile_hd));
 	data->pid = fork();
 	if (data->pid == 0)
 	{
 		manage_sig();
-		readline_loop(data, shell, eof, tmpfd);
-		close(tmpfd);
-		free_child(data, shell, 155);
-		exit(0);
+		readline_loop(data, shell, eof, data->fdin);
+		close(data->fdin);
+		free_child(data, shell, 0);
 	}
 	else
-	{
-		close(tmpfd);
-		//ft_wait(data);
 		wait(NULL);
-	}
+	if (ft_lstsize_cmd(shell->data) == 1)
+		close(data->fdin);
 }
 
 void	redir_in(t_data *data, t_shell *shell, char *file_name)
 {
 	data->fdin = open(file_name, O_RDONLY, 0644);
-	printf("FD hd redi in = %s\n", file_name);
 	if (data->fdin == -1)
 		free_child(data, shell, 1);
 	if (is_built_in(data) == -1 && dup2(data->fdin, STDIN_FILENO) == -1)
