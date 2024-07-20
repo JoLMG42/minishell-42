@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 15:38:33 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:29:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,15 @@ void	print_env(t_env *env, t_data *data)
 		return ;
 	while (env)
 	{
-		write(data->fdout, env->name, ft_strlen(env->name));
-		write(data->fdout, "=", 1);
-		write(data->fdout, env->value, ft_strlen(env->value));
+		if (env->name)
+		{
+			write(data->fdout, env->name, ft_strlen(env->name));
+		}
+		if (env->value)
+		{
+			write(data->fdout, "=", 1);
+			write(data->fdout, env->value, ft_strlen(env->value));
+		}
 		write(data->fdout, "\n", 1);
 		env = env->next;
 	}
