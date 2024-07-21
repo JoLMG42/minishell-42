@@ -6,13 +6,13 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:32 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/21 15:13:52 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/21 16:10:00 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_valid_identifier(const char *name)
+int	is_valid_identifier(const char *name)
 {
 	int	i;
 

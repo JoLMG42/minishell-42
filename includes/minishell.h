@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/21 15:14:09 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/21 16:09:48 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		ft_exit(t_data *data, t_shell *shell, char **args);
 void		ft_cd(t_data *data, t_shell *shell, char **args);
 void		ft_unset(t_data *data, t_shell *shell, char **args);
 int			handle_redir_builtins(t_data *data, t_shell *shell, int i);
-static int	is_valid_identifier(const char *name);
+int			is_valid_identifier(const char *name);
 
 /*          EXEC / EXEC UTILS       */
 void		exec_pipe(t_shell *shell, int num_cmd);
