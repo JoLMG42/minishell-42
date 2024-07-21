@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/21 15:12:43 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/21 16:20:48 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,11 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 		supp = ft_strdup(args[i]);
 		if (parse_args(args[i], &name, &value, supp))
 		{
+			free(supp);
 			handle_env_change(shell, name, value);
 			handle_exp_change(shell, name, value);
 		}
+		free(supp);
 		i++;
 	}
 }
