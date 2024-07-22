@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 10:41:13 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 09:42:32 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:10:35 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,6 @@ void	manage_no_path(t_data *head, t_shell *shell, int mod)
 {
 	ft_errors_exec(1, "command not found", head->cmd, 127);
 	head->status = 127;
-	if (head->tmpfile_hd)
-	{
-		unlink(head->tmpfile_hd);
-		free(head->tmpfile_hd);
-		head->tmpfile_hd = NULL;
-	}
 	if (mod == 0)
 		close(shell->pipes[0]);
 	else

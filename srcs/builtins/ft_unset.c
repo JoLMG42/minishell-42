@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 09:28:46 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 17:19:57 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:57:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ void	ft_unset(t_data *data, t_shell *shell, char **args)
 	(void)data;
 	ft_unset_1(shell->envp, args, -1);
 	ft_unset_1(shell->exp, args, -1);
+	g_return_satus = 0;
 }

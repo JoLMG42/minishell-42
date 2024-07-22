@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 09:22:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:06:59 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <linux/random.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -79,6 +79,7 @@ void		exit_first_child(t_data *data, t_shell *shell);
 void		handler_sig_cmd(int sig);
 void		close_fd(t_data *data);
 void		ft_recup(t_shell *shell);
+void		ft_wait_hd(t_data *data);
 
 /*			PARSING / PARSING UTILS			*/
 

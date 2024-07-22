@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:46:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 17:46:02 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:04:18 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ void	ft_echo(t_data *data, t_shell *shell, char **args)
 	}
 	if (!n_option)
 		write(data->fdout, "\n", 1);
+	g_return_satus = 0;
 }

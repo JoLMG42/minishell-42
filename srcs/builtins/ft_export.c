@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 10:28:01 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:02:32 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 			free(supp);
 			handle_env_change(shell, name, value);
 			handle_exp_change(shell, name, value);
+			g_return_satus = 0;
 		}
 		if (supp && !args[i])
 			free(supp);

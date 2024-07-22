@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 09:37:53 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:25:06 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	first(t_data *head, t_shell *shell)
 	head->path = get_cmd_path(head, shell);
 	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
+	else if (!head->path && !head->cmd && is_built_in(head) == -1)
+	{
+		if (head->fdin != 0 && head->fdin != -1)
+			close(head->fdin);
+		return ;
+	}
 	else
 		first_exec(shell, head, head->path);
 }
@@ -26,6 +32,15 @@ void	mid(t_data *head, t_shell *shell)
 	head->path = get_cmd_path(head, shell);
 	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
+	else if (!head->path && !head->cmd && is_built_in(head) == -1)
+	{
+		if (head->fdin != 0 && head->fdin != -1)
+		{
+			printf("HEREEEEEEEEEEEEEEE %d\n", head->fdin);
+			close(head->fdin);
+		}
+		return ;
+	}
 	else
 		middle_exec(shell, head, shell->pipes[0]);
 }
@@ -35,6 +50,14 @@ void	last(t_data *head, t_shell *shell)
 	head->path = get_cmd_path(head, shell);
 	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
+	else if (!head->path && !head->cmd && is_built_in(head) == -1)
+	{
+		if (head->fdin != 0 && head->fdin != -1)
+		{
+			close(head->fdin);
+		}
+		return ;
+	}
 	else
 		last_exec(shell, head);
 }
@@ -47,10 +70,8 @@ void	exec_pipe(t_shell *shell, int num_cmd)
 	head = shell->datas;
 	i = -1;
 	pipe(shell->pipes);
-	if (num_cmd > 1)
-		first(head, shell);
-	else
-		close(shell->pipes[1]);
+	first(head, shell);
+	close(shell->pipes[1]);
 	head = head->next;
 	while (++i < (num_cmd - 2))
 	{
