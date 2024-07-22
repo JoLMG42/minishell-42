@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:21:58 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/17 16:49:44 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 10:38:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	ft_cd(t_data *data, t_shell *shell, char **args)
 			return (ft_errors_exec(1, " HOME not set", "cd", 1));
 		cd_ret = chdir(get_path_value(shell, "HOME"));
 		if (cd_ret != 0)
-			return (ft_errors_exec(1, strerror(errno), "chdir", errno));
+			return (ft_errors_exec(1, strerror(errno), "cd", 1));
 		update_pwd(shell, data, cwd);
 		return ;
 	}
 	cd_ret = chdir(data->args[1]);
 	if (cd_ret != 0)
-		return (ft_errors_exec(1, strerror(errno), "chdir", errno));
+		return (ft_errors_exec(1, strerror(errno), "cd", 1));
 	update_pwd(shell, data, cwd);
 }

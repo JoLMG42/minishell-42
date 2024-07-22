@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 09:22:26 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 10:28:01 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	handle_env_change(t_shell *shell, char *name, char *value)
 	{
 		tmp_name = ft_strjoin(name, "=");
 		tmp_line = ft_strjoin(tmp_name, value);
-		ft_lstadd_back_env(&(shell->envp),
-			ft_lstnew_env(tmp_line, name, value));
+		ft_lstadd_back_env(&(shell->envp), ft_lstnew_env(tmp_line, name,
+				value));
 		free(tmp_name);
 		free(tmp_line);
 	}
@@ -120,10 +120,7 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 		return ;
 	i = 1;
 	if (!args[1])
-	{
-		ft_print_exp(shell->exp, data);
-		return ;
-	}
+		return (ft_print_exp(shell->exp, data));
 	while (args[i])
 	{
 		supp = ft_strdup(args[i]);
@@ -133,7 +130,8 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 			handle_env_change(shell, name, value);
 			handle_exp_change(shell, name, value);
 		}
-		free(supp);
+		if (supp && !args[i])
+			free(supp);
 		i++;
 	}
 }
