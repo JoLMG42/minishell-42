@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:25:06 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 15:34:59 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void	mid(t_data *head, t_shell *shell)
 	else if (!head->path && !head->cmd && is_built_in(head) == -1)
 	{
 		if (head->fdin != 0 && head->fdin != -1)
-		{
-			printf("HEREEEEEEEEEEEEEEE %d\n", head->fdin);
 			close(head->fdin);
-		}
 		return ;
 	}
 	else
@@ -53,9 +50,7 @@ void	last(t_data *head, t_shell *shell)
 	else if (!head->path && !head->cmd && is_built_in(head) == -1)
 	{
 		if (head->fdin != 0 && head->fdin != -1)
-		{
 			close(head->fdin);
-		}
 		return ;
 	}
 	else

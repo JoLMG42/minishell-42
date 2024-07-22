@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   last_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:13:55 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/19 22:20:43 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/22 15:40:35 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	last_exec(t_shell *shell, t_data *data)
 	if (data->pid == 0)
 		last_child(shell, data, env);
 	close(shell->pipes[0]);
+	close(shell->pipes[1]);
 	close_fd(data);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 10:29:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/05 11:04:12 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:02:14 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void					ft_lstclear(t_list **lst, void (*del)(void *));
 t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
 							void (*del)(void *));
 void					ft_lstiter(t_list *lst, void (*f)(void *));
+int						ft_strcmp(char *s1, char *s2);
 
 #endif

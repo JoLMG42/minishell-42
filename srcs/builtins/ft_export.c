@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:02:32 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:04:20 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	handle_env_change(t_shell *shell, char *name, char *value)
 	current = shell->envp;
 	while (current)
 	{
-		if (ft_strncmp(current->name, name, ft_strlen(current->name)) == 0)
+		if (ft_strcmp(current->name, name) == 0)
 		{
 			if (!value)
 				break ;
@@ -89,7 +89,7 @@ void	handle_exp_change(t_shell *shell, char *name, char *value)
 	curr_exp = shell->exp;
 	while (curr_exp)
 	{
-		if (ft_strncmp(curr_exp->name, name, ft_strlen(curr_exp->name)) == 0)
+		if (ft_strcmp(curr_exp->name, name) == 0)
 		{
 			if (!value)
 				break ;
@@ -131,8 +131,9 @@ void	ft_export(t_data *data, t_shell *shell, char **args)
 			handle_exp_change(shell, name, value);
 			g_return_satus = 0;
 		}
-		if (supp && !args[i])
+		else
 			free(supp);
+		supp = NULL;
 		i++;
 	}
 }
