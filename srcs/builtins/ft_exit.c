@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:54:23 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 13:06:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:01:44 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_exit(t_data *data, t_shell *shell, char **args)
 		g_return_satus = 2;
 		print_exit_message(": numeric argument required", data->args[1]);
 		free_child(data, shell, g_return_satus);
+		return ;
 	}
 	if (count_args(data->args) > 2)
 	{
