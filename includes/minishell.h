@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 15:06:59 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:03:02 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char		*reallocator(char *res, char c, int i);
 char		*recup_dq_sq_expander(char *str, int i, int *sq, int *dq);
 char		*add_space(char *input);
 int			check_valid_quotes(char *str);
+int			is_white_space(char c);
 
 /*			UTILS ENV			*/
 int			env_init(t_env **env, char **envp);

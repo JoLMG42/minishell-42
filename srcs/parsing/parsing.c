@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 10:51:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:08:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*clear_first_space(char *input)
 	int		j;
 
 	i = 0;
-	while (input[i] && input[i] == ' ')
+	while (input[i] && is_white_space(input[i]))
 		i++;
 	res = malloc(sizeof(char) * (ft_strlen(input) - i + 1));
 	if (!res)
@@ -89,8 +89,23 @@ char	*clear_first_space(char *input)
 	return (res);
 }
 
+char	*replace_shit(char *input)
+{
+	int		i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (is_white_space(input[i]))
+			input[i] = 32;
+		i++;
+	}
+	return (input);
+}
+
 int	parse_input(char *input, t_shell *shell)
 {
+	input = replace_shit(input);
 	input = clear_first_space(input);
 	if (!input)
 		return (4);

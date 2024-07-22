@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:19:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 16:03:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:15:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ char	*get_content_env(t_env **env, char *find)
 {
 	t_env	*tmp;
 
-	if (ft_strncmp(find, "?", ft_strlen(find)) == 0)
+	if (ft_strcmp(find, "?") == 0)
 		return ((ft_itoa(g_return_satus)));
 	tmp = *env;
 	while (tmp)
 	{
-		if (ft_strncmp(find, tmp->name, ft_strlen(find)) == 0)
+		if (ft_strcmp(find, tmp->name) == 0)
 			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_add_spaces.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:37:21 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 11:01:17 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:12:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*add_space_loop(char *res, char *input, int i, int j)
 	{
 		if (((input[i] == '<' && input[i + 1] == '<')
 				|| (input[i] == '>' && input[i + 1] == '>'))
-			&& check_if_in_quotes(res, 0, i) == 0)
+			&& check_if_in_quotes(input, 0, i) == 0)
 		{
 			res[j++] = ' ';
 			res[j++] = input[i++];
@@ -50,7 +50,7 @@ char	*add_space_loop(char *res, char *input, int i, int j)
 			res[j] = ' ';
 		}
 		else if ((input[i] == '|' || input[i] == '<' || input[i] == '>')
-			&& check_if_in_quotes(res, 0, i) == 0)
+			&& check_if_in_quotes(input, 0, i) == 0)
 		{
 			res[j++] = ' ';
 			res[j++] = input[i];
