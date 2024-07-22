@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/18 16:19:27 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 09:22:36 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	first(t_data *head, t_shell *shell)
 {
 	head->path = get_cmd_path(head, shell);
-	if (!head->path && head->cmd)
+	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
 	else
 		first_exec(shell, head, head->path);
@@ -24,7 +24,7 @@ void	first(t_data *head, t_shell *shell)
 void	mid(t_data *head, t_shell *shell)
 {
 	head->path = get_cmd_path(head, shell);
-	if (!head->path && head->cmd)
+	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
 	else
 		middle_exec(shell, head, shell->pipes[0]);
@@ -33,7 +33,7 @@ void	mid(t_data *head, t_shell *shell)
 void	last(t_data *head, t_shell *shell)
 {
 	head->path = get_cmd_path(head, shell);
-	if (!head->path && head->cmd)
+	if (!head->path && head->cmd && is_built_in(head) == -1)
 		manage_no_path(head, shell, 1);
 	else
 		last_exec(shell, head);

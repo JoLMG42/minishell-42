@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/19 22:11:25 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/22 09:22:00 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void		ft_exit(t_data *data, t_shell *shell, char **args);
 void		ft_cd(t_data *data, t_shell *shell, char **args);
 void		ft_unset(t_data *data, t_shell *shell, char **args);
 int			handle_redir_builtins(t_data *data, t_shell *shell, int i);
+int			is_valid_identifier(const char *name);
 
 /*          EXEC / EXEC UTILS       */
 void		exec_pipe(t_shell *shell, int num_cmd);
