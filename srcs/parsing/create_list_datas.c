@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_list_datas.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 15:16:18 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/09 16:10:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:50:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	t_data	*tmp_data;
 
 	*datas = NULL;
-	split = ft_split(input, '|');
+	split = ft_split_quotes(input, '|');
 	if (!split || !split[0])
 		return (freetab(split), 0);
 	i = 0;

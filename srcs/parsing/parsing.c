@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:09:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 16:17:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:51:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	create_list(char *input, t_data **datas, t_shell *shell)
 	t_data	*tmp_data;
 
 	*datas = NULL;
-	split = ft_split(input, '|');
+	split = ft_split_quotes(input, '|');
 	if (!split || !split[0])
 		return (freetab(split), 2);
 	i = 0;
