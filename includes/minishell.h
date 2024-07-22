@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 17:03:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/22 21:12:53 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <linux/random.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -39,6 +39,7 @@
 void		debug_print_block(t_data **list);
 
 /*          BUILTINS        */
+unsigned long long int	ft_atoll(const char *str, int *overflow);
 void		ft_pwd(t_data *data, t_shell *shell, char **args);
 void		ft_env(t_data *data, t_shell *shell, char **args);
 void		ft_export(t_data *data, t_shell *shell, char **args);
