@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 14:25:38 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:41:32 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,14 @@
 
 void	ft_close(t_data *data)
 {
-	if (data->fdin != -1 && data->fdin != 0)
-		close(data->fdin);
-	if (data->fdout != -1 && data->fdout != 1)
-		close(data->fdout);
+	while (data)
+	{
+		if (data->fdin != -1 && data->fdin != 0)
+			close(data->fdin);
+		if (data->fdout != -1 && data->fdout != 1)
+			close(data->fdout);
+		data = data->next;
+	}
 }
 
 int	exec(t_shell *shell)
@@ -41,8 +45,8 @@ int	exec(t_shell *shell)
 	else
 	{
 		exec_simple_cmd(datas, shell);
-		ft_close(datas);
 	}
+	ft_close(datas);
 	free_hd_file(&(shell->datas), 2);
 	free_hd_file(&(shell->datas), 1);
 	return (0);

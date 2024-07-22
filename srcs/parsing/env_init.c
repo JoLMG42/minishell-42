@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:02:58 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 09:22:41 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 16:57:12 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	little_env(t_env **env)
 	int		i;
 	char	cwd[PATH_MAX];
 
-	new_env = malloc(sizeof(char *) * 3);
+	new_env = malloc(sizeof(char *) * 4);
 	if (!new_env)
 		return (1);
 	new_env[0] = ft_strjoin("PWD=", getcwd(cwd, PATH_MAX));
