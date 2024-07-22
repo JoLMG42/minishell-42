@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 10:54:23 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/19 17:12:18 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/22 12:17:08 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_isdigit_str(char *c)
 	int	i;
 
 	i = 0;
-	if (c[0] == '-')
+	if (c[0] == '-' || c[0] == '+')
 		i++;
 	while (c[i])
 	{
@@ -52,7 +52,8 @@ void	ft_exit(t_data *data, t_shell *shell, char **args)
 		print_exit_message(": too many arguments", NULL);
 		return ;
 	}
-	g_return_satus = 0;
+	if (args[1])
+		g_return_satus = ft_atoi(args[1]);
 	printf("exit\n");
 	free_child(data, shell, g_return_satus);
 }

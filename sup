@@ -23,3 +23,53 @@
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.8.1
    ...
 }
+{
+   name
+   Memcheck:Cond
+   obj:/usr/bin/ls
+}
+
+{
+   name
+   Memcheck:Free
+   obj:/usr/bin/ls
+}
+
+{
+   name
+   Memcheck:Value8
+   obj:/usr/bin/ls
+}
+{
+   name
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   obj:/usr/bin/ls
+   ...
+}
+{
+   name
+   Memcheck:Cond
+   obj:/usr/bin/grep
+}
+
+{
+   name
+   Memcheck:Free
+   obj:/usr/bin/grep
+}
+
+{
+   name
+   Memcheck:Value8
+   obj:/usr/bin/grep
+}
+{
+   name
+   Memcheck:Leak
+   fun:*alloc
+   ...
+   obj:/usr/bin/grep
+   ...
+}
