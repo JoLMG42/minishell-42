@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_add_spaces.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:37:21 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 10:57:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/22 11:01:17 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*add_space_loop(char *res, char *input, int i, int j)
 	while (input[i])
 	{
 		if (((input[i] == '<' && input[i + 1] == '<')
-			|| (input[i] == '>' && input[i + 1] == '>'))
+				|| (input[i] == '>' && input[i + 1] == '>'))
 			&& check_if_in_quotes(res, 0, i) == 0)
 		{
 			res[j++] = ' ';
