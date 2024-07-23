@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_block_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:57:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/19 17:00:16 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 13:42:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ t_data	*pre_init_block(void)
 	tmp->redir_type_in = 0;
 	tmp->redir_type_out = 0;
 	tmp->fdin = 0;
+	tmp->fdintmp = 0;
 	tmp->fdout = 1;
 	tmp->namein = NULL;
-	tmp->tmpfile_hd = NULL;
 	tmp->nameout = NULL;
 	tmp->is_hd = 0;
 	tmp->limiter_hd = NULL;

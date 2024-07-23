@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 17:24:07 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:32:47 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 13:42:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	first_child(t_shell *shell, t_data *data, char **env, char *path)
 {
 	manage_sig();
-	close(shell->pipes[0]);
 	handle_redir(shell, data);
+	close(shell->pipes[0]);
 	if (data->fdin != -1 && data->fdin != 0)
 	{
 		dup2(data->fdin, STDIN_FILENO);

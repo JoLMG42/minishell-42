@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 18:15:58 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:34:59 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 13:35:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ void	exec_pipe(t_shell *shell, int num_cmd)
 	head = shell->datas;
 	i = -1;
 	pipe(shell->pipes);
-	first(head, shell);
-	close(shell->pipes[1]);
+	if (head->fdintmp != -1)
+		first(head, shell);
+	else
+		close(shell->pipes[1]);
 	head = head->next;
 	while (++i < (num_cmd - 2))
 	{
@@ -74,6 +76,8 @@ void	exec_pipe(t_shell *shell, int num_cmd)
 		head = head->next;
 	}
 	last(head, shell);
+	close(shell->pipes[1]);
+	close(shell->pipes[0]);
 	head = shell->datas;
 	ft_wait(head);
 }
