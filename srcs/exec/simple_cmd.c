@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:24:02 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 14:54:45 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 14:00:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	exec_child_process(t_shell *shell, char *path)
 	check_and_redir(datas, current, shell);
 	env = create_char_env(shell->envp, get_env_list_size(shell->envp));
 	ft_dup(datas);
+	if (datas->fdin != -1 && datas->fdin != 0)
+		close(datas->fdin);
+	if (datas->fdout != -1 && datas->fdout != 1)
+		close(datas->fdout);
 	if (path == NULL || execve(path, datas->args, env) == -1)
 		perror("execve");
 	close_fd(datas);
