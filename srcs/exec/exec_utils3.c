@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 21:06:08 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/18 18:36:38 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 10:18:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*get_cmd_path(t_data *data, t_shell *shell)
 	if (!paths)
 	{
 		if (access(data->cmd, X_OK) == 0)
-			return (data->cmd);
+			return (ft_strdup(data->cmd));
 		return (NULL);
 	}
 	cmd_path = retrive_path(paths, data->cmd);

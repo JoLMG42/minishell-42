@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 17:11:48 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 10:17:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_clear_one_block(t_data *datas)
+void	ft_clear_one_block_2(t_data *datas)
 {
-	if (!datas)
-		return ;
-	if (datas->cmd)
-		free(datas->cmd);
-	if (datas->path)
-		free(datas->path);
-	if (datas->args)
-		freetab(datas->args);
 	if (datas->namein)
+	{
 		freetab(datas->namein);
+		datas->namein = NULL;
+	}
 	if (datas->nameout)
+	{
 		freetab(datas->nameout);
+		datas->nameout = NULL;
+	}
 	if (datas->limiter_hd)
+	{
 		freetab(datas->limiter_hd);
+		datas->limiter_hd = NULL;
+	}
 	if (datas->tmpfile_hd)
 	{
 		if (datas->fdin != -1 && datas->fdin != 0)
@@ -38,6 +38,28 @@ void	ft_clear_one_block(t_data *datas)
 	if (datas)
 		free(datas);
 	datas = NULL;
+}
+
+void	ft_clear_one_block(t_data *datas)
+{
+	if (!datas)
+		return ;
+	if (datas->cmd)
+	{
+		free(datas->cmd);
+		datas->cmd = NULL;
+	}
+	if (datas->path)
+	{
+		free(datas->path);
+		datas->path = NULL;
+	}
+	if (datas->args)
+	{
+		freetab(datas->args);
+		datas->args = NULL;
+	}
+	ft_clear_one_block_2(datas);
 }
 
 void	ft_clear_one_block_env(t_env *env)
