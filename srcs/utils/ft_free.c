@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:41:15 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/23 10:17:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/23 10:23:46 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	ft_clear_one_block_2(t_data *datas)
 {
 	if (datas->namein)
@@ -103,20 +104,4 @@ void	ft_free_env_list(t_env **env)
 		ft_clear_one_block_env(*env);
 		*env = tmp;
 	}
-}
-
-void	freetab(char **tab)
-{
-	int	i;
-
-	if (!tab)
-		return ;
-	i = 0;
-	while (tab[i])
-	{
-		if (tab[i])
-			free(tab[i]);
-		i++;
-	}
-	free(tab);
 }
