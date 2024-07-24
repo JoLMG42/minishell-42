@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:11:03 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 16:41:32 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:41:50 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ int	exec(t_shell *shell)
 		exec_pipe(shell, num_cmd);
 	}
 	else
-	{
 		exec_simple_cmd(datas, shell);
-	}
 	ft_close(datas);
 	free_hd_file(&(shell->datas), 2);
 	free_hd_file(&(shell->datas), 1);

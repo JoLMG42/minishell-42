@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:02:40 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/22 15:32:00 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 10:23:52 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,20 @@ void	ft_recup(t_shell *shell)
 		ft_clear_datas(&(tmp_shell->datas));
 		free(tmp_shell);
 	}
+}
+
+void	freetab(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i])
+			free(tab[i]);
+		i++;
+	}
+	free(tab);
 }

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:21:58 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/22 15:04:48 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 16:08:16 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	update_pwd(t_shell *shell, t_data *data, char cwd[])
 		return (cd_errors(), freetab(new_tab));
 	tmp = ft_strdup(get_key_value(shell->envp, "PWD"));
 	if (!tmp)
-		return (cd_errors(), freetab(new_tab));
+		tmp = ft_strdup(getcwd(cwd, PATH_MAX));
 	tmp_str = ft_strjoin("OLDPWD=", tmp);
 	free(tmp);
 	if (!tmp_str)

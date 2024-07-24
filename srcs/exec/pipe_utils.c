@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 10:41:13 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:10:35 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 14:22:01 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ void	exit_other_child(t_data *data, t_shell *shell)
 
 void	manager_mid(t_data *data, t_shell *shell, int fd_tmp)
 {
-	data->fdin = fd_tmp;
-	close(shell->pipes[0]);
-	data->fdout = shell->pipes[1];
+	if (data->fdin == 0 || data->fdin == -1)
+		data->fdin = fd_tmp;
+	else
+		close(shell->pipes[0]);
+	if (data->fdout == 1 || data->fdout == -1)
+		data->fdout = shell->pipes[1];
 }
 
 void	close_fd(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:36:05 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:06:30 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:47:54 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 	if (data->pid == 0)
 	{
 		manage_sig();
-		signal(SIGQUIT, SIG_IGN);
 		readline_loop(data, shell, eof, data->fdin);
 		close(data->fdin);
 		free_child(data, shell, 0);
@@ -38,6 +37,8 @@ void	heredoc(t_data *data, t_shell *shell, char *eof, char *file_name)
 
 void	redir_in(t_data *data, t_shell *shell, char *file_name)
 {
+	if (data->is_hd && !file_name)
+		free_child(data, shell, 0);
 	data->fdin = open(file_name, O_RDONLY, 0644);
 	if (data->fdin == -1)
 		free_child(data, shell, 1);

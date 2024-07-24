@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 09:22:49 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 16:31:42 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,49 @@ int	ft_swap(t_env *exp)
 	return (swapped);
 }
 
-void	sort_ascii(t_env *env)
+char	**ft_sort_ascii(char **av)
 {
-	int		swapped;
-	t_env	*exp;
+	int		i;
+	int		j;
+	int		len;
+	char	*swap;
 
-	exp = env;
-	if (env == NULL)
-		return ;
-	swapped = 1;
-	while (swapped)
+	len = ft_tablen(av);
+	i = 0;
+	while (i < len)
 	{
-		swapped = 0;
-		while (exp)
+		j = 0;
+		while (j < len)
 		{
-			swapped = ft_swap(exp);
-			exp = exp->next;
+			if (ft_strcmp(av[i], av[j]) < 0)
+			{
+				swap = av[i];
+				av[i] = av[j];
+				av[j] = swap;
+			}
+			j++;
 		}
+		i++;
 	}
+	return (av);
+}
+
+void	sort_ascii(t_env *env, t_data *data)
+{
+	char	**env_tab;
+	int		i;
+
+	env_tab = create_char_env(env, get_env_list_size(env));
+	env_tab = ft_sort_ascii(env_tab);
+	i = 0;
+	while (env_tab[i])
+	{
+		write(data->fdout, "export ", 7);
+		write(data->fdout, env_tab[i], ft_strlen(env_tab[i]));
+		write(data->fdout, "\n", 1);
+		i++;
+	}
+	freetab(env_tab);
 }
 
 void	print_env(t_env *env, t_data *data)
@@ -79,6 +104,5 @@ void	ft_print_exp(t_env *exp, t_data *data)
 {
 	if (exp == NULL)
 		return ;
-	sort_ascii(exp);
-	print_env(exp, data);
+	sort_ascii(exp, data);
 }

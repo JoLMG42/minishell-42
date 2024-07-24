@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:14:00 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 09:51:13 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:45:14 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,11 @@ void	handle_heredoc(t_shell *shell, t_data *data)
 			{
 				get_tmp_file(data);
 				heredoc(data, shell, data->limiter_hd[i++], data->tmpfile_hd);
+				if (g_return_satus == 130)
+					break ;
 			}
+			if (g_return_satus == 130)
+				break ;
 		}
 		data = data->next;
 	}

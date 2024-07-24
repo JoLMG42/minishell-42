@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mid_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 17:45:52 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 15:38:40 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 14:25:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	mid_child(t_shell *shell, t_data *data, char **env, int fd_tmp)
 {
 	manage_sig();
-	manager_mid(data, shell, fd_tmp);
 	handle_redir(shell, data);
+	manager_mid(data, shell, fd_tmp);
 	if (data->fdin != -1 && data->fdin != 0)
 	{
 		dup2(data->fdin, STDIN_FILENO);

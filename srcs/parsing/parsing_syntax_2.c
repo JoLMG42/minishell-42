@@ -6,7 +6,7 @@
 /*   By: jtaravel <jtaravel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 17:09:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/17 11:25:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:29:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	open_file_loop(t_data *tmp_data, int i, int fd)
 	i = 0;
 	while (tmp_data->namein && tmp_data->namein[i])
 	{
-		fd = open(tmp_data->namein[i], O_RDONLY, 0644);
-		if (fd == -1)
+		tmp_data->fdintmp = open(tmp_data->namein[i], O_RDONLY, 0644);
+		if (tmp_data->fdintmp == -1)
 			return (ft_errors_parsing(1, strerror(errno),
 					NULL, tmp_data->namein[i]), 2);
-		close(fd);
+		close(tmp_data->fdintmp);
 		i++;
 	}
 	i = 0;

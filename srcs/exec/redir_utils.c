@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 22:12:43 by juliensarda       #+#    #+#             */
-/*   Updated: 2024/07/22 15:06:45 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:40:23 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	readline_loop(t_data *data, t_shell *shell, char *eof, int fd)
 		buf = readline("> ");
 		if (!buf)
 			break ;
-		if (buf && !ft_strncmp(eof, buf, ft_strlen(eof)))
+		if (buf && !ft_strcmp(eof, buf))
 		{
 			free(buf);
 			break ;
