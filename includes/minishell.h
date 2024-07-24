@@ -6,7 +6,7 @@
 /*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:35:53 by jtaravel          #+#    #+#             */
-/*   Updated: 2024/07/23 15:51:15 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/23 10:23:11 by jsarda           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,10 @@ int						ft_tablen(char **tab);
 size_t					count_args(char **args);
 void					ft_lstadd_back_env(t_env **alst, t_env *new);
 t_env					*ft_lstnew_env(char *line, char *name, char *value);
+<<<<<<< HEAD
+=======
+char					*ft_wildcards(char *str);
+>>>>>>> refs/remotes/origin/main
 int						ft_lstsize_cmd(t_data *lst);
 void					init_syntax_struct(t_s *s);
 void					check_sq_dq(t_s *s_s, char c);
