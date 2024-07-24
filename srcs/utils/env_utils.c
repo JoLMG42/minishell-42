@@ -6,7 +6,7 @@
 /*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:07:49 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/24 14:24:20 by juliensarda      ###   ########.fr       */
+/*   Updated: 2024/07/24 14:42:01 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	sort_ascii(t_env *env, t_data *data)
 {
 	char	**env_tab;
 	int		i;
-	
+
 	env_tab = create_char_env(env, get_env_list_size(env));
 	env_tab = ft_sort_ascii(env_tab);
 	i = 0;
