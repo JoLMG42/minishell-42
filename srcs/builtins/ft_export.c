@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsarda <jsarda@student.42.fr>              +#+  +:+       +#+        */
+/*   By: juliensarda <juliensarda@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 10:21:22 by jsarda            #+#    #+#             */
-/*   Updated: 2024/07/22 16:04:20 by jsarda           ###   ########.fr       */
+/*   Updated: 2024/07/24 14:40:03 by juliensarda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,24 @@ static int	parse_args(char *arg, char **name, char **value, char *supp)
 	return (1);
 }
 
-void	modify_value(t_env *env, const char *value)
+int	modify_value(t_env *env, const char *value)
 {
+	char	*new_line;
+	char	*tmp_name;
+
 	free(env->value);
 	env->value = ft_strdup(value);
 	if (!env->value)
-	{
-		env->value = NULL;
-		return ;
-	}
+		return (env->value = NULL, 0);
+	tmp_name = ft_strjoin(env->name, "=");
+	if (!tmp_name)
+		return (free(env->value), env->value = NULL, 0);
+	new_line = ft_strjoin(tmp_name, value);
+	free(tmp_name);
+	if (!new_line)
+		return (free(env->value), env->value = NULL, 0);
+	free(env->line);
+	env->line = new_line;
 }
 
 void	handle_env_change(t_shell *shell, char *name, char *value)
